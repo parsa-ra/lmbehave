@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "experiment_id": "representation-dynamics-main-track-calibration-precision-v1",
+  "frozen_at_utc": "2026-08-17T06:46:10Z",
+  "status": "post_review_precision_extension_frozen_before_extension_outputs",
+  "parent_experiment": "experiments/representation_dynamics_main_track_review_response_v1.json",
+  "model": "olmo3-7b-instruct",
+  "objective": "Reduce the direction-sampling uncertainty of the selection-aware matched representation-minus-prompt injection calibration.",
+  "standardized_mean_differences": [0.5, 1.0, 2.0, 4.0],
+  "additional_direction_seeds": [10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
+  "analysis": "Identical appended-site selection, exact 12,870-assignment null, prompt-64 comparator, folds, classifier, regularization, and p<0.01 rule as the parent calibration.",
+  "reporting": "Combine seeds 0--19 only after all parent and extension reports pass hash and complement-symmetry gates; report the detection fraction with a Wilson 95% interval at each signal level.",
+  "provenance_limit": "This precision extension was specified after the d=0.5 parent results were available but before any d=1, d=2, or d=4 parent result was available. It is post-hoc simulation calibration, not benchmark evidence.",
+  "claim_limit": "Injected directions are simulation replicates, not model, dataset, or training-seed replicates. The result calibrates one model and panel and does not establish a mechanism."
+}

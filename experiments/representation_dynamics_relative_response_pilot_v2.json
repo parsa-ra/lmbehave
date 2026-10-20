@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "experiment_id": "representation-dynamics-relative-response-pilot-v2",
+  "status": "completed_descriptive_pilot",
+  "scientific_role": "Descriptive protocol pilot; not confirmatory evidence and not a replacement for the 8+8 prefill study.",
+  "question": "How does knowledge-versus-reasoning representation separation vary over normalized progress through a matched generated response?",
+  "model": {
+    "pretrained": "allenai/Olmo-3-7B-Instruct",
+    "revision": "6e5971d9eba42665f5bd5a0fcf047f299ce1dccc",
+    "attention_backend": "eager",
+    "backend_reason": "Two independent observer-off eager runs matched exactly on document identity, prompts, targets, complete responses, parsed answers, scores, and token counts. The original backend did not pass this replay gate."
+  },
+  "tasks": {
+    "knowledge": [
+      "repdyn_response_mmlu_anatomy",
+      "repdyn_response_mmlu_astronomy",
+      "repdyn_response_mmlu_clinical_knowledge",
+      "repdyn_response_mmlu_high_school_world_history"
+    ],
+    "reasoning": [
+      "repdyn_response_mmlu_abstract_algebra",
+      "repdyn_response_mmlu_college_mathematics",
+      "repdyn_response_mmlu_formal_logic",
+      "repdyn_response_mmlu_high_school_mathematics"
+    ],
+    "examples_per_task": 4,
+    "document_ids": "First four examples from each frozen response-task adapter; observer-off/on identities must match exactly."
+  },
+  "generation": {
+    "do_sample": false,
+    "batch_size": 1,
+    "reason_for_batch_size": "Prevents finished examples from accumulating padded batch updates; every captured decode update belongs to the single active response.",
+    "max_new_tokens": 256,
+    "stop": "model EOS only"
+  },
+  "extraction": {
+    "phases": ["prefill", "decode"],
+    "streams": ["attention_delta", "mlp_delta", "residual_state"],
+    "pooling": "last_valid",
+    "decode_aggregation": "all_updates",
+    "decode_max_updates": null,
+    "storage_dtype": "float32"
+  },
+  "relative_position": {
+    "bins": 8,
+    "definition": "For response i with T_i valid cached decode updates, update t enters bin min(7, floor(8t/T_i)); vectors are averaged within example, layer, stream, and bin.",
+    "primary_estimator": "Deterministic within-bin mean.",
+    "sampling_sensitivity": "A seeded one-token-per-bin estimator is deferred; it is not used for this first pilot.",
+    "format_boundary": "The first bin includes the fixed answer marker. This is retained explicitly rather than estimating an unverified token boundary from decoded text."
+  },
+  "inference": {
+    "balanced_task_assignments": 70,
+    "effective_complement_pairs": 35,
+    "minimum_attainable_class_symmetric_p": 0.02857142857142857,
+    "primary_pilot_summary": "Maximum decode-minus-prefill Fisher ratio over eight bins, layers, and streams, reselected for all 70 balanced 4+4 assignments.",
+    "decision_rule": "No confirmatory decision is permitted because the pilot cannot attain p<0.01. Report effect profiles and exact p-values descriptively."
+  },
+  "required_gates": [
+    "Independent observer-off replays match on document IDs, raw responses, parsed answers, scores, prompts, and token counts.",
+    "Observer-off/on document IDs, raw responses, parsed answers, scores, prompts, and token counts match exactly.",
+    "All layer-stream records are finite and exact.",
+    "Decode steps are uncapped and contiguous at all sites for every response.",
+    "Every response supplies at least one update to each of the eight bins.",
+    "The Fisher maximum is reselected for every balanced task assignment."
+  ],
+  "outcome": {
+    "persistent_run": "/home/ubuntu/data-imu-us-east3/vlmbehave-artifacts/2026-08-15/relative-response-pilot-olmo3-eager-v1",
+    "artifact_validation": "PASS: 178752 finite exact vectors with no skipped or truncated captures.",
+    "observer_parity": "PASS: all 32 samples match exactly on document identity, prompts, targets, complete responses, parsed answers, scores, and token counts.",
+    "response_updates": {"minimum": 25, "median": 47.5, "maximum": 205},
+    "selected_result": "Layer 31 token-mixing update, relative bin 5/8: Fisher 0.193350 at prefill and 0.479463 during decode; selection-aware change 0.286113, exact p=0.028571.",
+    "decision": "Descriptive only: the exact p-value equals the attainable floor but cannot meet the prespecified p<0.01 threshold."
+  },
+  "claim_limit": "Relative bins align fractional response progress, not semantic reasoning steps. The answer-first protocol measures post-answer response dynamics. Four tasks per category and four examples per task are insufficient for a main-track conclusion."
+}

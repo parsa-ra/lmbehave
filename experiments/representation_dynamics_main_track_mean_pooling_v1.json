@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "experiment_id": "representation-dynamics-main-track-mean-pooling-v1",
+  "frozen_at_utc": "2026-08-17T14:57:00Z",
+  "status": "post_review_sensitivity_frozen_before_outputs",
+  "parent_experiment": "experiments/representation_dynamics_main_track_v1.json",
+  "objective": "Test whether the primary 8+8 MMLU result depends on pooling only the final valid prompt token.",
+  "design_change": "Replace last_valid prompt pooling with mean_valid pooling; preserve the model revision, tasks, prompts, generation settings, batch size, sample count, sample IDs, phases, and storage dtype.",
+  "require_frozen_sample_ids": true,
+  "sample_identity_source": "/home/ubuntu/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/sample_selection.json",
+  "datasets": {
+    "mmlu_no_train": {
+      "path": "hails/mmlu_no_train",
+      "revision": "b2e1ec9aa795adafe68e8e983248dbd4b52a1c60"
+    }
+  },
+  "models": {
+    "olmo3-7b-instruct": {
+      "lmms_model": "hf_causal",
+      "pretrained": "allenai/Olmo-3-7B-Instruct",
+      "revision": "6e5971d9eba42665f5bd5a0fcf047f299ce1dccc",
+      "model_args": {"apply_chat_template": true},
+      "batch_size": 32
+    }
+  },
+  "extraction": {
+    "sample_count_per_task": 100,
+    "seed": 0,
+    "pooling": "mean_valid",
+    "phases": "prefill",
+    "storage_dtype": "float32"
+  },
+  "analysis": {
+    "cv_folds": 5,
+    "linear_task_label_permutations": 0,
+    "fdr_task_label_permutations": 12869,
+    "nonlinear_task_label_permutations": 0,
+    "pca_retained_variance": 0.95,
+    "silhouette_max_samples": 5000,
+    "seed": 0
+  },
+  "panels": {
+    "matched_mmlu_8x8_confirmatory": {
+      "role": "Post-review pooling sensitivity on the unchanged primary task panel.",
+      "claim_limit": "A difference identifies estimator sensitivity to prompt-position pooling, not a distinct model mechanism.",
+      "use_task_generation_kwargs": true,
+      "max_new_tokens": 4,
+      "knowledge_tasks": [
+        {"task": "repdyn_mmlu_anatomy"},
+        {"task": "repdyn_mmlu_astronomy"},
+        {"task": "repdyn_mmlu_clinical_knowledge"},
+        {"task": "repdyn_mmlu_high_school_world_history"},
+        {"task": "repdyn_mmlu_professional_law"},
+        {"task": "repdyn_mmlu_high_school_biology"},
+        {"task": "repdyn_mmlu_medical_genetics"},
+        {"task": "repdyn_mmlu_prehistory"}
+      ],
+      "reasoning_tasks": [
+        {"task": "repdyn_mmlu_abstract_algebra"},
+        {"task": "repdyn_mmlu_college_mathematics"},
+        {"task": "repdyn_mmlu_formal_logic"},
+        {"task": "repdyn_mmlu_high_school_mathematics"},
+        {"task": "repdyn_mmlu_logical_fallacies"},
+        {"task": "repdyn_mmlu_college_physics"},
+        {"task": "repdyn_mmlu_conceptual_physics"},
+        {"task": "repdyn_mmlu_high_school_statistics"}
+      ]
+    }
+  },
+  "promotion_gates": [
+    "A real tracker-off/on smoke must preserve responses, scores, and token counts.",
+    "The newly frozen sample-selection file must match the parent's task-wise sample IDs before model loading.",
+    "All records must be finite, exact, complete, prefill-only, and marked mean_valid.",
+    "Selection-aware inference must repeat layer-stream selection under every balanced task assignment."
+  ],
+  "claim_limit": "This is a post-review one-model sensitivity analysis. It does not establish cross-model pooling robustness or causal localization."
+}

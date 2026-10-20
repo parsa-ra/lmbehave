@@ -1,0 +1,61 @@
+{
+  "current_validity": "matched_panel_valid_cross_benchmark_panel_invalid_pending_musr_correction",
+  "protocol_invalidation_file": "protocol_invalidation.json",
+  "analysis_failures": 0,
+  "analysis_name": "analysis-cuml-26.06",
+  "analysis_row_count": 1320,
+  "artifact_count": 100,
+  "cka_status": "undefined_for_all_rows_because_no_explicit_pairs_exist",
+  "completed_manifest_sha256": "6d22fbad68588feab32bd47fc9f6c388d3c3f53154cca5133f1fdebd6e4ddd9c",
+  "created_at_utc": "2026-08-03T06:53:02.212817+00:00",
+  "estimator_family": [
+    "cuml",
+    "26.06.00",
+    "float64",
+    "training_tasks_per_fold"
+  ],
+  "experiment_id": "representation-dynamics-text-expansion-v1",
+  "models": [
+    "apertus-8b-instruct",
+    "gemma4-31b",
+    "olmo3-7b-instruct",
+    "qwen3_5-27b",
+    "qwen3_5-9b"
+  ],
+  "nonlinear_analysis_name": "analysis-cuml-26.06-nonlinear-251",
+  "nonlinear_analysis_row_count": 1320,
+  "nonlinear_analysis_source_commits": [
+    {
+      "lmms_eval_git": "6f8cb62216a811420017c62b23940857a7463b9c",
+      "root_git": "d6945a26d31f3a5aca809b3674ec1bcfa2833e62"
+    }
+  ],
+  "nonlinear_join_policy": "Use baseline rows for geometry and observed scores; join only exact RBF task-permutation p/q values by model, phase, layer, stream, and module.",
+  "nonlinear_sensitivity_silhouette_difference_rows": 4,
+  "nonlinear_sensitivity_silhouette_max_absolute_difference": 0.016428103022411156,
+  "outputs": {
+    "cross_panel_replication.csv": "62b494c7e862e4a03b3faa8d304d44543c022ab0cf04753461a03c99973e41bc",
+    "model_panel_summary.csv": "db71089204246783645b6badaa6cc198ea955d2ff92bd4e9ab4d886bcbc81a17",
+    "nonlinear_probe_summary.csv": "583953d27799240d3b295ec106a1c6bb6de6bf1dfebb4555f28d6154d7c9b859",
+    "prompt_length_baseline.csv": "58c629c9bcb4458052aded6c2e1bba06607d67a5766c36f3e81ecf896cd46578",
+    "task_accuracy_summary.csv": "6aa4934e9f20ab4f535137f2889fe1d548661326eb88700938ec6d05c45321fc"
+  },
+  "panels": {
+    "matched_text_mmlu_pro_control": {
+      "claim_limit": "MMLU-Pro categories mix factual knowledge and reasoning. These subject assignments are predeclared proxies, not pure constructs.",
+      "role": "Within-family text control using one dataset, prompt, answer format, and generation path.",
+      "valid": true
+    },
+    "text_cross_benchmark_stress_test": {
+      "claim_limit": "Task family, domain, input length, number of choices, and answer type remain confounded. This panel tests robustness of task-set prediction, not a general knowledge-reasoning mechanism.",
+      "role": "Exploratory text-only test of whole-task transfer across independent benchmark families.",
+      "valid": false,
+      "invalid_reason": "The MuSR adapter rendered its string-encoded choice list as characters; see protocol_invalidation.json."
+    }
+  },
+  "prompt_length_baseline_status": "post_hoc_scalar_nuisance_diagnostic_using_sklearn_not_pooled_with_cuml_activation_rows",
+  "raw_activations_prompts_responses_or_per_sample_rows_in_output": false,
+  "representation_record_count": 1320000,
+  "run_manifest_sha256": "4a00ed6d28fbed3f52b05ecde389953650fb55c8a2aaa896e52e2b4df3e75f56",
+  "schema_version": 2
+}

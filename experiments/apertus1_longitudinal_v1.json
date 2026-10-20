@@ -1,0 +1,242 @@
+{
+  "schema_version": 1,
+  "experiment_id": "apertus1-8b-pretraining-longitudinal-v1",
+  "status": "runnable_pending_observer_parity_smoke",
+  "objective": "Measure whether task accuracy and within-model knowledge-versus-reasoning representation separation change across the released Apertus 1.0 8B pretraining trajectory.",
+  "claim_limit": "This protocol follows one released 8B pretraining run. It does not combine the later long-context extension, SFT, QRPO alignment, or Apertus 1.5 with the pretraining curve. The three evaluation blocks measure example-sampling sensitivity, not training-seed uncertainty, and the task partition remains an operational benchmark taxonomy rather than a latent ground-truth mechanism.",
+  "release_audit": {
+    "checked_at_utc": "2026-08-13",
+    "repository": "swiss-ai/Apertus-8B-2509",
+    "observed_branch_count": 72,
+    "observed_tag_count": 0,
+    "selected_config_sha256_prefix": "3e963c62c173",
+    "selected_tokenizer_config_sha256_prefix": "ea64a17b41e1",
+    "weight_shards_per_checked_revision": 4,
+    "weight_bytes_per_checked_revision": 16106726816,
+    "audit_script": "scripts/check_apertus1_release.py",
+    "source_report": "Apertus: Democratizing Open and Compliant LLMs for Global Language Environments (arXiv:2509.14233)",
+    "stage_note": "For the 8B run, the report states that Stage 1 lasts until 7T tokens, Stage 2 is skipped, Stage 3 then runs to 12T, Stage 4 to 13.5T, and Stage 5/cooldown to 15T. Released refs nearest these boundaries are sampled below."
+  },
+  "model": {
+    "lmms_model": "hf_causal",
+    "batch_size": 32,
+    "layers": 32,
+    "hidden_width": 4096,
+    "model_args": {
+      "use_cache": true
+    }
+  },
+  "dataset": {
+    "path": "hails/mmlu_no_train",
+    "revision": "b2e1ec9aa795adafe68e8e983248dbd4b52a1c60"
+  },
+  "tasks": {
+    "knowledge": [
+      "repdyn_mmlu_anatomy",
+      "repdyn_mmlu_clinical_knowledge",
+      "repdyn_mmlu_high_school_world_history",
+      "repdyn_mmlu_professional_law",
+      "repdyn_mmlu_astronomy"
+    ],
+    "reasoning": [
+      "repdyn_mmlu_abstract_algebra",
+      "repdyn_mmlu_formal_logic",
+      "repdyn_mmlu_high_school_mathematics",
+      "repdyn_mmlu_college_mathematics",
+      "repdyn_mmlu_logical_fallacies"
+    ]
+  },
+  "replicates": [
+    {
+      "id": "block-0",
+      "offset": 0,
+      "sample_count_per_task": 32
+    },
+    {
+      "id": "block-1",
+      "offset": 32,
+      "sample_count_per_task": 32
+    },
+    {
+      "id": "block-2",
+      "offset": 64,
+      "sample_count_per_task": 32
+    }
+  ],
+  "repeat_interpretation": "The three disjoint example blocks are paired across checkpoints. Their sample standard deviation describes sensitivity to evaluation-example sampling; it is not uncertainty across independently trained models. Greedy generation uses one fixed seed because repeated seeds do not change prefill states.",
+  "extraction": {
+    "seed": 0,
+    "pooling": "last_valid",
+    "phases": "prefill",
+    "storage_dtype": "float32"
+  },
+  "analysis": {
+    "cv_folds": 5,
+    "linear_task_label_permutations": 251,
+    "nonlinear_task_label_permutations": 0,
+    "pca_retained_variance": 0.95,
+    "silhouette_max_samples": 5000,
+    "seed": 0,
+    "velocity_within_documented_training_stage_only": true
+  },
+  "default_tiers": [
+    "primary"
+  ],
+  "checkpoints": [
+    {
+      "id": "pretrain-stage1-210b",
+      "tier": "primary",
+      "repository": "swiss-ai/Apertus-8B-2509",
+      "source_ref": "step50000-tokens210B",
+      "revision": "4d1413654b70c14a00c6c3179fc227b5d155ce9e",
+      "training_path": "base-pretraining",
+      "trajectory": "pretrain-stage1",
+      "stage": "stage1",
+      "position": 210,
+      "position_unit": "billion_consumed_tokens",
+      "optimizer_step": 50000
+    },
+    {
+      "id": "pretrain-stage1-3150b",
+      "tier": "primary",
+      "repository": "swiss-ai/Apertus-8B-2509",
+      "source_ref": "step750000-tokens3150B",
+      "revision": "8bcf551e52bc3293761f4002811167ef43eacfef",
+      "training_path": "base-pretraining",
+      "trajectory": "pretrain-stage1",
+      "stage": "stage1",
+      "position": 3150,
+      "position_unit": "billion_consumed_tokens",
+      "optimizer_step": 750000
+    },
+    {
+      "id": "pretrain-stage1-6014b",
+      "tier": "primary",
+      "repository": "swiss-ai/Apertus-8B-2509",
+      "source_ref": "step1432000-tokens6014B",
+      "revision": "333b12b18238f2bae005234dd1dd160b1096c754",
+      "training_path": "base-pretraining",
+      "trajectory": "pretrain-stage1",
+      "stage": "stage1",
+      "position": 6014,
+      "position_unit": "billion_consumed_tokens",
+      "optimizer_step": 1432000
+    },
+    {
+      "id": "pretrain-stage3-7047b",
+      "tier": "primary",
+      "repository": "swiss-ai/Apertus-8B-2509",
+      "source_ref": "step1678000-tokens7047B",
+      "revision": "b3741dd963c46b4edcb40d8cc8cb970348c64f27",
+      "training_path": "base-pretraining",
+      "trajectory": "pretrain-stage3",
+      "stage": "stage3",
+      "position": 7047,
+      "position_unit": "billion_consumed_tokens",
+      "optimizer_step": 1678000
+    },
+    {
+      "id": "pretrain-stage3-9752b",
+      "tier": "primary",
+      "repository": "swiss-ai/Apertus-8B-2509",
+      "source_ref": "step2000000-tokens9752B",
+      "revision": "10c9ab702f92c2bf6a0b9642a1a6b86f58dfa869",
+      "training_path": "base-pretraining",
+      "trajectory": "pretrain-stage3",
+      "stage": "stage3",
+      "position": 9752,
+      "position_unit": "billion_consumed_tokens",
+      "optimizer_step": 2000000
+    },
+    {
+      "id": "pretrain-stage3-11852b",
+      "tier": "primary",
+      "repository": "swiss-ai/Apertus-8B-2509",
+      "source_ref": "step2250000-tokens11852B",
+      "revision": "19e6dfe8660c0aa1a5494e93b1cab48ec6a07c1a",
+      "training_path": "base-pretraining",
+      "trajectory": "pretrain-stage3",
+      "stage": "stage3",
+      "position": 11852,
+      "position_unit": "billion_consumed_tokens",
+      "optimizer_step": 2250000
+    },
+    {
+      "id": "pretrain-stage4-12272b",
+      "tier": "primary",
+      "repository": "swiss-ai/Apertus-8B-2509",
+      "source_ref": "step2300000-tokens12272B",
+      "revision": "e7e26866dec2c2ae304b20b23acd504260715b56",
+      "training_path": "base-pretraining",
+      "trajectory": "pretrain-stage4",
+      "stage": "stage4",
+      "position": 12272,
+      "position_unit": "billion_consumed_tokens",
+      "optimizer_step": 2300000
+    },
+    {
+      "id": "pretrain-stage4-13112b",
+      "tier": "primary",
+      "repository": "swiss-ai/Apertus-8B-2509",
+      "source_ref": "step2400000-tokens13112B",
+      "revision": "e198c6bb9b3e0856ac04ddc2345abbd7fb448c5a",
+      "training_path": "base-pretraining",
+      "trajectory": "pretrain-stage4",
+      "stage": "stage4",
+      "position": 13112,
+      "position_unit": "billion_consumed_tokens",
+      "optimizer_step": 2400000
+    },
+    {
+      "id": "pretrain-stage5-13532b",
+      "tier": "primary",
+      "repository": "swiss-ai/Apertus-8B-2509",
+      "source_ref": "step2450000-tokens13532B",
+      "revision": "749fb231a6d8ad938618a759b0bfa6ddf3061f7d",
+      "training_path": "base-pretraining",
+      "trajectory": "pretrain-stage5",
+      "stage": "stage5",
+      "position": 13532,
+      "position_unit": "billion_consumed_tokens",
+      "optimizer_step": 2450000
+    },
+    {
+      "id": "pretrain-stage5-14792b",
+      "tier": "primary",
+      "repository": "swiss-ai/Apertus-8B-2509",
+      "source_ref": "step2600000-tokens14792B",
+      "revision": "6096f66872b4f3d6495b45e86be11f0318f3c0f7",
+      "training_path": "base-pretraining",
+      "trajectory": "pretrain-stage5",
+      "stage": "stage5",
+      "position": 14792,
+      "position_unit": "billion_consumed_tokens",
+      "optimizer_step": 2600000
+    },
+    {
+      "id": "pretrain-stage5-15000b",
+      "tier": "primary",
+      "repository": "swiss-ai/Apertus-8B-2509",
+      "source_ref": "step2627139-tokens15T",
+      "revision": "96982d7c559fab9c2b19b6934ad28499c5c341e9",
+      "training_path": "base-pretraining",
+      "trajectory": "pretrain-stage5",
+      "stage": "stage5",
+      "position": 15000,
+      "position_unit": "billion_consumed_tokens",
+      "optimizer_step": 2627139
+    }
+  ],
+  "excluded_release_branches": {
+    "longctx": "The 27 long-context refs are a continuation with changing context length, RoPE scaling, and a different data mixture. Add them only as a separate staged analysis after mapping branch steps to the four documented 8k/16k/32k/64k phases.",
+    "posttraining": "The instruct repository exposes main and sft. Base-to-SFT-to-QRPO requires a separate prompt and decoding protocol and is not appended to the raw-prompt pretraining curve.",
+    "apertus15": "Apertus 1.5 combines multimodal continued pretraining and revised post-training and currently exposes no intermediate refs; it remains a separate endpoint study."
+  },
+  "promotion_requirements": [
+    "Verify every selected source ref still resolves to the frozen immutable revision.",
+    "Inspect the selected decoder stack and confirm 32 exact attention, feed-forward, and residual streams under one pinned Transformers implementation.",
+    "Pass observer-off/on forward-logit and greedy-output parity at the earliest, one stage-boundary, and final checkpoints before the full extraction.",
+    "Run one complete benchmark under a source-matched Apertus evaluation protocol before interpreting the task-accuracy trajectory.",
+    "Use identical tasks, prompts, example IDs, pooling, storage precision, and generation settings at every checkpoint."
+  ]
+}

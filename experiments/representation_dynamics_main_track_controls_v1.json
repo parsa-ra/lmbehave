@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "experiment_id": "representation-dynamics-main-track-controls-v1",
+  "status": "complete_post_hoc_sensitivity",
+  "parent_experiment": "experiments/representation_dynamics_main_track_v1.json",
+  "design_timing": "Post-hoc controls added in response to external review; they are not confirmatory evidence.",
+  "objective": "Test whether the matched 8+8 MMLU task partition is predictable from prompt surface form alone and whether selected-site representation predictability survives fold-local prompt-feature residualization.",
+  "surface_text_baselines": {
+    "word_tfidf": {
+      "features": "lowercased word 1--2 gram TF-IDF, min_df=2, sublinear term frequency",
+      "probe": "balanced L2 logistic regression with C=1",
+      "fit_scope": "TF-IDF vocabulary, IDF, and probe fit on training tasks inside every grouped fold and task-label assignment"
+    },
+    "char_tfidf": {
+      "features": "lowercased character-within-word 3--5 gram TF-IDF, min_df=2, sublinear term frequency, at most 100000 features",
+      "probe": "balanced L2 logistic regression with C=1",
+      "fit_scope": "TF-IDF vocabulary, IDF, and probe fit on training tasks inside every grouped fold and task-label assignment"
+    }
+  },
+  "representation_sensitivities": {
+    "length_only": [
+      "prompt_token_count"
+    ],
+    "six_surface_features": [
+      "prompt_token_count",
+      "prompt_char_count",
+      "prompt_line_count",
+      "option_count",
+      "whitespace_token_count",
+      "whitespace_token_entropy"
+    ],
+    "residualizer": "multi-output Ridge with alpha=1, fit on training tasks inside every grouped fold",
+    "selection": "Use the Fisher-selected row for each task assignment exactly as in the parent selected-site probe; residualization, fold-local PCA, and the linear probe are then refit for that assignment."
+  },
+  "inference": {
+    "unit": "whole MMLU subject",
+    "oriented_balanced_assignments": 12870,
+    "label_complement_pairs": 6435,
+    "requested_grouped_folds": 5,
+    "seed": 0,
+    "alpha": 0.01
+  },
+  "decision_rule": "The unadjusted representation probe is not evidence beyond prompt surface form if a prompt-only baseline rejects under the same task-level null. Residual predictability is reported as sensitivity only and does not establish a knowledge--reasoning mechanism.",
+  "persistent_output": "/home/ubuntu/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-controls-v1",
+  "sample_free_summary": "results/representation_dynamics_main_track_controls_v1/report.json"
+}

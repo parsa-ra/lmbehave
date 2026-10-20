@@ -1,0 +1,24 @@
+dataset_path: lmms-lab/MEDQA
+dataset_kwargs:
+  token: true
+task: repdyn_medqa
+test_split: test
+output_type: generate_until
+doc_to_visual: null
+doc_to_text: !function utils.medqa_doc_to_text
+doc_to_target: !function utils.medqa_doc_to_target
+generation_kwargs:
+  max_new_tokens: 8
+  temperature: 0.0
+  do_sample: false
+  until:
+    - "\n"
+    - "</s>"
+    - "<|im_end|>"
+process_results: !function utils.medqa_process_results
+metric_list:
+  - metric: accuracy
+    aggregation: mean
+    higher_is_better: true
+metadata:
+  version: 1.0

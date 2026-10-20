@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "experiment_id": "representation-dynamics-main-track-lexical-control-v1",
+  "status": "complete_post_hoc_sensitivity",
+  "parent_experiment": "experiments/representation_dynamics_main_track_controls_v1.json",
+  "implementation_revision": "0b69f69e455a00b748d799a517939a033338bdd8",
+  "design_timing": "Specified after external review and before inspecting any lexical-adjusted representation-probe result.",
+  "objective": "Test whether Fisher-selected representation predictability remains after removing activation variance linearly predictable from a fold-local low-rank character TF-IDF representation of the logged prompt.",
+  "lexical_nuisance": {
+    "source": "Logged task prompt before model-specific chat-template rendering",
+    "vectorizer": "Lowercased character-within-word 3--5 gram TF-IDF with min_df=2, sublinear term frequency, and at most 100000 features",
+    "vectorizer_fit_scope": "Training tasks only inside every grouped fold and balanced task-label assignment",
+    "dimensionality_reduction": "Randomized truncated SVD with seven power iterations and seed 0, fit only on the same training-task TF-IDF matrix",
+    "primary_components": 64,
+    "sensitivity_components": 32,
+    "activation_residualizer": "Multi-output Ridge with alpha=1, fit from lexical components to every activation dimension using training tasks only",
+    "downstream_preprocessing": "Fold-local 95-percent-variance PCA and standardization after residualization"
+  },
+  "selection": "For every balanced assignment, reselect the maximum row from that assignment's unadjusted Fisher profile. Do not fix the observed site. Apply lexical residualization and fit the probe at the reselected row.",
+  "inference": {
+    "unit": "Whole MMLU subject",
+    "oriented_balanced_assignments": 12870,
+    "label_complement_pairs": 6435,
+    "requested_grouped_folds": 5,
+    "seed": 0,
+    "alpha": 0.01
+  },
+  "decision_rule": "Report the exact macro-F1 randomization p-value for all five models at 64 components and the 32-component sensitivity. Survival means predictability not removed by this measured low-rank lexical nuisance model; disappearance means the representation result is not robust to that adjustment. Neither outcome identifies causal mediation or exhausts lexical content.",
+  "persistent_output": "/home/ubuntu/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-lexical-control-v1",
+  "sample_free_summary": "results/representation_dynamics_main_track_lexical_control_v1/report.json",
+  "completed_at_utc": "2026-08-16T09:59:39Z"
+}

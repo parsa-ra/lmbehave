@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "experiment_id": "representation-dynamics-selector-sensitivity-v1",
+  "frozen_at_utc": "2026-08-16T23:42:00Z",
+  "status": "post_review_sensitivity_frozen_before_outputs",
+  "source_panel": "matched_mmlu_8x8_confirmatory",
+  "models": [
+    "olmo3-7b-instruct",
+    "apertus15-8b",
+    "qwen3_5-9b",
+    "qwen3_5-27b",
+    "gemma4-31b"
+  ],
+  "feature_projection": "global label-blind 95%-variance PCA per layer and stream",
+  "selector": "regularized covariance-whitened class-mean displacement",
+  "statistic": "delta_mu^T (W_pooled + lambda I)^-1 delta_mu",
+  "ridge_policy": "lambda = alpha times the mean eigenvalue of the label-blind total covariance on the projected coordinates",
+  "ridge_alpha_grid": [
+    0.01,
+    0.1,
+    1.0
+  ],
+  "null": "all 12,870 balanced task assignments; maximize over every declared layer and stream for each assignment",
+  "outputs": [
+    "selection-aware maximum and exact p-value for every alpha",
+    "observed selected layer and stream for every alpha",
+    "agreement with the unwhitened trace-ratio site"
+  ],
+  "numerical_gate": "Sherman-Morrison scores must match direct regularized pooled-within covariance inversion on synthetic and sampled real assignments",
+  "provenance_limit": "This grid was chosen after the primary, trace-ratio, matched-excess, and external-review results were known. It is a selector sensitivity, not a replacement primary analysis.",
+  "claim_limit": "A stable site under this grid would not establish causal localization. Cross-panel replication requires the corresponding raw panel activations and remains separate."
+}

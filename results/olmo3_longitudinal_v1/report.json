@@ -1,0 +1,17 @@
+{
+  "analysis_backend": "cuml",
+  "checkpoint_stream_rows": 21,
+  "checkpoints": 7,
+  "claim_limit": "This is one released training trajectory. Variation across three disjoint evaluation blocks is not variation across training seeds, and checkpoint associations are descriptive until an intervention is run.",
+  "created_at_utc": "2026-07-27T08:31:51.521590+00:00",
+  "experiment_id": "olmo3-7b-longitudinal-v1",
+  "layer_rows": 672,
+  "outputs": {
+    "checkpoint_csv_sha256": "c3f692cbf741a69bb3c95dd8de0a7825a253149026c48bb7ac0ede4260e38554",
+    "layer_csv_sha256": "5a17dbbf7c9d77e1f04657536e2e9bb1f6990898c7950690c91fb52795b9c25d"
+  },
+  "repeat_interpretation": "The three blocks contain disjoint examples and are paired across checkpoints. Their sample standard deviation describes sensitivity to example sampling. It is not training-run uncertainty. Greedy generation uses one fixed seed because changing that seed does not change prefill states.",
+  "replicate_blocks": 3,
+  "schema_version": 1,
+  "velocity_definition": "Change in the replicate-specific depth-mean FDR divided by checkpoint-position change, only within trajectories with a shared unit and distinct positions."
+}

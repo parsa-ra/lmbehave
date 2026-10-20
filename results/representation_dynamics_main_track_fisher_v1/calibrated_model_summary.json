@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "conditions": 5,
+  "inferential_unit": "whole benchmark task",
+  "primary_statistic": "maximum Fisher trace ratio over declared layers and streams",
+  "claim_limit": "This is the original five-versus-five matched panel. Its class-symmetric exact p-value floor is 1/126; the expanded eight-versus-eight confirmatory panel remains required.",
+  "analysis_source": {
+    "path": "/home/ubuntu/vlmbehave/lmms-eval/lmms_eval/representations/analysis.py",
+    "sha256": "3d5116478ca8ad6f7fbc2f5fa359dae4d73f485b68aa7dcd3927b3ae70ac27a2",
+    "lmms_eval_head": "8df6be6808e2176f45f75219323d0779314f50d7",
+    "lmms_eval_dirty": true
+  },
+  "inputs": [
+    {
+      "path": "/home/ubuntu/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/calibrated-matched-panel-v1/apertus15-8b/report.json",
+      "sha256": "901e1aa326bfac1f527662a38310aca671c4232946463985b319944180a7b0ba"
+    },
+    {
+      "path": "/home/ubuntu/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/calibrated-matched-panel-v1/apertus15-8b/layer_separability.csv",
+      "sha256": "54f804c436c0b8039a48c2e6215ae9d8d431d14a8488c8f24e7491eb5eacdc67"
+    },
+    {
+      "path": "/home/ubuntu/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/calibrated-matched-panel-v1/apertus15-8b/permutation_nulls.json.gz",
+      "sha256": "fbe3e84efb7c2719c9a8688c5df608c56539b5e75139047c0157ca50baedd707"
+    },
+    {
+      "path": "/home/ubuntu/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/calibrated-matched-panel-v1/apertus15-8b/analysis_manifest.json",
+      "sha256": "4c33aecff20c6ad40ca452e930e89adda13faa29427f114ddcc4a066b4d984e2"
+    },
+    {
+      "path": "/home/ubuntu/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/calibrated-matched-panel-v1/gemma4-31b/report.json",
+      "sha256": "f038a9bb98974cd5abd74b55b9c2f6a545bc084cf378ff25ee5de0c9081617b0"
+    },
+    {
+      "path": "/home/ubuntu/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/calibrated-matched-panel-v1/gemma4-31b/layer_separability.csv",
+      "sha256": "b67cc553457e911b1b9b7fbccbee130c68321661df3d17605a9b9a0a2dee3df1"
+    },
+    {
+      "path": "/home/ubuntu/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/calibrated-matched-panel-v1/gemma4-31b/permutation_nulls.json.gz",
+      "sha256": "5d50cbacc93aa5f5831e074a735eb52dd36912a179c5c45074d0cb6313713caf"
+    },
+    {
+      "path": "/home/ubuntu/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/calibrated-matched-panel-v1/gemma4-31b/analysis_manifest.json",
+      "sha256": "7a7cf23829f8585e7ee116e7e7ac88b9569c284a84fd4e3bd2e367c9a6b89e33"
+    },
+    {
+      "path": "/home/ubuntu/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/calibrated-matched-panel-v1/olmo3-7b-instruct/report.json",
+      "sha256": "fa42a46ecfc1ab6e914a53abb72bedaae6b305267e57bf6546186f81a91f5c69"
+    },
+    {
+      "path": "/home/ubuntu/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/calibrated-matched-panel-v1/olmo3-7b-instruct/layer_separability.csv",
+      "sha256": "9938c5622e834899818624c0408b35f2f2fead4180edb7548a2acab3e8b9578c"
+    },
+    {
+      "path": "/home/ubuntu/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/calibrated-matched-panel-v1/olmo3-7b-instruct/permutation_nulls.json.gz",
+      "sha256": "d86e913d4009d9de297127eadd22d345a4024bd12773413e2fd7a3fdd1f2a9f1"
+    },
+    {
+      "path": "/home/ubuntu/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/calibrated-matched-panel-v1/olmo3-7b-instruct/analysis_manifest.json",
+      "sha256": "f25b895c5351f57175e0468d4a521d1105c405928ce9960f793c04a62c2d1108"
+    },
+    {
+      "path": "/home/ubuntu/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/calibrated-matched-panel-v1/qwen3_5-27b/report.json",
+      "sha256": "3778043399268bd5bc522d22ed9cc09bb0a338bfba6e828f23ecdfe680326480"
+    },
+    {
+      "path": "/home/ubuntu/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/calibrated-matched-panel-v1/qwen3_5-27b/layer_separability.csv",
+      "sha256": "c8f63c4da82fcc58a29931da7d2660c55de05ca28bc9416bfd285dc1bbf8962c"
+    },
+    {
+      "path": "/home/ubuntu/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/calibrated-matched-panel-v1/qwen3_5-27b/permutation_nulls.json.gz",
+      "sha256": "476f60bcfb1d9f72ded5395b3a163a400c339e8d1f23f20cf047c918736f1330"
+    },
+    {
+      "path": "/home/ubuntu/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/calibrated-matched-panel-v1/qwen3_5-27b/analysis_manifest.json",
+      "sha256": "cbe3b1ab73140f740cbb68f6f746ec0ef3bf9c3f94415ce0fd8b2b7c6ae55326"
+    },
+    {
+      "path": "/home/ubuntu/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/calibrated-matched-panel-v1/qwen3_5-9b/report.json",
+      "sha256": "856b12b3c13a8aa23e8d5963831c068f31f218656a14ba68b3a63e0f869444d3"
+    },
+    {
+      "path": "/home/ubuntu/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/calibrated-matched-panel-v1/qwen3_5-9b/layer_separability.csv",
+      "sha256": "509ed3d52a4249e8cbe3e6b4517a0ad28ced0f791de81bf91826f7dc38dd25a6"
+    },
+    {
+      "path": "/home/ubuntu/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/calibrated-matched-panel-v1/qwen3_5-9b/permutation_nulls.json.gz",
+      "sha256": "aa145ec81d819a3f1f09a88da636ced4e464b1c054aaeef0073e76dcadefa794"
+    },
+    {
+      "path": "/home/ubuntu/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/calibrated-matched-panel-v1/qwen3_5-9b/analysis_manifest.json",
+      "sha256": "185acc8a0c808eccc709a070122204264226d19274aafcb398f8171fc888d46e"
+    }
+  ],
+  "output": {
+    "path": "results/representation_dynamics_main_track_fisher_v1/calibrated_model_summary.csv",
+    "sha256": "8720b810fb170f4ad2020cac991a1601e7c2a6694a8957e911c8401b6839e870"
+  }
+}

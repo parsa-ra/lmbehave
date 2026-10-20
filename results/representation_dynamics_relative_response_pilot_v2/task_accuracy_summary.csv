@@ -1,0 +1,11 @@
+scope,group,task,examples,accuracy
+task,knowledge,repdyn_response_mmlu_anatomy,4,0.25
+task,knowledge,repdyn_response_mmlu_astronomy,4,0.75
+task,knowledge,repdyn_response_mmlu_clinical_knowledge,4,0.75
+task,knowledge,repdyn_response_mmlu_high_school_world_history,4,1.0
+group,knowledge,ALL,16,0.6875
+task,reasoning,repdyn_response_mmlu_abstract_algebra,4,0.75
+task,reasoning,repdyn_response_mmlu_college_mathematics,4,0.25
+task,reasoning,repdyn_response_mmlu_formal_logic,4,0.0
+task,reasoning,repdyn_response_mmlu_high_school_mathematics,4,0.75
+group,reasoning,ALL,16,0.4375

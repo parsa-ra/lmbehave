@@ -1,0 +1,26 @@
+task: repdyn_gsm8k_direct
+dataset_path: openai/gsm8k
+dataset_name: main
+dataset_kwargs:
+  revision: 740312add88f781978c0658806c59bc2815b9866
+test_split: test
+output_type: generate_until
+doc_to_visual: null
+doc_to_text: !function utils.gsm8k_doc_to_text
+doc_to_target: !function utils.gsm8k_doc_to_target
+process_results: !function utils.gsm8k_process_results
+generation_kwargs:
+  max_new_tokens: 32
+  temperature: 0.0
+  do_sample: false
+  until:
+    - "\n"
+    - "</s>"
+    - "<|im_end|>"
+metric_list:
+  - metric: accuracy
+    aggregation: mean
+    higher_is_better: true
+metadata:
+  version: 1.0
+  protocol: concise_direct_answer_non_leaderboard

@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-08-16",
+  "capture_scope": "local refs only; no remote fetch performed",
+  "repositories": {
+    "transformers": {
+      "role": "clean upstream baseline installed by the current install.sh",
+      "origin": "https://github.com/huggingface/transformers.git",
+      "branch_at_capture": null,
+      "tag_at_capture": "v5.5.4",
+      "head_at_capture": "75d3bdcd4b3ba70cee21287218d9764f33da41f0",
+      "checkout": "75d3bdcd4b3ba70cee21287218d9764f33da41f0",
+      "dirty": false,
+      "required": true,
+      "shallow_at_capture": true
+    },
+    "transformers_qwenvl": {
+      "role": "active Qwen3-VL visual-token pruning prototype",
+      "origin": "https://github.com/huggingface/transformers.git",
+      "branch_at_capture": "AdaptToken",
+      "head_at_capture": "c31f8334ca826f267703bb70b712d171a19d8b95",
+      "checkout": "e46d21afe2aaf942fd9515b2fba1d6f3affd61a6",
+      "dirty": true,
+      "required": true,
+      "overlay": "overlays/transformers-qwenvl-adapttoken.patch",
+      "overlay_sha256": "c39eeacd551cf58d7816232532f8e8f6bbe388f15ed7efa2e3bd22eeecf1505d",
+      "overlay_size_bytes": 57177,
+      "note": "The overlay flattens local commit c31f8334 and the uncommitted worktree onto the pinned upstream base."
+    },
+    "vllm": {
+      "role": "clean optional inference-engine reference",
+      "origin": "https://github.com/vllm-project/vllm.git",
+      "branch_at_capture": "main",
+      "head_at_capture": "617d1c2ff14d3b8b8d33ccb51f3235c3665adecb",
+      "checkout": "617d1c2ff14d3b8b8d33ccb51f3235c3665adecb",
+      "dirty": false,
+      "required": false
+    },
+    "vLLM-Hook": {
+      "role": "clean optional hook/reference implementation",
+      "origin": "https://github.com/IBM/vLLM-Hook.git",
+      "branch_at_capture": "main",
+      "head_at_capture": "43349f0cef6ed7dcc79a9800034cd4ba9be214c1",
+      "checkout": "43349f0cef6ed7dcc79a9800034cd4ba9be214c1",
+      "dirty": false,
+      "required": false
+    },
+    "IVC-Prune": {
+      "role": "clean optional pruning baseline/reference",
+      "origin": "https://github.com/FireRedTeam/IVC-Prune.git",
+      "branch_at_capture": "main",
+      "head_at_capture": "03afd9cee41f60bb30b51a4105839f2b5d467814",
+      "checkout": "03afd9cee41f60bb30b51a4105839f2b5d467814",
+      "dirty": false,
+      "required": false
+    }
+  },
+  "archived_refs": {
+    "lmms-eval-vatt-monitor": {
+      "repository": "lmms-eval",
+      "base": "c050adecbdde84fcefa8abf034986683cb97cc76",
+      "commit": "2c90ba0c80c205e2c5200de629ebd1a79ae99271",
+      "overlay": "overlays/lmms-eval-vatt-monitor-legacy.patch",
+      "overlay_sha256": "c95a9ae3433d986089d7f422baf00bbc2d6fb03daefcdcbb24b9e1097fcb3e0a",
+      "overlay_size_bytes": 20844,
+      "note": "Legacy unpublished branch; not applied by bootstrap because it predates current main."
+    }
+  },
+  "bundled_sources": {
+    "lmms-eval": {
+      "path": "lmms-eval",
+      "source_revision": "2f121d64e804b83fe8724981fd180d1d5a4c3047",
+      "upstream": "https://github.com/EvolvingLMMs-Lab/lmms-eval",
+      "license": "MIT",
+      "note": "Exact tracked research source snapshot, bundled for public reproducibility. Private repository history is not included."
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "experiment_id": "representation-dynamics-nuisance-control-v1",
+  "status": "implementation_validated_empirical_run_pending",
+  "parent_experiment": "experiments/representation_dynamics_text_expansion_v1.json",
+  "objective": "Test whether task-held-out linear and nonlinear predictability survives removal of prompt-surface variance without exposing held-out tasks to the nuisance model.",
+  "estimand": "Change in task-held-out probe accuracy and macro-F1 after fold-local prompt-surface residualization, reported beside the unadjusted probe.",
+  "nuisance_features": [
+    "prompt_token_count",
+    "prompt_char_count",
+    "prompt_line_count",
+    "option_count",
+    "whitespace_token_count",
+    "whitespace_token_entropy"
+  ],
+  "feature_scope": "Prompt-only. Targets, correctness, generated responses, and output length are excluded because they occur after the prefill representation being analyzed.",
+  "residualizer": {
+    "model": "multi-output Ridge regression",
+    "alpha": 1.0,
+    "standardization": "Fit nuisance-column mean and scale on training tasks only; constant columns retain unit scale.",
+    "fit_scope": "Refit inside every task-held-out fold for the observed assignment and every task-label permutation.",
+    "intercept": "Unpenalized",
+    "order": "Ridge residualization, then fold-local PCA for the cuML estimator family, then probe scaling and classification."
+  },
+  "inference": {
+    "exchangeability_unit": "whole benchmark task",
+    "linear_task_label_permutations": 251,
+    "nonlinear_task_label_permutations": 251,
+    "multiple_testing": "Benjamini-Hochberg separately for each adjusted probe metric across layer-stream rows",
+    "seed": 0
+  },
+  "decision_rule": "A result is more resistant to measured prompt-surface confounding only when adjusted task-held-out performance and corrected permutation evidence persist. Residual predictability is not proof of a knowledge-versus-reasoning mechanism because domain, difficulty, and unmeasured format features remain.",
+  "prohibited_covariates": [
+    "task or dataset identity, because it cannot generalize to held-out tasks",
+    "class label or any deterministic transform of it",
+    "target answer",
+    "model correctness",
+    "generated response or output length for this prefill analysis"
+  ]
+}

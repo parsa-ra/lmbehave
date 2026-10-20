@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "experiment_id": "apertus1-8b-pretraining-longitudinal-v1",
+  "status": "PASS",
+  "checkpoints": 11,
+  "replicate_blocks": 3,
+  "validated_conditions": 33,
+  "layer_stream_rows": 1056,
+  "persistent_root": "/home/ubuntu/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/apertus1-longitudinal-v1",
+  "source_hashes": {
+    "validation_report_json": "99c4e66ab670b35606687dfa72530182c60e8209d97e1a81186c253ae38f4424",
+    "longitudinal_report_json": "7ad2ac32dde9d2cbb8bc009b7ea7cdd16fd3cbc17eb6766d4977868a0202da3d",
+    "longitudinal_checkpoint_summary_csv": "205fd013c7bc2bce5be5460f6d1663b30748492e67337ce89d76e3f9915fff7d",
+    "longitudinal_layer_summary_csv": "fd6db9ef993db48ccfa7c6914a552d6c2d62290ffb1d6eb77951b756b4c9e8ee"
+  },
+  "claim_limit": "One released 8B base-pretraining trajectory. Three blocks measure example-sampling sensitivity, not independent training-seed uncertainty; later long-context and post-training branches are excluded."
+}

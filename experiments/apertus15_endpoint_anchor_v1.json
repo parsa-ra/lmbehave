@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "experiment_id": "apertus15-8b-endpoint-anchor-v1",
+  "objective": "Establish the final Apertus 1.5 8B endpoint under the same paired MMLU protocol reserved for a future released-checkpoint trajectory.",
+  "claim_limit": "This is one final endpoint, not a longitudinal comparison. It cannot identify a training-time trend until intermediate checkpoints from one documented Apertus 1.5 trajectory are released.",
+  "model": {
+    "lmms_model": "apertus1p5",
+    "batch_size": 24,
+    "model_args": {
+      "enable_thinking": false,
+      "use_cache": true
+    }
+  },
+  "dataset": {
+    "path": "hails/mmlu_no_train",
+    "revision": "b2e1ec9aa795adafe68e8e983248dbd4b52a1c60"
+  },
+  "tasks": {
+    "knowledge": [
+      "repdyn_mmlu_anatomy",
+      "repdyn_mmlu_clinical_knowledge",
+      "repdyn_mmlu_high_school_world_history",
+      "repdyn_mmlu_professional_law",
+      "repdyn_mmlu_astronomy"
+    ],
+    "reasoning": [
+      "repdyn_mmlu_abstract_algebra",
+      "repdyn_mmlu_formal_logic",
+      "repdyn_mmlu_high_school_mathematics",
+      "repdyn_mmlu_college_mathematics",
+      "repdyn_mmlu_logical_fallacies"
+    ]
+  },
+  "replicates": [
+    {"id": "block-0", "offset": 0, "sample_count_per_task": 32},
+    {"id": "block-1", "offset": 32, "sample_count_per_task": 32},
+    {"id": "block-2", "offset": 64, "sample_count_per_task": 32}
+  ],
+  "repeat_interpretation": "The three disjoint example blocks estimate evaluation-sample sensitivity. They are paired with the existing OLMo protocol and are not training-seed replicates.",
+  "extraction": {
+    "seed": 0,
+    "pooling": "last_valid",
+    "phases": "prefill",
+    "storage_dtype": "float32"
+  },
+  "analysis": {
+    "cv_folds": 5,
+    "linear_task_label_permutations": 251,
+    "nonlinear_task_label_permutations": 0,
+    "pca_retained_variance": 0.95,
+    "silhouette_max_samples": 5000,
+    "seed": 0
+  },
+  "default_tiers": ["endpoint"],
+  "checkpoints": [
+    {
+      "id": "apertus15-final",
+      "tier": "endpoint",
+      "repository": "swiss-ai/Apertus-v1.5-8B",
+      "source_ref": "main",
+      "revision": "a411d838600baf0e3635a3daf66fb7c55fc97bb6",
+      "training_path": "apertus15",
+      "trajectory": "apertus15-release-endpoint",
+      "stage": "final",
+      "position": 0,
+      "position_unit": "endpoint_only"
+    }
+  ]
+}

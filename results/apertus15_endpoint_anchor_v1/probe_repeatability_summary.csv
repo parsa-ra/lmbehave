@@ -1,0 +1,4 @@
+checkpoint,stream,layers,blocks,q_threshold,significant_by_block,significant_all_3_blocks,significant_at_least_2_blocks,significant_layer_blocks,total_layer_blocks
+apertus15-final,attention_delta,32,3,0.05,30;32;31,29,32,93,96
+apertus15-final,mlp_delta,32,3,0.05,29;32;31,28,32,92,96
+apertus15-final,residual_state,32,3,0.05,30;31;32,30,31,93,96

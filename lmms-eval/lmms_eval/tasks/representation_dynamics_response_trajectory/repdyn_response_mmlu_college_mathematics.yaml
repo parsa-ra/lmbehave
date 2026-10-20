@@ -1,0 +1,3 @@
+include: _default_template_yaml
+task: repdyn_response_mmlu_college_mathematics
+dataset_name: college_mathematics

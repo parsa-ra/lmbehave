@@ -1,0 +1,115 @@
+{
+  "accuracy": {
+    "knowledge": 0.6875,
+    "reasoning": 0.4375
+  },
+  "claim_limit": "Relative bins align fractional response progress, not semantic reasoning steps. The answer-first protocol measures post-answer response dynamics. Four tasks per category and four examples per task are insufficient for a main-track conclusion.",
+  "confirmatory_threshold_attainable": false,
+  "created_at_utc": "2026-08-15T16:36:29.574730+00:00",
+  "examples_per_task": 4,
+  "experiment_id": "representation-dynamics-relative-response-pilot-v2",
+  "maximum_decode_fisher": {
+    "complement_symmetry": {
+      "maximum_absolute_difference": 0.0,
+      "verified": true
+    },
+    "null_median": 0.171190450868889,
+    "null_q95": 0.28663512218321163,
+    "observed": 0.4794633239823704,
+    "randomization_p": 0.02857142857142857,
+    "selected_site": {
+      "decode_fdr": 0.4794633239823704,
+      "decode_minus_prefill_fdr": 0.2861131349045646,
+      "decode_step": 4,
+      "layer": 31,
+      "model": "allenai/Olmo-3-7B-Instruct",
+      "module": "model.layers.31.post_attention_layernorm",
+      "position_kind": "relative_bin",
+      "prefill_fdr": 0.19335018907780582,
+      "stream": "attention_delta",
+      "trajectory_position": "relative_bin_0004"
+    }
+  },
+  "maximum_decode_minus_prefill_fisher": {
+    "complement_symmetry": {
+      "maximum_absolute_difference": 0.0,
+      "verified": true
+    },
+    "null_median": 0.059584443056845265,
+    "null_q95": 0.1781762907060006,
+    "observed": 0.2861131349045646,
+    "randomization_p": 0.02857142857142857,
+    "selected_site": {
+      "decode_fdr": 0.4794633239823704,
+      "decode_minus_prefill_fdr": 0.2861131349045646,
+      "decode_step": 4,
+      "layer": 31,
+      "model": "allenai/Olmo-3-7B-Instruct",
+      "module": "model.layers.31.post_attention_layernorm",
+      "position_kind": "relative_bin",
+      "prefill_fdr": 0.19335018907780582,
+      "stream": "attention_delta",
+      "trajectory_position": "relative_bin_0004"
+    }
+  },
+  "minimum_attainable_class_symmetric_p": 0.02857142857142857,
+  "model": {
+    "attention_backend": "eager",
+    "backend_reason": "Two independent observer-off eager runs matched exactly on document identity, prompts, targets, complete responses, parsed answers, scores, and token counts. The original backend did not pass this replay gate.",
+    "pretrained": "allenai/Olmo-3-7B-Instruct",
+    "revision": "6e5971d9eba42665f5bd5a0fcf047f299ce1dccc"
+  },
+  "observer_off_on_sample_parity": true,
+  "outputs": {
+    "relative_trajectory_summary": {
+      "path": "/home/ubuntu/vlmbehave/results/representation_dynamics_relative_response_pilot_v2/relative_trajectory_summary.csv",
+      "sha256": "05dcccf01dc525d69508776140f76b93c4f0238130ba5fa187c4279fef46cf07"
+    },
+    "task_accuracy_summary": {
+      "path": "/home/ubuntu/vlmbehave/results/representation_dynamics_relative_response_pilot_v2/task_accuracy_summary.csv",
+      "sha256": "24ad202558d68811c2985de0514e935a6fd93376e42b9c5af69d78f055dfc227"
+    }
+  },
+  "provenance": {
+    "analysis_csv": {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-15/relative-response-pilot-olmo3-eager-v1/analysis-cuml/layer_separability.csv",
+      "sha256": "fad428ad7e4c6f0f1744da41a041ee38bfc6569dbe68a49bf2ddac9dda14acd7"
+    },
+    "analysis_report": {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-15/relative-response-pilot-olmo3-eager-v1/analysis-cuml/report.json",
+      "sha256": "514cbe6142500d98d2f28efa24aaf37208c54acdaa1a4951b6c3c2dde36f9c37"
+    },
+    "binning": {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-15/relative-response-pilot-olmo3-eager-v1/relative_bins/report.json",
+      "sha256": "e99c7d747db0399b3680c93717696fbab58c6bb8073edd6336d484b34d64e6a7"
+    },
+    "inference": {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-15/relative-response-pilot-olmo3-eager-v1/trajectory-inference/report.json",
+      "sha256": "cd236949d1c520d77079077dfc2d831db4af048e61bfde0c3be6152c3670df13"
+    },
+    "manifest": {
+      "path": "/home/ubuntu/vlmbehave/experiments/representation_dynamics_relative_response_pilot_v2.json",
+      "sha256": "393c3b27c891424f8d8864cc2d43c697592a00985580b04eba29fa81b5289461"
+    },
+    "parity": {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-15/relative-response-pilot-olmo3-eager-v1/parity_report.json",
+      "sha256": "892ac8e60875079d3353260dde4442d63d8f8f1223a3a383e9f49abbec67cc58"
+    }
+  },
+  "relative_bins": 8,
+  "response_length": {
+    "at_most_60_words": 30,
+    "maximum_whitespace_words": 145,
+    "median_whitespace_words": 32.0,
+    "minimum_whitespace_words": 19,
+    "total": 32
+  },
+  "response_update_count": {
+    "maximum": 205,
+    "median": 47.5,
+    "minimum": 25
+  },
+  "schema_version": 1,
+  "status": "PASS",
+  "tasks_per_group": 4
+}

@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "experiment_id": "representation-dynamics-main-track-review-response-v1",
+  "frozen_at_utc": "2026-08-16T22:32:06Z",
+  "status": "reviewer_requested_post_hoc_sensitivity",
+  "source_panel": "matched_mmlu_8x8_confirmatory",
+  "models": [
+    "olmo3-7b-instruct",
+    "apertus15-8b",
+    "qwen3_5-9b",
+    "qwen3_5-27b",
+    "gemma4-31b"
+  ],
+  "inferential_unit": "benchmark task",
+  "decision_threshold": 0.01,
+  "provenance_limit": "This design responds to external review after the primary and matched-64 results were known. It is a sensitivity analysis, not a preregistered confirmation.",
+  "analyses": {
+    "matched_delta_null_description": {
+      "status": "descriptive_reanalysis_of_completed_exact_nulls",
+      "statistics": [
+        "mean",
+        "sample standard deviation",
+        "2.5%, 5%, 50%, 95%, and 97.5% quantiles"
+      ],
+      "support": "one value from each of the 6,434 non-observed label-complement pairs",
+      "claim_limit": "Describes the reference distribution; it does not estimate a population effect across new benchmark suites."
+    },
+    "pca95_representation_vs_prompt64": {
+      "status": "post_hoc_zero_refit_alignment",
+      "representation_arm": "existing selection-aware task-held-out probe with fold-local 95%-variance PCA",
+      "prompt_arm": "existing fold-local 64-component character TF-IDF probe",
+      "site_policy": "same unwhitened mean-shift site reselected for every balanced assignment",
+      "statistic": "representation macro-F1 minus prompt macro-F1",
+      "null": "all 12,870 balanced task assignments",
+      "disclosure": "Numerical spot checks were seen before this manifest; the automated hash-gated summary is not predeclared evidence.",
+      "claim_limit": "The arms intentionally have unequal dimensions. This tests whether fixed activation width 64 created the matched-null result; it is not a capacity-matched comparison."
+    },
+    "representation_width_sensitivity": {
+      "status": "frozen_before_new_width_outputs",
+      "representation_reductions": [
+        "fixed 16-component fold-local PCA",
+        "fixed 256-component fold-local PCA",
+        "fold-local 95%-variance PCA",
+        "raw standardized activations without PCA"
+      ],
+      "prompt_reduction": "fixed 64-component fold-local character TF-IDF",
+      "classifier": "same cuML QN logistic regression as the matched-64 analysis",
+      "site_policy": "same unwhitened mean-shift site reselected for every balanced assignment",
+      "primary_outputs": [
+        "observed representation-minus-prompt macro-F1",
+        "exact task-label p-value",
+        "effective-null mean, standard deviation, and quantiles"
+      ],
+      "execution_gate": "Run a bounded OLMo timing and convergence smoke before the raw-width exact analysis.",
+      "claim_limit": "Unequal-width arms are sensitivity analyses. Full width also changes the effective regularization of penalty_normalized=true."
+    },
+    "inference_unit_contrast": {
+      "status": "frozen_before_outputs",
+      "partition": "alphabetically first eight tasks versus the remaining eight",
+      "site": "the unwhitened mean-shift-selected site for that assignment",
+      "feature_reduction": "fold-local fixed 64-component activation PCA",
+      "classifier": "same balanced logistic estimator as the matched analysis",
+      "valid_analysis": "existing held-out-task score and exact task-label randomization",
+      "deliberately_naive_analysis": "five-fold stratified random-example cross-validation with labels permuted over examples",
+      "sample_permutations": 9999,
+      "seed": 0,
+      "claim_limit": "This demonstrates the effect of changing the inferential unit on the same arbitrary partition. It is not a reproduction of Sahoo et al.'s model, datasets, or intervention study."
+    },
+    "matched_delta_reselection_calibration": {
+      "status": "design_frozen_before_outputs",
+      "model": "olmo3-7b-instruct",
+      "base_site": "observed unwhitened mean-shift-selected site",
+      "synthetic_site_policy": "append an injected candidate site; never overwrite a real site",
+      "partition": "alphabetically first eight tasks versus remaining eight",
+      "standardized_mean_differences": [
+        0.5,
+        1.0,
+        2.0,
+        4.0
+      ],
+      "direction_seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "selection": "append the synthetic site's exact mean-shift scores to the real-site score matrix and reselect for every assignment",
+      "statistic": "selection-aware activation macro-F1 minus stored prompt64 macro-F1",
+      "decision_summary": "detection fraction at p<0.01 with a Wilson interval",
+      "claim_limit": "Ten directions give a coarse simulation sensitivity estimate. No 80% detection threshold is claimed unless its interval and direction count support it."
+    }
+  },
+  "deferred": {
+    "regularized_whitened_selector": "requires a separately frozen regularization grid and numerical inversion audit",
+    "nested_probe_selected_site": "millions of fits per model; not treated as a cheap reviewer-response analysis",
+    "mean_valid_token_pooling": "requires new model extraction",
+    "correctness_conditioning": "requires raw-response retention and parser repair for Apertus and Gemma",
+    "equivalence_bound": "requires a scientifically chosen margin before interval inversion"
+  }
+}

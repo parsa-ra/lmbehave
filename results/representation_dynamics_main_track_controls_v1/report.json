@@ -1,0 +1,53 @@
+{
+  "claim_limit": "Post-hoc sensitivity of the declared 8+8 MMLU partition to prompt-only prediction and fold-local linear adjustment for measured prompt features. It does not identify a causal prompt feature or a knowledge--reasoning mechanism.",
+  "experiment_id": "representation-dynamics-main-track-controls-v1",
+  "models": [
+    "olmo3-7b-instruct",
+    "apertus15-8b",
+    "qwen3_5-9b",
+    "qwen3_5-27b",
+    "gemma4-31b"
+  ],
+  "output_sha256": {
+    "adjusted_probe_summary.csv": "772ba5cf111f3876ca938eefca702bd97a11d79ac133d732f03dafec33b93841",
+    "direct_answer_validity_by_task.csv": "817effaa3557c469766611164bf0cf245ae9a45c6fcf4866f98b3a604ac6efa8",
+    "direct_answer_validity_summary.csv": "4a4df4215ed8d82cc67cb19f1ee42345477a6dce8807bfdbff4fce6dd24f4eb2",
+    "gpu_telemetry_summary.csv": "6b2440b51c15dc2350a34e6db4c7f8f2428d44f4796641477821cd7f0b31a632",
+    "longitudinal_response_validity_summary.csv": "6b3e270a3bff1192202cb93ce99a629e6004d5c23c0dd1a69bcfdac104db9fbe",
+    "prompt_baseline_summary.csv": "bf490ed553065e5d11e21f4e9c41f7bf5a21fc42aece648469a7bdf37f42feef",
+    "residual_additivity_summary.csv": "7d21189e1bad3bd7b5bbcdc888cdd868aa8cc11caff22f69b7f40c19a8fabc39"
+  },
+  "persistent_source": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-controls-v1",
+  "prompt_baselines": [
+    "word_tfidf",
+    "char_tfidf"
+  ],
+  "representation_controls": [
+    "length_only",
+    "six_surface_features"
+  ],
+  "schema_version": 1,
+  "source_sha256": {
+    "direct_answer_validity.csv": "f6df0ce2cbb9b3008ba4213d386125fbbe9c43c590dc7076308ee09265d2aeb4",
+    "direct_answer_validity.json": "ddc9d1349cafa4b092a291526af79ec099b8e8aa0f2520d5f9e91200c2c79b10",
+    "gpu_telemetry.csv": "095dbb6b32a58a3678b91a35c4ff960b94df5088289fe6c1514d631409ae11b8",
+    "length_only/apertus15-8b/report.json": "23e2a53af499908365b292d8ffdb905e7c7f22695aedee52d8c2443257c5fa83",
+    "length_only/gemma4-31b/report.json": "5f932b3e2d59ed34cae5c93743585fb1f292408a77b4c8ab2a012985ea37d75c",
+    "length_only/olmo3-7b-instruct/report.json": "34ed1aa3c206317844e8e3f623e2933d551a71f51dacde3ac64d6d195d50c3b0",
+    "length_only/qwen3_5-27b/report.json": "fc776dd38618d562eab7eb59f6aa7583000fd8d4e519f457422cac4afbdf8146",
+    "length_only/qwen3_5-9b/report.json": "eb6e0e3980ef4a44928c86611b94b2ab59ffa972b5f2c6aae6c62e09fee0ffe6",
+    "longitudinal_response_validity.csv": "38da094baed51cf441b7f8d270d4a235325f798775f36dc03de6f75fd78db2c7",
+    "longitudinal_response_validity.json": "e56600502b5525c3e7490dbb654876ebdc13e44344d0d9652b2d59affe5e879f",
+    "nuisance_features.csv": "00d3111fe2de55d5bd2f75aa1f38e3a9a6a3ebc0bf3e1115add0c144244d8405",
+    "nuisance_features.json": "0678555169144fd50687253724844ff5d4197447a3151e598432fc681ef5d1bf",
+    "prompt_char_tfidf.json": "dbcd92c03b4d70aba0cde1af8d81140e71dd214f73a20cb6864093dbdbc04ce7",
+    "prompt_word_tfidf.json": "00d1d82a56438a09332c0f037e165ea75f743ce4c86912f2f87202da098357be",
+    "residual_additivity.json": "4e3dc9573ce1714f4b1c8e8c92e7f388a5b8bb6c03093bed137c208231c9f831",
+    "six_surface_features/apertus15-8b/report.json": "999bf9f4dae0d44b768c20064e9e0211fb66f6d9fee5a471e374d0d261a0f755",
+    "six_surface_features/gemma4-31b/report.json": "5c050144c6ad6ffec60cd61dee9857edbf0edd6e8f510da8115ce69949065eed",
+    "six_surface_features/olmo3-7b-instruct/report.json": "ddcc6e58c01509067774b90d193e9339f9a9231c68da111f54c880fc1ca7be56",
+    "six_surface_features/qwen3_5-27b/report.json": "c6576567042127aa087e29ae9b0c8915ad334705436aa17ec291069ebae4d064",
+    "six_surface_features/qwen3_5-9b/report.json": "35ec15aa916f5fd8a635bf9d3093931ec0bfef3533022979dee00873ea71d4de"
+  },
+  "status": "PASS"
+}

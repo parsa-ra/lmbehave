@@ -1,0 +1,235 @@
+{
+  "claim_limit": "The complete task-randomization test establishes whether the named 8+8 MMLU subject partition is unusually separated relative to arbitrary balanced partitions within each model. It does not establish a universal knowledge-reasoning geometry, shared localization, or causal mechanism.",
+  "contains_activations_prompts_responses_or_per_sample_rows": false,
+  "decision_threshold": 0.01,
+  "experiment_id": "representation-dynamics-main-track-v1",
+  "models_not_passing_primary_threshold": [
+    "olmo3-7b-instruct",
+    "gemma4-31b"
+  ],
+  "models_passing_primary_threshold": [
+    "apertus15-8b",
+    "qwen3_5-9b",
+    "qwen3_5-27b"
+  ],
+  "provenance": {
+    "manifest": "experiments/representation_dynamics_main_track_v1.json",
+    "manifest_sha256": "44bf8deaa3ff42032a6e1baa60f652b20a53d45a05eecf197da0cbe95bc5aea3",
+    "output_csv": "main_track_model_summary.csv",
+    "output_csv_sha256": "ca7cabf36f21b9d7326ca577ae181ce32515efe3425d8b2932717e8c6b9e7125",
+    "sources": [
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/olmo3-7b-instruct/analysis-cuml-26.06/report.json",
+        "sha256": "cbde345c3e2c3a027022e4ae6e6873adc21389ce71077dd33b76d8f3feb6e418"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/olmo3-7b-instruct/analysis-cuml-26.06/layer_separability.csv",
+        "sha256": "3f124b3a62fe1fc79e85967b5f5acc92ee6472027aef752c1c609aa9c93ecd5a"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/olmo3-7b-instruct/analysis-cuml-26.06/permutation_nulls.json.gz",
+        "sha256": "c47fdc0a5107fc40b30011c9ab2e95cff536ea22d09ffe9bbf92bbf4a9343b10"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/olmo3-7b-instruct/analysis-cuml-26.06/analysis_manifest.json",
+        "sha256": "84bbb66dfc850f5d40f9274f51b12c981e2b0e295680d9a055651cd39ee6ee6b"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-apertus15-runtime-v1/matched_mmlu_8x8_confirmatory/apertus15-8b/analysis-cuml-26.06/report.json",
+        "sha256": "f7ea1ec98f4d7d17983c859259c8b418a34cf1dcaf8a0773c2e2580119d80699"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-apertus15-runtime-v1/matched_mmlu_8x8_confirmatory/apertus15-8b/analysis-cuml-26.06/layer_separability.csv",
+        "sha256": "5ebc573b5112c5bd5bf7e4209ded5b94234feba996bee64266baace29a890c0c"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-apertus15-runtime-v1/matched_mmlu_8x8_confirmatory/apertus15-8b/analysis-cuml-26.06/permutation_nulls.json.gz",
+        "sha256": "a522ec20b78584fa5250fb1e906bcfb93769aaf45ca86537ae6383e542a04490"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-apertus15-runtime-v1/matched_mmlu_8x8_confirmatory/apertus15-8b/analysis-cuml-26.06/analysis_manifest.json",
+        "sha256": "4b26774453972b77089746d2e7a0d3c4095437bfa6601981fd69340d1fef1448"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-9b/analysis-cuml-26.06/report.json",
+        "sha256": "46516f8f44f9ad3491c21452ec56cf0c86c967711e0d25fd98e1b831ee91b8ed"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-9b/analysis-cuml-26.06/layer_separability.csv",
+        "sha256": "dd871e01aa73ef3f396a8b83f827397b1e0ae232902f7c031600d7b5db97279a"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-9b/analysis-cuml-26.06/permutation_nulls.json.gz",
+        "sha256": "24996d4b5d44528709b354aa4ad3bd3a671d3dab787cb47c7f3b87be28a69675"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-9b/analysis-cuml-26.06/analysis_manifest.json",
+        "sha256": "61c98da1178d6246a69ce7cec22440873973e5a9c683ac4e0ae9e0756443c05e"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-27b/analysis-cuml-26.06/report.json",
+        "sha256": "1d63b276737334ea92bbf565bf210b6dad62e55358fc3a102edeb6c0127c0614"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-27b/analysis-cuml-26.06/layer_separability.csv",
+        "sha256": "a1807fcbb2c8c25a732f17fa514856b96d9fefa9053a2f0b7a6e678d79f9a3f2"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-27b/analysis-cuml-26.06/permutation_nulls.json.gz",
+        "sha256": "7281b71674be2d576248167017f70300e8c24d94fcb3f682625b9b67c4d07253"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-27b/analysis-cuml-26.06/analysis_manifest.json",
+        "sha256": "a9b09eabb1a411b8c7b2c70ff4246389dd8bb7f9f5eee82b4d237559db961ca3"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/gemma4-31b/analysis-cuml-26.06/report.json",
+        "sha256": "94f605c9a57f295edecc090a31ec7c09775a9b50be1c6257467937c928dabc6c"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/gemma4-31b/analysis-cuml-26.06/layer_separability.csv",
+        "sha256": "e83bd4de28fd0433065ed42d630c47cdcc773ee061b55763128f77a89e382746"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/gemma4-31b/analysis-cuml-26.06/permutation_nulls.json.gz",
+        "sha256": "4e2a9176a84a1ea799aa945a828f87fe7c26e34edf13dae54b8668aa0c161884"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/gemma4-31b/analysis-cuml-26.06/analysis_manifest.json",
+        "sha256": "68dd72f1044d1a6de9c7af52f33f76fbad0ab39318bd90873abab9bd16a0effe"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/run_manifest.json",
+        "sha256": "6cf5c15e65163cb6254c59cf92e005a60055c3684aa383ab93ed35bb4ab1c7db"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/sample_selection.json",
+        "sha256": "f9ef44693435a32f540dee2d20c019619fb5003bd3cea6aaa94c0f80a07c8604"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/validation_report.json",
+        "sha256": "532acf31b01af42c93aff56fb837f21549ecee213f093eccfc87432165ff03e0"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/completed_manifest.json",
+        "sha256": "7325d013413b60c9b883e0ebb7b9a3223dfbe5f10ca31d00cde6747543ee5772"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-apertus15-runtime-v1/run_manifest.json",
+        "sha256": "d1d6f7766bc685125c93d32c0ee5a30cd7dc9df075f02388c3947d6f88d9acf6"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-apertus15-runtime-v1/sample_selection.json",
+        "sha256": "ae4c97a36060e3600d232c0e777851a7e12da54551ba5a326ea42fcba4b4ff50"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-apertus15-runtime-v1/validation_report.json",
+        "sha256": "3d2ba11107837bf0406c9d3b3e031b7cb879f20711d0e1816cb1caed2735ee9b"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-apertus15-runtime-v1/completed_manifest.json",
+        "sha256": "f82d82156d405de4466fd9dcf57b011be40bc2e1861f0040b9a64fc12b998441"
+      }
+    ]
+  },
+  "rows": [
+    {
+      "analysis_failures": 0,
+      "analysis_rows": 96,
+      "fisher_bh_rejections": 90,
+      "fisher_maximum": 0.2212013260196982,
+      "fisher_maximum_p": 0.0721056721056721,
+      "fisher_null_median": 0.09802460126396266,
+      "fisher_null_q95": 0.23868741970401375,
+      "fisher_rejection_count_p": 0.001554001554001554,
+      "knowledge_accuracy": 0.5775,
+      "maximum_layer": 3,
+      "maximum_module": "model.layers.3.post_feedforward_layernorm",
+      "maximum_row_p": 0.0003108003108003108,
+      "maximum_row_q": 0.006451206451206451,
+      "maximum_stream": "mlp_delta",
+      "model": "olmo3-7b-instruct",
+      "reasoning_accuracy": 0.47375,
+      "reference_partition_maximum_p": 0.25081585081585084
+    },
+    {
+      "analysis_failures": 0,
+      "analysis_rows": 96,
+      "fisher_bh_rejections": 95,
+      "fisher_maximum": 0.28424441944290724,
+      "fisher_maximum_p": 0.004351204351204351,
+      "fisher_null_median": 0.0768126452793234,
+      "fisher_null_q95": 0.18023234211330505,
+      "fisher_rejection_count_p": 0.006837606837606838,
+      "knowledge_accuracy": 0.34625,
+      "maximum_layer": 0,
+      "maximum_module": "model.language_model.layers.0.mlp",
+      "maximum_row_p": 0.004195804195804196,
+      "maximum_row_q": 0.004577240940877304,
+      "maximum_stream": "mlp_delta",
+      "model": "apertus15-8b",
+      "reasoning_accuracy": 0.30375,
+      "reference_partition_maximum_p": 0.2041958041958042
+    },
+    {
+      "analysis_failures": 0,
+      "analysis_rows": 96,
+      "fisher_bh_rejections": 95,
+      "fisher_maximum": 0.6164233929638298,
+      "fisher_maximum_p": 0.0010878010878010878,
+      "fisher_null_median": 0.10586829120366673,
+      "fisher_null_q95": 0.30132481329540456,
+      "fisher_rejection_count_p": 0.003108003108003108,
+      "knowledge_accuracy": 0.83875,
+      "maximum_layer": 2,
+      "maximum_module": "model.language_model.layers.2.mlp",
+      "maximum_row_p": 0.0004662004662004662,
+      "maximum_row_q": 0.0028224028224028224,
+      "maximum_stream": "mlp_delta",
+      "model": "qwen3_5-9b",
+      "reasoning_accuracy": 0.705,
+      "reference_partition_maximum_p": 0.16208236208236207
+    },
+    {
+      "analysis_failures": 0,
+      "analysis_rows": 192,
+      "fisher_bh_rejections": 191,
+      "fisher_maximum": 0.6672873838930827,
+      "fisher_maximum_p": 0.000777000777000777,
+      "fisher_null_median": 0.10558678604393816,
+      "fisher_null_q95": 0.29259151210742895,
+      "fisher_rejection_count_p": 0.0012432012432012432,
+      "knowledge_accuracy": 0.90125,
+      "maximum_layer": 1,
+      "maximum_module": "model.language_model.layers.1.linear_attn",
+      "maximum_row_p": 0.0003108003108003108,
+      "maximum_row_q": 0.0037724727379899793,
+      "maximum_stream": "attention_delta",
+      "model": "qwen3_5-27b",
+      "reasoning_accuracy": 0.81125,
+      "reference_partition_maximum_p": 0.14654234654234655
+    },
+    {
+      "analysis_failures": 0,
+      "analysis_rows": 180,
+      "fisher_bh_rejections": 150,
+      "fisher_maximum": 0.498896987588833,
+      "fisher_maximum_p": 0.014452214452214453,
+      "fisher_null_median": 0.14337075704326696,
+      "fisher_null_q95": 0.3791392651881519,
+      "fisher_rejection_count_p": 0.008236208236208237,
+      "knowledge_accuracy": 0.8462500000000001,
+      "maximum_layer": 23,
+      "maximum_module": "model.language_model.layers.23.post_feedforward_layernorm",
+      "maximum_row_p": 0.0021756021756021756,
+      "maximum_row_q": 0.0165468334482419,
+      "maximum_stream": "mlp_delta",
+      "model": "gemma4-31b",
+      "reasoning_accuracy": 0.52,
+      "reference_partition_maximum_p": 0.2693084693084693
+    }
+  ],
+  "sample_selection_tasks_sha256": "9c90768d5114fa525ea704e636e8d07188e0322e97658d5b36718f6b63f03dcb",
+  "schema_version": 1,
+  "status": "PASS_FIVE_MODEL_SELECTION_AWARE_FISHER_COMPLETE"
+}

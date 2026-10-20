@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this code or the released artifacts, please cite the paper."
+title: "Do Knowledge- and Reasoning-Oriented Benchmarks Induce Stable Representation Signatures in LLMs?"
+type: software
+authors:
+  - family-names: "Rahimi Noshanagh"
+    given-names: "Parsa"
+    affiliation: "EPFL and Idiap Research Institute"
+  - family-names: "Dehghani Amirabad"
+    given-names: "Azim"
+license: MIT
+url: "https://parsa-ra.github.io/lmbehave/"
+repository-code: "https://github.com/parsa-ra/lmbehave"
+preferred-citation:
+  type: conference-paper
+  title: "Do Knowledge- and Reasoning-Oriented Benchmarks Induce Stable Representation Signatures in LLMs?"
+  authors:
+    - family-names: "Rahimi Noshanagh"
+      given-names: "Parsa"
+    - family-names: "Dehghani Amirabad"
+      given-names: "Azim"
+  collection-title: "NeurIPS 2026 Workshop on Interpretability as a Science"
+  year: 2026
+  url: "https://arxiv.org/abs/2610.24029"
+  doi: "10.48550/arXiv.2610.24029"

@@ -1,0 +1,27 @@
+dataset_path: hails/mmlu_no_train
+dataset_kwargs:
+  revision: b2e1ec9aa795adafe68e8e983248dbd4b52a1c60
+test_split: test
+output_type: generate_until
+doc_to_text: "Answer the following multiple-choice question. Begin with exactly `Final answer: X`, replacing X with one of A, B, C, or D even if uncertain. Then give exactly two short explanatory sentences totaling at most 60 words. Do not use lists or displayed equations.\n{{question.strip()}}\nA. {{choices[0]}}\nB. {{choices[1]}}\nC. {{choices[2]}}\nD. {{choices[3]}}\nResponse:"
+doc_to_target: "{{['A', 'B', 'C', 'D'][answer]}}"
+generation_kwargs:
+  max_new_tokens: 256
+  temperature: 0.0
+  do_sample: false
+  until: []
+filter_list:
+  - name: final_answer
+    filter:
+      - function: regex
+        regex_pattern: "\\b[Ff]inal answer\\s*:?\\s*([A-Da-d])\\b"
+        group_select: -1
+      - function: take_first
+metric_list:
+  - metric: exact_match
+    aggregation: mean
+    higher_is_better: true
+    ignore_case: true
+    ignore_punctuation: true
+metadata:
+  version: 1.0

@@ -1,0 +1,240 @@
+{
+  "schema_version": 1,
+  "experiment_id": "representation-dynamics-v1-common-support",
+  "objective": "Test within-model linear and nonlinear separability of pooled decoder dynamics between knowledge-heavy and capability-first benchmark families.",
+  "sampling_rule": "Use 100 examples per task, the largest common count supported by every pinned matched-MMLU test split; abstract_algebra and college_mathematics each contain exactly 100 test examples.",
+  "decision_rule": "Treat cross-benchmark separation as construct-relevant only if its direction and depth profile replicate in the matched text-only control; never interpret passive separation as causal importance.",
+  "datasets": {
+    "matched_text_mmlu_control": {
+      "path": "hails/mmlu_no_train",
+      "revision": "b2e1ec9aa795adafe68e8e983248dbd4b52a1c60"
+    }
+  },
+  "models": {
+    "gemma3-4b": {
+      "lmms_model": "gemma3",
+      "pretrained": "google/gemma-3-4b-it",
+      "revision": "093f9f388b31de276ce2de164bdc2081324b9767",
+      "model_args": {},
+      "batch_size": 100
+    },
+    "qwen3_5-9b": {
+      "lmms_model": "qwen3_5",
+      "pretrained": "Qwen/Qwen3.5-9B",
+      "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+      "model_args": {
+        "enable_thinking": false
+      },
+      "batch_size": 20
+    },
+    "gemma3-12b": {
+      "lmms_model": "gemma3",
+      "pretrained": "google/gemma-3-12b-it",
+      "revision": "96b6f1eccf38110c56df3a15bffe176da04bfd80",
+      "model_args": {},
+      "batch_size": 16
+    },
+    "gemma3-27b": {
+      "lmms_model": "gemma3",
+      "pretrained": "google/gemma-3-27b-it",
+      "revision": "005ad3404e59d6023443cb575daa05336842228a",
+      "model_args": {},
+      "batch_size": 8
+    },
+    "qwen3_5-27b": {
+      "lmms_model": "qwen3_5",
+      "pretrained": "Qwen/Qwen3.5-27B",
+      "revision": "fc05daec18b0a78c049392ed2e771dde82bdf654",
+      "model_args": {
+        "enable_thinking": false
+      },
+      "batch_size": 8
+    },
+    "gemma4-31b": {
+      "lmms_model": "gemma4",
+      "pretrained": "google/gemma-4-31B-it",
+      "revision": "842da3794eaa0b77d5f08bae87a17459d91ff475",
+      "model_args": {
+        "gpu_memory_limit_gib": 76
+      },
+      "batch_size": 2
+    }
+  },
+  "extraction": {
+    "sample_count_per_task": 100,
+    "seed": 0,
+    "pooling": "last_valid",
+    "phases": "prefill",
+    "storage_dtype": "float32"
+  },
+  "analysis": {
+    "cv_folds": 5,
+    "linear_task_label_permutations": 251,
+    "nonlinear_task_label_permutations": 0,
+    "pca_retained_variance": 0.95,
+    "silhouette_max_samples": 5000,
+    "seed": 0
+  },
+  "panels": {
+    "cross_benchmark_discovery": {
+      "role": "Exploratory stress test across deliberately heterogeneous benchmark families.",
+      "claim_limit": "Can establish separability of these named task sets only; modality, domain, response format, difficulty, and prompt length are expected confounds.",
+      "use_task_generation_kwargs": true,
+      "max_new_tokens": 2048,
+      "knowledge_tasks": [
+        {
+          "task": "ok_vqa_val2014_lite",
+          "modality": "vision_text",
+          "domain": "open_domain_visual_knowledge",
+          "response_format": "short_answer",
+          "rationale": "Questions require information beyond direct image recognition."
+        },
+        {
+          "task": "repdyn_medqa",
+          "modality": "text",
+          "domain": "medicine",
+          "response_format": "concise_multiple_choice",
+          "rationale": "Specialized medical knowledge is necessary for most items."
+        },
+        {
+          "task": "repdyn_mmmu_val",
+          "modality": "mixed_vision_text",
+          "domain": "multidiscipline",
+          "response_format": "concise_mixed",
+          "rationale": "Expert-domain questions combine knowledge and reasoning; this is a known mixed-construct task."
+        },
+        {
+          "task": "ai2d_lite",
+          "modality": "vision_text",
+          "domain": "science_diagrams",
+          "response_format": "multiple_choice_generation",
+          "rationale": "Diagram interpretation is combined with elementary science knowledge."
+        },
+        {
+          "task": "repdyn_gpqa_main",
+          "modality": "text",
+          "domain": "graduate_science",
+          "response_format": "concise_multiple_choice",
+          "rationale": "Specialized scientific knowledge is required, while substantial reasoning remains a known confound; the study adapter requests a direct answer rather than chain of thought."
+        }
+      ],
+      "reasoning_tasks": [
+        {
+          "task": "pope_random",
+          "modality": "vision_text",
+          "domain": "object_hallucination",
+          "response_format": "binary",
+          "rationale": "Tests grounded visual discrimination with minimal external knowledge."
+        },
+        {
+          "task": "mme",
+          "modality": "vision_text",
+          "domain": "perception_and_cognition",
+          "response_format": "binary",
+          "rationale": "Broad capability benchmark; its cognition subset is a known mixed construct."
+        },
+        {
+          "task": "textvqa_val_lite",
+          "modality": "vision_text",
+          "domain": "scene_text",
+          "response_format": "short_answer",
+          "rationale": "Primarily tests OCR and grounded answer production."
+        },
+        {
+          "task": "ocrbench_v2",
+          "modality": "vision_text",
+          "domain": "ocr",
+          "response_format": "short_answer",
+          "rationale": "Primarily tests visual text extraction and transformation."
+        },
+        {
+          "task": "docvqa_val_lite",
+          "modality": "vision_text",
+          "domain": "document_understanding",
+          "response_format": "short_answer",
+          "rationale": "Tests document perception and localized reasoning with limited external knowledge."
+        }
+      ]
+    },
+    "matched_text_mmlu_control": {
+      "role": "Text-only control matched on dataset family, prompt template, multiple-choice answer format, and generation path.",
+      "claim_limit": "Subject labels are imperfect proxies for knowledge demand versus formal reasoning; conclusions require item-level annotation or intervention.",
+      "use_task_generation_kwargs": true,
+      "max_new_tokens": 4,
+      "knowledge_tasks": [
+        {
+          "task": "repdyn_mmlu_anatomy",
+          "modality": "text",
+          "domain": "anatomy",
+          "response_format": "concise_multiple_choice",
+          "rationale": "Predominantly factual biomedical recall."
+        },
+        {
+          "task": "repdyn_mmlu_clinical_knowledge",
+          "modality": "text",
+          "domain": "clinical_medicine",
+          "response_format": "concise_multiple_choice",
+          "rationale": "Predominantly specialized clinical knowledge."
+        },
+        {
+          "task": "repdyn_mmlu_high_school_world_history",
+          "modality": "text",
+          "domain": "history",
+          "response_format": "concise_multiple_choice",
+          "rationale": "Predominantly factual historical knowledge."
+        },
+        {
+          "task": "repdyn_mmlu_professional_law",
+          "modality": "text",
+          "domain": "law",
+          "response_format": "concise_multiple_choice",
+          "rationale": "Requires specialized legal knowledge; reasoning demand is a known residual confound."
+        },
+        {
+          "task": "repdyn_mmlu_astronomy",
+          "modality": "text",
+          "domain": "astronomy",
+          "response_format": "concise_multiple_choice",
+          "rationale": "Predominantly scientific knowledge with limited calculation."
+        }
+      ],
+      "reasoning_tasks": [
+        {
+          "task": "repdyn_mmlu_abstract_algebra",
+          "modality": "text",
+          "domain": "mathematics",
+          "response_format": "concise_multiple_choice",
+          "rationale": "Requires symbolic and structural mathematical reasoning."
+        },
+        {
+          "task": "repdyn_mmlu_formal_logic",
+          "modality": "text",
+          "domain": "logic",
+          "response_format": "concise_multiple_choice",
+          "rationale": "Requires formal inference over symbolic statements."
+        },
+        {
+          "task": "repdyn_mmlu_high_school_mathematics",
+          "modality": "text",
+          "domain": "mathematics",
+          "response_format": "concise_multiple_choice",
+          "rationale": "Requires multi-step calculation and problem solving."
+        },
+        {
+          "task": "repdyn_mmlu_college_mathematics",
+          "modality": "text",
+          "domain": "mathematics",
+          "response_format": "concise_multiple_choice",
+          "rationale": "Requires advanced mathematical reasoning."
+        },
+        {
+          "task": "repdyn_mmlu_logical_fallacies",
+          "modality": "text",
+          "domain": "argumentation",
+          "response_format": "concise_multiple_choice",
+          "rationale": "Requires identifying reasoning structure and invalid inference."
+        }
+      ]
+    }
+  }
+}

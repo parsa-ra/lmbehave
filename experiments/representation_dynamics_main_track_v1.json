@@ -1,0 +1,159 @@
+{
+  "schema_version": 1,
+  "experiment_id": "representation-dynamics-main-track-v1",
+  "status": "frozen_runnable_primary_analysis_selected_site_probe_pending",
+  "objective": "Test whether a predeclared knowledge-oriented versus reasoning-oriented MMLU partition produces stronger layerwise separation than arbitrary balanced partitions of the same task suite.",
+  "require_frozen_sample_ids": true,
+  "sampling_rule": "Select 100 test examples per subject with seed 0 and freeze document IDs before loading any model.",
+  "decision_rule": "The primary result is the exact task-randomization p-value of the maximum Fisher trace ratio over all declared layers and streams. Row-wise probe screens and rejection counts are secondary. General knowledge-versus-reasoning claims require independent task and intervention replication.",
+  "datasets": {
+    "mmlu_no_train": {
+      "path": "hails/mmlu_no_train",
+      "revision": "b2e1ec9aa795adafe68e8e983248dbd4b52a1c60"
+    }
+  },
+  "models": {
+    "olmo3-7b-instruct": {
+      "lmms_model": "hf_causal",
+      "pretrained": "allenai/Olmo-3-7B-Instruct",
+      "revision": "6e5971d9eba42665f5bd5a0fcf047f299ce1dccc",
+      "model_args": {"apply_chat_template": true},
+      "batch_size": 32
+    },
+    "apertus15-8b": {
+      "lmms_model": "apertus1p5",
+      "pretrained": "swiss-ai/Apertus-v1.5-8B",
+      "revision": "a411d838600baf0e3635a3daf66fb7c55fc97bb6",
+      "model_args": {"enable_thinking": false, "use_cache": true},
+      "batch_size": 24,
+      "runtime_condition": "Use the validated Transformers Python xIELU fallback unless a new observer-parity check approves another kernel path."
+    },
+    "qwen3_5-9b": {
+      "lmms_model": "qwen3_5",
+      "pretrained": "Qwen/Qwen3.5-9B",
+      "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+      "model_args": {"enable_thinking": false},
+      "batch_size": 20
+    },
+    "qwen3_5-27b": {
+      "lmms_model": "qwen3_5",
+      "pretrained": "Qwen/Qwen3.5-27B",
+      "revision": "fc05daec18b0a78c049392ed2e771dde82bdf654",
+      "model_args": {"enable_thinking": false},
+      "batch_size": 8
+    },
+    "gemma4-31b": {
+      "lmms_model": "gemma4",
+      "pretrained": "google/gemma-4-31B-it",
+      "revision": "842da3794eaa0b77d5f08bae87a17459d91ff475",
+      "model_args": {},
+      "batch_size": 2
+    }
+  },
+  "extraction": {
+    "sample_count_per_task": 100,
+    "seed": 0,
+    "pooling": "last_valid",
+    "phases": "prefill",
+    "storage_dtype": "float32"
+  },
+  "analysis": {
+    "cv_folds": 5,
+    "linear_task_label_permutations": 0,
+    "fdr_task_label_permutations": 12869,
+    "nonlinear_task_label_permutations": 0,
+    "pca_retained_variance": 0.95,
+    "silhouette_max_samples": 5000,
+    "seed": 0,
+    "computational_note": "The exhaustive primary Fisher null is separated from row-wise probe refits. A selection-aware probe at the Fisher-selected site is a second analysis and is not yet implemented by the general runner."
+  },
+  "panels": {
+    "matched_mmlu_8x8_confirmatory": {
+      "role": "Confirmatory within-dataset comparison with one prompt, answer space, parser, generation budget, and text-only model path.",
+      "claim_limit": "Subject labels are comparative proxies. Several physics and medical items require both acquired facts and inference; the complete arbitrary-partition null tests only whether this chosen split is unusual among these subjects.",
+      "use_task_generation_kwargs": true,
+      "max_new_tokens": 4,
+      "reference_positive_tasks": [
+        "repdyn_mmlu_abstract_algebra",
+        "repdyn_mmlu_anatomy",
+        "repdyn_mmlu_astronomy",
+        "repdyn_mmlu_clinical_knowledge",
+        "repdyn_mmlu_college_mathematics",
+        "repdyn_mmlu_college_physics",
+        "repdyn_mmlu_conceptual_physics",
+        "repdyn_mmlu_formal_logic"
+      ],
+      "knowledge_tasks": [
+        {"task": "repdyn_mmlu_anatomy", "modality": "text", "domain": "anatomy", "response_format": "concise_multiple_choice", "rationale": "Items place comparatively high demand on recalled anatomical facts."},
+        {"task": "repdyn_mmlu_astronomy", "modality": "text", "domain": "astronomy", "response_format": "concise_multiple_choice", "rationale": "Items place comparatively high demand on acquired astronomy knowledge, while quantitative inference remains possible."},
+        {"task": "repdyn_mmlu_clinical_knowledge", "modality": "text", "domain": "clinical_knowledge", "response_format": "concise_multiple_choice", "rationale": "Items require specialized clinical knowledge, with diagnostic reasoning retained as a known mixture."},
+        {"task": "repdyn_mmlu_high_school_world_history", "modality": "text", "domain": "world_history", "response_format": "concise_multiple_choice", "rationale": "Items place comparatively high demand on recalled historical facts and relations."},
+        {"task": "repdyn_mmlu_professional_law", "modality": "text", "domain": "law", "response_format": "concise_multiple_choice", "rationale": "Items require specialized legal knowledge, with case analysis retained as a known mixture."},
+        {"task": "repdyn_mmlu_high_school_biology", "modality": "text", "domain": "biology", "response_format": "concise_multiple_choice", "rationale": "Items place comparatively high demand on acquired biological knowledge."},
+        {"task": "repdyn_mmlu_medical_genetics", "modality": "text", "domain": "medical_genetics", "response_format": "concise_multiple_choice", "rationale": "Items require specialized genetics knowledge, while inheritance calculations remain a known mixture."},
+        {"task": "repdyn_mmlu_prehistory", "modality": "text", "domain": "prehistory", "response_format": "concise_multiple_choice", "rationale": "Items place comparatively high demand on recalled archaeological and historical knowledge."}
+      ],
+      "reasoning_tasks": [
+        {"task": "repdyn_mmlu_abstract_algebra", "modality": "text", "domain": "abstract_algebra", "response_format": "concise_multiple_choice", "rationale": "Items emphasize formal symbolic manipulation and mathematical inference."},
+        {"task": "repdyn_mmlu_college_mathematics", "modality": "text", "domain": "mathematics", "response_format": "concise_multiple_choice", "rationale": "Items emphasize mathematical derivation and calculation."},
+        {"task": "repdyn_mmlu_formal_logic", "modality": "text", "domain": "formal_logic", "response_format": "concise_multiple_choice", "rationale": "Items emphasize rule-based validity and logical inference."},
+        {"task": "repdyn_mmlu_high_school_mathematics", "modality": "text", "domain": "mathematics", "response_format": "concise_multiple_choice", "rationale": "Items emphasize mathematical calculation and derivation."},
+        {"task": "repdyn_mmlu_logical_fallacies", "modality": "text", "domain": "argument_analysis", "response_format": "concise_multiple_choice", "rationale": "Items emphasize discrimination of argument structure, while terminology knowledge remains a mixture."},
+        {"task": "repdyn_mmlu_college_physics", "modality": "text", "domain": "physics", "response_format": "concise_multiple_choice", "rationale": "Items comparatively emphasize applying equations and multi-step physical inference; fact recall remains a mixture."},
+        {"task": "repdyn_mmlu_conceptual_physics", "modality": "text", "domain": "physics", "response_format": "concise_multiple_choice", "rationale": "Items comparatively emphasize qualitative physical inference; domain knowledge remains a mixture."},
+        {"task": "repdyn_mmlu_high_school_statistics", "modality": "text", "domain": "statistics", "response_format": "concise_multiple_choice", "rationale": "Items emphasize quantitative reasoning and interpretation of statistical relations."}
+      ]
+    }
+  },
+  "confirmatory_inference": {
+    "inferential_unit": "whole MMLU subject",
+    "oriented_balanced_assignments": 12870,
+    "complementary_equivalence_classes": 6435,
+    "minimum_class_symmetric_p": 0.0001554001554001554,
+    "primary_statistic": "Maximum PCA-space Fisher trace ratio over every declared layer and stream.",
+    "primary_null": "For every balanced subject partition, recompute every row's Fisher ratio and the maximum over rows.",
+    "secondary_statistic": "Task-held-out linear-probe macro-F1 at the Fisher-selected row.",
+    "secondary_status": "pending_optimized_selection_aware_implementation",
+    "screening": "Row-wise Fisher and probe p/q curves are secondary. Rejection counts must be compared with their assignment-wise null and remain appendix results.",
+    "negative_control": {
+      "role": "Illustrative arbitrary partition; the complete balanced-partition distribution is the inferential control.",
+      "construction": "Sort the 16 task identifiers lexicographically and assign the first eight to A.",
+      "group_a": [
+        "repdyn_mmlu_abstract_algebra",
+        "repdyn_mmlu_anatomy",
+        "repdyn_mmlu_astronomy",
+        "repdyn_mmlu_clinical_knowledge",
+        "repdyn_mmlu_college_mathematics",
+        "repdyn_mmlu_college_physics",
+        "repdyn_mmlu_conceptual_physics",
+        "repdyn_mmlu_formal_logic"
+      ],
+      "group_b": [
+        "repdyn_mmlu_high_school_biology",
+        "repdyn_mmlu_high_school_mathematics",
+        "repdyn_mmlu_high_school_statistics",
+        "repdyn_mmlu_high_school_world_history",
+        "repdyn_mmlu_logical_fallacies",
+        "repdyn_mmlu_medical_genetics",
+        "repdyn_mmlu_prehistory",
+        "repdyn_mmlu_professional_law"
+      ]
+    },
+    "alpha": 0.01
+  },
+  "trajectory_sensitivity": {
+    "manifest": "experiments/representation_dynamics_pooling_sensitivity_v1.json",
+    "scope": "Begin with OLMo 3 7B and Qwen 3.5 9B; expand only after observer parity, response-step coverage, and storage checks pass.",
+    "primary_prefix": "Absolute generated-token steps with at least 95 percent sample coverage in every task.",
+    "selection_correction": "Recompute the maximum over layer, stream, and included response step for every task partition.",
+    "interpretation_limit": "Absolute token positions are response trajectories, not semantic reasoning steps. Later positions are conditioned on response survival and therefore require explicit coverage reporting."
+  },
+  "promotion_gates": [
+    "All 16 tasks resolve through the identical project-local template and pass the logged-prompt audit.",
+    "Document IDs are frozen before loading a model and are identical across models.",
+    "Tracker-off/on responses, scores, token counts, and logits match on a broader calibration sample.",
+    "Fisher complement symmetry passes at every row and for the model-level maximum.",
+    "The selected-site probe is implemented with Fisher selection repeated for every task assignment before it is reported.",
+    "Correctness-conditioned and prompt-surface-adjusted sensitivity analyses are reported without changing the primary task set."
+  ]
+}

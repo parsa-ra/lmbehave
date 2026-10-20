@@ -1,0 +1,373 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-08-13T12:28:10.216055+00:00",
+  "status": "corrected_current_model_matched_panel",
+  "models": [
+    "olmo3-7b-instruct",
+    "apertus15-8b",
+    "qwen3_5-9b",
+    "qwen3_5-27b",
+    "gemma4-31b"
+  ],
+  "inferential_unit": "whole benchmark task",
+  "feature": "scalar prompt token count",
+  "claim_limit": "This post-hoc scalar diagnostic tests only linear predictability from prompt token count. It neither removes prompt-surface confounding nor identifies a mechanism.",
+  "manifest": "/home/ubuntu/vlmbehave/experiments/representation_dynamics_text_expansion_v1.json",
+  "manifest_sha256": "279cd15ce8008c6e5acb80bcb47debdb58753d9183fd4ba12aaa2a8169a15e0d",
+  "sources": [
+    {
+      "model": "olmo3-7b-instruct",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/olmo3-7b-instruct/tasks/knowledge-repdyn_mmlu_pro_biology/representations/representation_dynamics_hf_causal_20260803_054409/representations.pt",
+      "artifact_sha256": "4760ef2e6c7e4a97d0c77e614be2dd944c42e5f5945f5aa341459383ad0da314",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/olmo3-7b-instruct/tasks/knowledge-repdyn_mmlu_pro_biology/representations/representation_dynamics_hf_causal_20260803_054409/records.csv",
+      "records_sha256": "f1ca3279d79816a505262b32f8713c55ea3094ced40591cd8f7dcf9c4e23c7ab"
+    },
+    {
+      "model": "olmo3-7b-instruct",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/olmo3-7b-instruct/tasks/knowledge-repdyn_mmlu_pro_economics/representations/representation_dynamics_hf_causal_20260803_054506/representations.pt",
+      "artifact_sha256": "409197f5297942e5c15ca98ae10357dc35c8a2dc5b8d90b8752f8d344ed66b07",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/olmo3-7b-instruct/tasks/knowledge-repdyn_mmlu_pro_economics/representations/representation_dynamics_hf_causal_20260803_054506/records.csv",
+      "records_sha256": "439b852e5a6ff8c9f0cb29ec05762fde56fd7e3ab8e9ca83e5c2c693552d4b95"
+    },
+    {
+      "model": "olmo3-7b-instruct",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/olmo3-7b-instruct/tasks/knowledge-repdyn_mmlu_pro_health/representations/representation_dynamics_hf_causal_20260803_054423/representations.pt",
+      "artifact_sha256": "e4997da5653fb11cc1f40f6f51c6dbd7740b72e52f121eb6450c9bd950fabc34",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/olmo3-7b-instruct/tasks/knowledge-repdyn_mmlu_pro_health/representations/representation_dynamics_hf_causal_20260803_054423/records.csv",
+      "records_sha256": "4cfcfe6052b21322b52b7a433faa5bc9d04588e7f78ad96cf7bffe985919fd2f"
+    },
+    {
+      "model": "olmo3-7b-instruct",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/olmo3-7b-instruct/tasks/knowledge-repdyn_mmlu_pro_history/representations/representation_dynamics_hf_causal_20260803_054437/representations.pt",
+      "artifact_sha256": "c828d8d283a91641ecb6f1decbb3685a95c5371ac63353a4ed6df1228bdfd6fc",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/olmo3-7b-instruct/tasks/knowledge-repdyn_mmlu_pro_history/representations/representation_dynamics_hf_causal_20260803_054437/records.csv",
+      "records_sha256": "1f4a439ac47065d19055fdffcf44397678e015c8e7d34e2c2535ad0d2259fa72"
+    },
+    {
+      "model": "olmo3-7b-instruct",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/olmo3-7b-instruct/tasks/knowledge-repdyn_mmlu_pro_law/representations/representation_dynamics_hf_causal_20260803_054451/representations.pt",
+      "artifact_sha256": "45bcf60bd8bc2b9ac92424592ecaa674d356961f98443ec0c13620cce85c79e2",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/olmo3-7b-instruct/tasks/knowledge-repdyn_mmlu_pro_law/representations/representation_dynamics_hf_causal_20260803_054451/records.csv",
+      "records_sha256": "034e74367ce1147d77702ad6f16615052dc14822e8792210e0f69fcfda09e6d1"
+    },
+    {
+      "model": "olmo3-7b-instruct",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/olmo3-7b-instruct/tasks/reasoning-repdyn_mmlu_pro_computer_science/representations/representation_dynamics_hf_causal_20260803_054548/representations.pt",
+      "artifact_sha256": "05b3f6242f5de5a047b592db38d30a80a3e94783edea98a16a3bba5a86ab5f26",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/olmo3-7b-instruct/tasks/reasoning-repdyn_mmlu_pro_computer_science/representations/representation_dynamics_hf_causal_20260803_054548/records.csv",
+      "records_sha256": "d2a4e104d34e2c3286e9446111df84f9f0c788c520ab8d134a5e1af40a7f5cd4"
+    },
+    {
+      "model": "olmo3-7b-instruct",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/olmo3-7b-instruct/tasks/reasoning-repdyn_mmlu_pro_engineering/representations/representation_dynamics_hf_causal_20260803_054603/representations.pt",
+      "artifact_sha256": "cf7dc6f6ced6c3917683209536f522ebce10e919f519e9a1ddfa67c53464dbbd",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/olmo3-7b-instruct/tasks/reasoning-repdyn_mmlu_pro_engineering/representations/representation_dynamics_hf_causal_20260803_054603/records.csv",
+      "records_sha256": "1853544634e0149611f0fe1ba4bfab5c662a7d3664f9040ce254f01ad854ba03"
+    },
+    {
+      "model": "olmo3-7b-instruct",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/olmo3-7b-instruct/tasks/reasoning-repdyn_mmlu_pro_math/representations/representation_dynamics_hf_causal_20260803_054519/representations.pt",
+      "artifact_sha256": "9f0de194227a067b9a56cee9fd340ae3624052e18ae877d72929536363c13460",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/olmo3-7b-instruct/tasks/reasoning-repdyn_mmlu_pro_math/representations/representation_dynamics_hf_causal_20260803_054519/records.csv",
+      "records_sha256": "0729012eae89a3acdb5ea054339bc22139098e28f485c04ec224abf836d07809"
+    },
+    {
+      "model": "olmo3-7b-instruct",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/olmo3-7b-instruct/tasks/reasoning-repdyn_mmlu_pro_philosophy/representations/representation_dynamics_hf_causal_20260803_054618/representations.pt",
+      "artifact_sha256": "b16141f75239dd6508a9e82bcf099d6e4593f883c6a8ed5844291b633b9ece0b",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/olmo3-7b-instruct/tasks/reasoning-repdyn_mmlu_pro_philosophy/representations/representation_dynamics_hf_causal_20260803_054618/records.csv",
+      "records_sha256": "8d48b21c0b8af64abdc0b0593fe34410d4c09a380628c19f09d6c35d0d09f20b"
+    },
+    {
+      "model": "olmo3-7b-instruct",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/olmo3-7b-instruct/tasks/reasoning-repdyn_mmlu_pro_physics/representations/representation_dynamics_hf_causal_20260803_054534/representations.pt",
+      "artifact_sha256": "020fefa5baef5ece7baeda2db30946e61c218e2131cfad718f26a94dd69acbf3",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/olmo3-7b-instruct/tasks/reasoning-repdyn_mmlu_pro_physics/representations/representation_dynamics_hf_causal_20260803_054534/records.csv",
+      "records_sha256": "923afbcf865c700a9fd4ccbd32ccd474f7b0ddf057c9b8fb8ffd8c66c18b9454"
+    },
+    {
+      "model": "apertus15-8b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/apertus15-current-panel-v1/matched_text_mmlu_pro_control/apertus15-8b/tasks/knowledge-repdyn_mmlu_pro_biology/representations/representation_dynamics_apertus1p5_20260811_070325/representations.pt",
+      "artifact_sha256": "89738ec40168eea06f681a6d5dd16698be0cfa2fe1fd9d111b812793d38303e9",
+      "records": "/home/ubuntu/vlmbehave/logs/apertus15-current-panel-v1/matched_text_mmlu_pro_control/apertus15-8b/tasks/knowledge-repdyn_mmlu_pro_biology/representations/representation_dynamics_apertus1p5_20260811_070325/records.csv",
+      "records_sha256": "d6d99dbf20bf60e5fa4119debf5e072dfe00f688e4969ed4f6b7c078cfc9d644"
+    },
+    {
+      "model": "apertus15-8b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/apertus15-current-panel-v1/matched_text_mmlu_pro_control/apertus15-8b/tasks/knowledge-repdyn_mmlu_pro_economics/representations/representation_dynamics_apertus1p5_20260811_070505/representations.pt",
+      "artifact_sha256": "f43805b1a3333eb09969dd93a62419cb179a35458fc81cf6f7f7155a334b141e",
+      "records": "/home/ubuntu/vlmbehave/logs/apertus15-current-panel-v1/matched_text_mmlu_pro_control/apertus15-8b/tasks/knowledge-repdyn_mmlu_pro_economics/representations/representation_dynamics_apertus1p5_20260811_070505/records.csv",
+      "records_sha256": "e48950ee7da3436eafe38724017032bc002d972419c59a0fd2c4f1de5b5fa64d"
+    },
+    {
+      "model": "apertus15-8b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/apertus15-current-panel-v1/matched_text_mmlu_pro_control/apertus15-8b/tasks/knowledge-repdyn_mmlu_pro_health/representations/representation_dynamics_apertus1p5_20260811_070350/representations.pt",
+      "artifact_sha256": "d74e1a77cf2c7490964a5253f83cc0304136dd4e190237ccb34306d95d5c201b",
+      "records": "/home/ubuntu/vlmbehave/logs/apertus15-current-panel-v1/matched_text_mmlu_pro_control/apertus15-8b/tasks/knowledge-repdyn_mmlu_pro_health/representations/representation_dynamics_apertus1p5_20260811_070350/records.csv",
+      "records_sha256": "14a85c5c99da8991f8e707f19583459c8d71325b1e295771a71df87bca995c11"
+    },
+    {
+      "model": "apertus15-8b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/apertus15-current-panel-v1/matched_text_mmlu_pro_control/apertus15-8b/tasks/knowledge-repdyn_mmlu_pro_history/representations/representation_dynamics_apertus1p5_20260811_070414/representations.pt",
+      "artifact_sha256": "da39438cf458e060072845c8da272aa4af7b78912ca3470ca2360cc8275d174f",
+      "records": "/home/ubuntu/vlmbehave/logs/apertus15-current-panel-v1/matched_text_mmlu_pro_control/apertus15-8b/tasks/knowledge-repdyn_mmlu_pro_history/representations/representation_dynamics_apertus1p5_20260811_070414/records.csv",
+      "records_sha256": "0ad5fab79e318390fb306630528cb6108771724d7b5eb16bcfcdfc831e2196b6"
+    },
+    {
+      "model": "apertus15-8b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/apertus15-current-panel-v1/matched_text_mmlu_pro_control/apertus15-8b/tasks/knowledge-repdyn_mmlu_pro_law/representations/representation_dynamics_apertus1p5_20260811_070439/representations.pt",
+      "artifact_sha256": "533f00b30b5970c7ebc540eac21f623223af0fb11639828add85f97f9b84280c",
+      "records": "/home/ubuntu/vlmbehave/logs/apertus15-current-panel-v1/matched_text_mmlu_pro_control/apertus15-8b/tasks/knowledge-repdyn_mmlu_pro_law/representations/representation_dynamics_apertus1p5_20260811_070439/records.csv",
+      "records_sha256": "0f82789688cb4a7bb7e3622d0543e11e2c87e340074396e50ffc752c58d89bac"
+    },
+    {
+      "model": "apertus15-8b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/apertus15-current-panel-v1/matched_text_mmlu_pro_control/apertus15-8b/tasks/reasoning-repdyn_mmlu_pro_computer_science/representations/representation_dynamics_apertus1p5_20260811_070618/representations.pt",
+      "artifact_sha256": "e260ecbb8e148894d99ce43c354dcc1c5e6f4b2938c15512cdf81012a39be60b",
+      "records": "/home/ubuntu/vlmbehave/logs/apertus15-current-panel-v1/matched_text_mmlu_pro_control/apertus15-8b/tasks/reasoning-repdyn_mmlu_pro_computer_science/representations/representation_dynamics_apertus1p5_20260811_070618/records.csv",
+      "records_sha256": "af700844f168cd2d11233ee25725607d082bc14eabcc4a17b2c1ad8f5dbd8230"
+    },
+    {
+      "model": "apertus15-8b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/apertus15-current-panel-v1/matched_text_mmlu_pro_control/apertus15-8b/tasks/reasoning-repdyn_mmlu_pro_engineering/representations/representation_dynamics_apertus1p5_20260811_070644/representations.pt",
+      "artifact_sha256": "0b3ae70939eb77b7103217bcd2dfcf766ba7e01eaa3318fc16373fa12d88d301",
+      "records": "/home/ubuntu/vlmbehave/logs/apertus15-current-panel-v1/matched_text_mmlu_pro_control/apertus15-8b/tasks/reasoning-repdyn_mmlu_pro_engineering/representations/representation_dynamics_apertus1p5_20260811_070644/records.csv",
+      "records_sha256": "59f0b0c6bee7fc09813224626d6306578fcdfe53d008ca3735be1e8ba8b6bc0f"
+    },
+    {
+      "model": "apertus15-8b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/apertus15-current-panel-v1/matched_text_mmlu_pro_control/apertus15-8b/tasks/reasoning-repdyn_mmlu_pro_math/representations/representation_dynamics_apertus1p5_20260811_070530/representations.pt",
+      "artifact_sha256": "151a1719d2820feaaa8095f7981090d52e797ba5047b3461c281c9752bd4205d",
+      "records": "/home/ubuntu/vlmbehave/logs/apertus15-current-panel-v1/matched_text_mmlu_pro_control/apertus15-8b/tasks/reasoning-repdyn_mmlu_pro_math/representations/representation_dynamics_apertus1p5_20260811_070530/records.csv",
+      "records_sha256": "e185027d12fae6f4397a82c835e2ab0ad32f3153f2b65f0e160d17d0f124acd1"
+    },
+    {
+      "model": "apertus15-8b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/apertus15-current-panel-v1/matched_text_mmlu_pro_control/apertus15-8b/tasks/reasoning-repdyn_mmlu_pro_philosophy/representations/representation_dynamics_apertus1p5_20260811_070709/representations.pt",
+      "artifact_sha256": "911604ab19e555432883869f22a59e9a201710259c08c9d43ebae595ed42ce56",
+      "records": "/home/ubuntu/vlmbehave/logs/apertus15-current-panel-v1/matched_text_mmlu_pro_control/apertus15-8b/tasks/reasoning-repdyn_mmlu_pro_philosophy/representations/representation_dynamics_apertus1p5_20260811_070709/records.csv",
+      "records_sha256": "be4a574d13ebed9d2654d1df98d8b4b6c9ed8694fac0e4e60b05d3db64100ddc"
+    },
+    {
+      "model": "apertus15-8b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/apertus15-current-panel-v1/matched_text_mmlu_pro_control/apertus15-8b/tasks/reasoning-repdyn_mmlu_pro_physics/representations/representation_dynamics_apertus1p5_20260811_070554/representations.pt",
+      "artifact_sha256": "03dc8c47152c3dd6c70aff652d073d2237faec84ebbc30a1c3130f94dd5885d1",
+      "records": "/home/ubuntu/vlmbehave/logs/apertus15-current-panel-v1/matched_text_mmlu_pro_control/apertus15-8b/tasks/reasoning-repdyn_mmlu_pro_physics/representations/representation_dynamics_apertus1p5_20260811_070554/records.csv",
+      "records_sha256": "909840418083f98230c8c55a5cb3232e4a2b890b3e1dbfc193873ed1733ebcfe"
+    },
+    {
+      "model": "qwen3_5-9b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-9b/tasks/knowledge-repdyn_mmlu_pro_biology/representations/representation_dynamics_qwen3_5_20260803_054924/representations.pt",
+      "artifact_sha256": "4251bfe981c896760c935a8c7defcb990e5486f314e212e2e0a1a624a655a812",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-9b/tasks/knowledge-repdyn_mmlu_pro_biology/representations/representation_dynamics_qwen3_5_20260803_054924/records.csv",
+      "records_sha256": "9aee6ee3d2deb7afbf65474678f6f247c8734b6beb9a2286faed0a38ce48eebf"
+    },
+    {
+      "model": "qwen3_5-9b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-9b/tasks/knowledge-repdyn_mmlu_pro_economics/representations/representation_dynamics_qwen3_5_20260803_055042/representations.pt",
+      "artifact_sha256": "8fc2e8dd4034290cb8548acc35f36dd3925dc173bc5e41d8792c6b3e8648dd7e",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-9b/tasks/knowledge-repdyn_mmlu_pro_economics/representations/representation_dynamics_qwen3_5_20260803_055042/records.csv",
+      "records_sha256": "ae7649c4dcd7b3866337068ecc9b148ce9fbdf4282ce896050bfe2479befa12c"
+    },
+    {
+      "model": "qwen3_5-9b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-9b/tasks/knowledge-repdyn_mmlu_pro_health/representations/representation_dynamics_qwen3_5_20260803_054944/representations.pt",
+      "artifact_sha256": "5df56d9d2f8974dace4ac5c425c404a1ce0d63bc042f879074d855d8db00aa60",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-9b/tasks/knowledge-repdyn_mmlu_pro_health/representations/representation_dynamics_qwen3_5_20260803_054944/records.csv",
+      "records_sha256": "bc0b29ccbbea9a1df7f33353134b3ee59f98ab6fdf245d0b1309ffaba257cee2"
+    },
+    {
+      "model": "qwen3_5-9b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-9b/tasks/knowledge-repdyn_mmlu_pro_history/representations/representation_dynamics_qwen3_5_20260803_055002/representations.pt",
+      "artifact_sha256": "0d79b79ac14c4e04629fb8077c5f34a911dadbd6d1817b636704ae199aa2a569",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-9b/tasks/knowledge-repdyn_mmlu_pro_history/representations/representation_dynamics_qwen3_5_20260803_055002/records.csv",
+      "records_sha256": "d5219082b7f5111e818adaaa1fb55d287bb961baefe4c8ea804e19311f721eff"
+    },
+    {
+      "model": "qwen3_5-9b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-9b/tasks/knowledge-repdyn_mmlu_pro_law/representations/representation_dynamics_qwen3_5_20260803_055022/representations.pt",
+      "artifact_sha256": "6a8b8eecfb909c65ae13690d072759bb32edd64e49bb2efa3cb8af0a23964c9d",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-9b/tasks/knowledge-repdyn_mmlu_pro_law/representations/representation_dynamics_qwen3_5_20260803_055022/records.csv",
+      "records_sha256": "b5c5e63ebaae19ca80d7631a1eed4ab31f146449c8845b57ae48ca7464a9261e"
+    },
+    {
+      "model": "qwen3_5-9b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-9b/tasks/reasoning-repdyn_mmlu_pro_computer_science/representations/representation_dynamics_qwen3_5_20260803_055138/representations.pt",
+      "artifact_sha256": "c58df5ea66680187a6ca989b10ae203fe6cc626bfbd943d8d9cb7527fd1c3963",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-9b/tasks/reasoning-repdyn_mmlu_pro_computer_science/representations/representation_dynamics_qwen3_5_20260803_055138/records.csv",
+      "records_sha256": "915f63ee19ea05009796782fdd8f7b0a34970f5bae6d4d363d52356c32e2dc86"
+    },
+    {
+      "model": "qwen3_5-9b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-9b/tasks/reasoning-repdyn_mmlu_pro_engineering/representations/representation_dynamics_qwen3_5_20260803_055158/representations.pt",
+      "artifact_sha256": "834a002c90b28e09ad2faf840681259758dabb207826db0b9901dc22b52b57ec",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-9b/tasks/reasoning-repdyn_mmlu_pro_engineering/representations/representation_dynamics_qwen3_5_20260803_055158/records.csv",
+      "records_sha256": "bd1e8d3ef25b61dab51d3ace2864f5b3fc8873b55082716cd7ac39caa4481509"
+    },
+    {
+      "model": "qwen3_5-9b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-9b/tasks/reasoning-repdyn_mmlu_pro_math/representations/representation_dynamics_qwen3_5_20260803_055101/representations.pt",
+      "artifact_sha256": "e64cd310d38c2bd16296f56d14079f81f96624924d11ea00e5d4e483bd6db587",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-9b/tasks/reasoning-repdyn_mmlu_pro_math/representations/representation_dynamics_qwen3_5_20260803_055101/records.csv",
+      "records_sha256": "26f314c76595f74d28c901c40ae93b6209892eba8bb5507b93ee075e6540c2cb"
+    },
+    {
+      "model": "qwen3_5-9b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-9b/tasks/reasoning-repdyn_mmlu_pro_philosophy/representations/representation_dynamics_qwen3_5_20260803_055218/representations.pt",
+      "artifact_sha256": "f230e30301067b239d1c3718fb1b060c8dd147eb8892b38a3d4b72f1ebc6df3f",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-9b/tasks/reasoning-repdyn_mmlu_pro_philosophy/representations/representation_dynamics_qwen3_5_20260803_055218/records.csv",
+      "records_sha256": "c1d1960088f64c0cdec61c476ffa493aa0c01d9d64b51f611ddedd5d71e39bab"
+    },
+    {
+      "model": "qwen3_5-9b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-9b/tasks/reasoning-repdyn_mmlu_pro_physics/representations/representation_dynamics_qwen3_5_20260803_055119/representations.pt",
+      "artifact_sha256": "8194bb11a3256ad1eb862d0b2ef0bd419207786203eca77c2b9c95e8bf407aaf",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-9b/tasks/reasoning-repdyn_mmlu_pro_physics/representations/representation_dynamics_qwen3_5_20260803_055119/records.csv",
+      "records_sha256": "295908865dfd438800e880123ae4ad29dd8d571c9721c4dbadd501e781614658"
+    },
+    {
+      "model": "qwen3_5-27b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-27b/tasks/knowledge-repdyn_mmlu_pro_biology/representations/representation_dynamics_qwen3_5_20260803_055237/representations.pt",
+      "artifact_sha256": "1013d4cf7a0d9386c292cd15cc2668d765b4a1394a27deda0f51925cd24917ed",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-27b/tasks/knowledge-repdyn_mmlu_pro_biology/representations/representation_dynamics_qwen3_5_20260803_055237/records.csv",
+      "records_sha256": "c93dda7f25523d0cfae83892dbde26584d8117c37f954c50f128d308d3d5fb86"
+    },
+    {
+      "model": "qwen3_5-27b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-27b/tasks/knowledge-repdyn_mmlu_pro_economics/representations/representation_dynamics_qwen3_5_20260803_055457/representations.pt",
+      "artifact_sha256": "9f0319872617c48a2f7e26ab75bbf695721dc169bee5b21713644d8574651a21",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-27b/tasks/knowledge-repdyn_mmlu_pro_economics/representations/representation_dynamics_qwen3_5_20260803_055457/records.csv",
+      "records_sha256": "e7d3decfadbb654200ff0750d1202714416c10ea696233d69507491efbbdb9a8"
+    },
+    {
+      "model": "qwen3_5-27b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-27b/tasks/knowledge-repdyn_mmlu_pro_health/representations/representation_dynamics_qwen3_5_20260803_055312/representations.pt",
+      "artifact_sha256": "a5c0529e8116b9e661abb5292aa73aabe9e4c8e72f48c23d6c2774f421b2a0c7",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-27b/tasks/knowledge-repdyn_mmlu_pro_health/representations/representation_dynamics_qwen3_5_20260803_055312/records.csv",
+      "records_sha256": "cecf281991ab609b446061252cea06293c9c81b8017abb1e7a934472c83555f8"
+    },
+    {
+      "model": "qwen3_5-27b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-27b/tasks/knowledge-repdyn_mmlu_pro_history/representations/representation_dynamics_qwen3_5_20260803_055345/representations.pt",
+      "artifact_sha256": "7da6846176336984df06233c54eb9e505bf11687b32818093e8669d800d0e7fb",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-27b/tasks/knowledge-repdyn_mmlu_pro_history/representations/representation_dynamics_qwen3_5_20260803_055345/records.csv",
+      "records_sha256": "6ada7002fdf9f3791c508aac4a4c3c663d46d7837ed8cdcffdbd42af160f15ea"
+    },
+    {
+      "model": "qwen3_5-27b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-27b/tasks/knowledge-repdyn_mmlu_pro_law/representations/representation_dynamics_qwen3_5_20260803_055421/representations.pt",
+      "artifact_sha256": "dcef1da91a8a355f8c461ad9fd1f1d5e9687f46bbe7a656c03905fabd867908f",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-27b/tasks/knowledge-repdyn_mmlu_pro_law/representations/representation_dynamics_qwen3_5_20260803_055421/records.csv",
+      "records_sha256": "1102f9e74763a7ad5e5a168e827954c71a6fab6a0c3b17c17351cede3d411e26"
+    },
+    {
+      "model": "qwen3_5-27b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-27b/tasks/reasoning-repdyn_mmlu_pro_computer_science/representations/representation_dynamics_qwen3_5_20260803_055637/representations.pt",
+      "artifact_sha256": "0b85a2b5407096827a89ccd4799ed5c429a31959abdc9a19546c0cef810a20e0",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-27b/tasks/reasoning-repdyn_mmlu_pro_computer_science/representations/representation_dynamics_qwen3_5_20260803_055637/records.csv",
+      "records_sha256": "e286a5bc4f7a12817c11292f4c6316cea7b856e23653e696edacaf80473e4021"
+    },
+    {
+      "model": "qwen3_5-27b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-27b/tasks/reasoning-repdyn_mmlu_pro_engineering/representations/representation_dynamics_qwen3_5_20260803_055714/representations.pt",
+      "artifact_sha256": "3e4d234c16f9e2438f864b8d4e332aa9fa9f51f59becb1f73fc1aeb951a03a8c",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-27b/tasks/reasoning-repdyn_mmlu_pro_engineering/representations/representation_dynamics_qwen3_5_20260803_055714/records.csv",
+      "records_sha256": "f40797a54a000934b5824e89340c4d2e4d5d1cd9d9f211a7a36e7c398103358d"
+    },
+    {
+      "model": "qwen3_5-27b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-27b/tasks/reasoning-repdyn_mmlu_pro_math/representations/representation_dynamics_qwen3_5_20260803_055530/representations.pt",
+      "artifact_sha256": "c4dc01202adc9df5d32e2d1c5a8974eade06e42a6a4906563325831555282dc1",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-27b/tasks/reasoning-repdyn_mmlu_pro_math/representations/representation_dynamics_qwen3_5_20260803_055530/records.csv",
+      "records_sha256": "8a7d9614d46e09b00afb64f515ed86e63e5867888ab582a38a3527d04fc58bf4"
+    },
+    {
+      "model": "qwen3_5-27b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-27b/tasks/reasoning-repdyn_mmlu_pro_philosophy/representations/representation_dynamics_qwen3_5_20260803_055750/representations.pt",
+      "artifact_sha256": "d7c488c7334ba49c0996e0f5ccacfeb6072ff132cfec68b3853c9bebc33563fd",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-27b/tasks/reasoning-repdyn_mmlu_pro_philosophy/representations/representation_dynamics_qwen3_5_20260803_055750/records.csv",
+      "records_sha256": "f2f072f362cae6214f7500a006d909acc639e39b2ee7fc02cad477197b691b5d"
+    },
+    {
+      "model": "qwen3_5-27b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-27b/tasks/reasoning-repdyn_mmlu_pro_physics/representations/representation_dynamics_qwen3_5_20260803_055603/representations.pt",
+      "artifact_sha256": "217ddc49a1df038a14a6961f8d47384e521e030717ac4224527d457312b0da5d",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/qwen3_5-27b/tasks/reasoning-repdyn_mmlu_pro_physics/representations/representation_dynamics_qwen3_5_20260803_055603/records.csv",
+      "records_sha256": "bac4b33d45006fb359b7b21eb9b786f953741cd9edc4bdc60ef7092d1a0184bf"
+    },
+    {
+      "model": "gemma4-31b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/gemma4-31b/tasks/knowledge-repdyn_mmlu_pro_biology/representations/representation_dynamics_gemma4_20260803_055823/representations.pt",
+      "artifact_sha256": "8c096e0d667d3f2118c3ac5b14db4e2ef73269ccf4917ca9b3a009e359459b99",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/gemma4-31b/tasks/knowledge-repdyn_mmlu_pro_biology/representations/representation_dynamics_gemma4_20260803_055823/records.csv",
+      "records_sha256": "cafb851ce3956abbf8f19e38a3c016e30106d6f4c4091a87b23b8437a5578907"
+    },
+    {
+      "model": "gemma4-31b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/gemma4-31b/tasks/knowledge-repdyn_mmlu_pro_economics/representations/representation_dynamics_gemma4_20260803_060500/representations.pt",
+      "artifact_sha256": "aaa214e944bf429851cec17e551a8c479468d6aa8e17fb7f5b9572a765ebc19f",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/gemma4-31b/tasks/knowledge-repdyn_mmlu_pro_economics/representations/representation_dynamics_gemma4_20260803_060500/records.csv",
+      "records_sha256": "68fcb03e27cf0913b5728efb1cb2503f3b912f9a92cb54a640c8d48dd607494e"
+    },
+    {
+      "model": "gemma4-31b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/gemma4-31b/tasks/knowledge-repdyn_mmlu_pro_health/representations/representation_dynamics_gemma4_20260803_060049/representations.pt",
+      "artifact_sha256": "3c26bbf70c26ec9187e1ee78e8e60eeffa3bbafcf12848225f53435ed2cd6da4",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/gemma4-31b/tasks/knowledge-repdyn_mmlu_pro_health/representations/representation_dynamics_gemma4_20260803_060049/records.csv",
+      "records_sha256": "a38ffcf108f7c7ab97857fb8a34548b466ec7b26a34805b164160928d6eb76ab"
+    },
+    {
+      "model": "gemma4-31b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/gemma4-31b/tasks/knowledge-repdyn_mmlu_pro_history/representations/representation_dynamics_gemma4_20260803_060216/representations.pt",
+      "artifact_sha256": "856f9b67dcafd63b9a0d72fc389ef644e8c4b68da4fcff6d21192f35d0b27f90",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/gemma4-31b/tasks/knowledge-repdyn_mmlu_pro_history/representations/representation_dynamics_gemma4_20260803_060216/records.csv",
+      "records_sha256": "485a43c95eac575eb6cc2a7d9a9d9cadf8f19d6eb429b270cb98494315c149cf"
+    },
+    {
+      "model": "gemma4-31b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/gemma4-31b/tasks/knowledge-repdyn_mmlu_pro_law/representations/representation_dynamics_gemma4_20260803_060330/representations.pt",
+      "artifact_sha256": "bba3d1a080da925da868c03d082cc0d46130076ef86a7d6118b6787ba2349743",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/gemma4-31b/tasks/knowledge-repdyn_mmlu_pro_law/representations/representation_dynamics_gemma4_20260803_060330/records.csv",
+      "records_sha256": "6bd957dba2377b54c4b66eae2376192dcac0ac4536cc8690f09e3be1c96ca7a4"
+    },
+    {
+      "model": "gemma4-31b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/gemma4-31b/tasks/reasoning-repdyn_mmlu_pro_computer_science/representations/representation_dynamics_gemma4_20260803_060928/representations.pt",
+      "artifact_sha256": "7124d873be2fb22dab9c8917f53e40a901dafaa3851a09edd8702cf05d4a27a4",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/gemma4-31b/tasks/reasoning-repdyn_mmlu_pro_computer_science/representations/representation_dynamics_gemma4_20260803_060928/records.csv",
+      "records_sha256": "a057c1f2edf99a70b79adc0a4de33aca3659414fb6d839fc87b2d53371ff45d6"
+    },
+    {
+      "model": "gemma4-31b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/gemma4-31b/tasks/reasoning-repdyn_mmlu_pro_engineering/representations/representation_dynamics_gemma4_20260803_061056/representations.pt",
+      "artifact_sha256": "b681de1e1814b2e4f979c717bc9cd6da9a177455d6d9e63f64a7d3cbad0db6a1",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/gemma4-31b/tasks/reasoning-repdyn_mmlu_pro_engineering/representations/representation_dynamics_gemma4_20260803_061056/records.csv",
+      "records_sha256": "b8bcd0bdc35a115ded91a86e6f13c5a0390d36097d47c8104c4e4ae2c837d08f"
+    },
+    {
+      "model": "gemma4-31b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/gemma4-31b/tasks/reasoning-repdyn_mmlu_pro_math/representations/representation_dynamics_gemma4_20260803_060621/representations.pt",
+      "artifact_sha256": "2c1e2d3902c184a6ca2aff4cb5c44349e1df43cd247ea0b7ba69c5802ef53128",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/gemma4-31b/tasks/reasoning-repdyn_mmlu_pro_math/representations/representation_dynamics_gemma4_20260803_060621/records.csv",
+      "records_sha256": "73a2b3473da4f0fca4490cd98911c8fd0307d6f75abc090f78865397a0bc67a4"
+    },
+    {
+      "model": "gemma4-31b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/gemma4-31b/tasks/reasoning-repdyn_mmlu_pro_philosophy/representations/representation_dynamics_gemma4_20260803_061229/representations.pt",
+      "artifact_sha256": "051a56d542565b181d21e967d3de7b0d280c052723846bd01283bf0f074729f4",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/gemma4-31b/tasks/reasoning-repdyn_mmlu_pro_philosophy/representations/representation_dynamics_gemma4_20260803_061229/records.csv",
+      "records_sha256": "63020e4fa28ba0c612f89b44c112f83904d97c44be7bc446ed1396755afc19d4"
+    },
+    {
+      "model": "gemma4-31b",
+      "artifact": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/gemma4-31b/tasks/reasoning-repdyn_mmlu_pro_physics/representations/representation_dynamics_gemma4_20260803_060754/representations.pt",
+      "artifact_sha256": "ce9f8e7ea75028d4df71ffa501e089ed619e05212d9aa8d99797338f0ef34996",
+      "records": "/home/ubuntu/vlmbehave/logs/representation-dynamics-text-expansion-v1-v2/matched_text_mmlu_pro_control/gemma4-31b/tasks/reasoning-repdyn_mmlu_pro_physics/representations/representation_dynamics_gemma4_20260803_060754/records.csv",
+      "records_sha256": "d27afbab3f1a2173f2cd4db001a453e08149c1e6a929b430c5ee0715d50a818e"
+    }
+  ],
+  "output": {
+    "path": "/home/ubuntu/vlmbehave/results/representation_dynamics_text_expansion_corrected_v1/prompt_length_baseline.csv",
+    "sha256": "36ffe569e3987be0f399f0c3910e34560cdd3647357bd757cd59930f4229559f"
+  }
+}

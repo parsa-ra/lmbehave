@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "experiment_id": "representation-dynamics-main-track-instrument-validation-v1",
+  "frozen_at_utc": "2026-08-16T16:30:00Z",
+  "status": "frozen_before_completed_output_inspection",
+  "source_panel": "matched_mmlu_8x8_confirmatory",
+  "source_experiment": "representation-dynamics-main-track-v1",
+  "models": [
+    "olmo3-7b-instruct",
+    "apertus15-8b",
+    "qwen3_5-9b",
+    "qwen3_5-27b",
+    "gemma4-31b"
+  ],
+  "inferential_unit": "benchmark task",
+  "balanced_task_assignments": 12870,
+  "label_complement_pairs": 6435,
+  "decision_threshold": 0.01,
+  "matched_excess_separation": {
+    "primary_statistic": "macro_f1_representation_minus_prompt",
+    "alternative": "greater",
+    "site_policy": "reselect the unadjusted PCA-space mean-shift trace-ratio maximum for every task-label assignment",
+    "representation_features": "fold-local fixed-width activation PCA",
+    "prompt_features": "fold-local character-within-word TF-IDF 3-5 grams followed by truncated SVD",
+    "matched_feature_count": 64,
+    "matched_fields": [
+      "task folds",
+      "feature count",
+      "standardization",
+      "classifier implementation",
+      "C=1",
+      "balanced class weighting",
+      "maximum iterations"
+    ],
+    "classifier": "cuML QN logistic regression with L2 penalty and penalty_normalized=true",
+    "randomization": "retain both orientations of all balanced assignments; share one deterministic fit per label-complement pair",
+    "negative_control": {
+      "assignment": "alphabetically first eight tasks in the fixed task order versus the remaining eight",
+      "statistics": [
+        "representation macro-F1",
+        "prompt macro-F1",
+        "representation-minus-prompt macro-F1"
+      ],
+      "evaluation": "treat this assignment in turn as observed against the same complete assignment distribution",
+      "status": "specified before any completed matched-excess report was inspected"
+    },
+    "claim_limit": "A significant positive difference is excess task-label predictability relative to this prompt representation, not proof of prompt-independent computation."
+  },
+  "lexical_adjustment_diagnostics": {
+    "site_policy": "observed mean-shift-selected site only",
+    "lexical_components": 64,
+    "ridge_alpha": 1.0,
+    "fit_scope": "training tasks within each grouped fold",
+    "reported_variance": [
+      "total sum of squares",
+      "between-task sum of squares",
+      "within-task sum of squares",
+      "retained fractions after adjustment"
+    ],
+    "task_identity_diagnostic": {
+      "classes": 16,
+      "split": "five-fold example split stratified within task",
+      "feature_count": 64,
+      "role": "diagnostic only; never used as knowledge-versus-reasoning inference"
+    },
+    "fold_balance_audit": "enumerate every assignment and report train/test task counts by class"
+  },
+  "positive_control": {
+    "status": "implemented_after_freeze_before_results",
+    "model": "olmo3-7b-instruct",
+    "site": "observed mean-shift-selected site",
+    "calibration_partition": "alphabetically first eight tasks in the fixed task order versus the remaining eight",
+    "injection_stage": "raw activation space before fold-local lexical residualization, 95%-variance PCA, and probing",
+    "lexical_adjustment": "fold-local character-within-word TF-IDF 3-5 grams, 64-component truncated SVD, Ridge alpha=1",
+    "direction_seeds": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    "standardized_half_shifts": [0.0, 0.25, 0.5, 1.0, 2.0],
+    "scale_definition": "global sample standard deviation of the unadjusted activation projected on the seeded unit direction; reported mean difference is twice the half-shift",
+    "primary_output": "fraction of direction seeds with exact task-level p<0.01 at each shift",
+    "claim_limit": "This calibrates the lexical-adjusted fixed-site probe conditional on one model, site, and arbitrary task partition; it does not calibrate layer selection or supply model evidence."
+  },
+  "preserved_inputs": {
+    "task_lists": true,
+    "sample_ids": true,
+    "prompts": true,
+    "model_revisions": true,
+    "pooling": "last_valid prefill",
+    "storage_precision": "float32",
+    "generation": "not rerun"
+  }
+}

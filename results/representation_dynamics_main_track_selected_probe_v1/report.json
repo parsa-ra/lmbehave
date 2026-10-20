@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "experiment_id": "representation-dynamics-main-track-selected-probe-v1",
+  "status": "PASS",
+  "models": 5,
+  "assignments_per_model": 12870,
+  "probe_refits_per_model": 6435,
+  "selection_recomputed_for_every_assignment": true,
+  "complement_symmetry_verified": true,
+  "persistent_root": "/home/ubuntu/data-imu-us-east3/vlmbehave-artifacts/2026-08-15/selected-site-probe-main-track-v1",
+  "source_report_sha256": {
+    "olmo3-7b-instruct": "3eee924839700e4813d82cf2bbf53a40fd67f149bd515282006eb5b193d339a8",
+    "apertus15-8b": "37fe6e381be2207aea2b2ba2843d2e1dfb7ba393cd8a5edf68e4912e2b1da591",
+    "qwen3_5-9b": "5570c312a7c6e6eeb5853d238efa2de0d784ec4fcd952e65c9a90f3d4b744c2b",
+    "qwen3_5-27b": "2f9d8c7f47ce4dadf4eac01af93332a39d1dda84caf23555e4e6d3f03fbc090b",
+    "gemma4-31b": "cf22ccda25daa3bd73a714fe18b765d33962ccbb0ea590f0fb71445117ee4121"
+  },
+  "claim_limit": "Exact evidence for linear recoverability of the declared 8+8 MMLU subject partition under unadjusted Fisher-selected-site probing. Prompt controls, independent task-family transfer, and intervention are separate analyses and are not established by this artifact."
+}

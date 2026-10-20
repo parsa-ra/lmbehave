@@ -1,0 +1,18 @@
+output_type: generate_until
+doc_to_visual: null
+generation_kwargs:
+  max_new_tokens: 8
+  temperature: 0.0
+  do_sample: false
+  until:
+    - "\n"
+    - "</s>"
+    - "<|im_end|>"
+metric_list:
+  - metric: accuracy
+    aggregation: mean
+    higher_is_better: true
+metadata:
+  version: 1.0
+  protocol: concise_direct_answer_non_leaderboard
+

@@ -1,0 +1,11 @@
+include: _choice_template_yaml
+task: repdyn_super_gpqa_direct
+dataset_path: lmms-lab/SuperGPQA
+dataset_kwargs:
+  revision: 36ec80e791b34bb7116e2255c0fb448ef2472756
+  token: true
+test_split: test
+doc_to_text: !function utils.super_gpqa_doc_to_text
+doc_to_target: !function utils.super_gpqa_doc_to_target
+process_results: !function utils.super_gpqa_process_results
+

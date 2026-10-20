@@ -1,0 +1,1233 @@
+diff --git a/src/transformers/models/qwen3_vl/modeling_qwen3_vl.py b/src/transformers/models/qwen3_vl/modeling_qwen3_vl.py
+index a06ab3e2ca7c7f8d05854bd1365431159182b749..192b0145ad07111882510e35a547c783216ae8be 100644
+--- a/src/transformers/models/qwen3_vl/modeling_qwen3_vl.py
++++ b/src/transformers/models/qwen3_vl/modeling_qwen3_vl.py
+@@ -22,6 +22,7 @@ from collections.abc import Callable
+ from dataclasses import dataclass
+ from typing import Any, Optional
+ 
++import numpy as np
+ import torch
+ import torch.nn as nn
+ import torch.nn.functional as F
+@@ -54,6 +55,159 @@ class BaseModelOutputWithDeepstackFeatures(BaseModelOutputWithPooling):
+     deepstack_features: list[torch.FloatTensor] | None = None
+ 
+ 
++def _coerce_to_bool(value: Any) -> bool:
++    if isinstance(value, bool):
++        return value
++    if isinstance(value, str):
++        return value.strip().lower() in {"1", "true", "yes", "y", "on"}
++    return bool(value)
++
++
++def _normalize_layer_indices(layer_spec: Any, max_layers: int) -> set[int] | None:
++    if layer_spec is None:
++        return None
++    if isinstance(layer_spec, str):
++        normalized = layer_spec.strip().lower()
++        if normalized in {"", "all", "none"}:
++            return None
++        items = [item for item in normalized.replace(";", ",").replace(":", ",").split(",") if item]
++        parsed = [int(item) for item in items]
++    elif isinstance(layer_spec, int):
++        parsed = [layer_spec]
++    elif isinstance(layer_spec, (list, tuple, set)):
++        parsed = [int(item) for item in layer_spec]
++    else:
++        return None
++
++    filtered = {idx for idx in parsed if 0 <= idx < max_layers}
++    return filtered if filtered else None
++
++
++def _update_vt_attn_collector(
++    collector: dict[str, Any] | None,
++    layer_idx: int,
++    query_states: torch.Tensor,
++    key_states: torch.Tensor,
++    visual_pos_masks: torch.Tensor | None,
++    token_mask: torch.Tensor | None,
++    scaling: float,
++) -> None:
++    if collector is None or visual_pos_masks is None:
++        return
++
++    target_layers = collector.get("layers")
++    if target_layers is not None and layer_idx not in target_layers:
++        return
++
++    if visual_pos_masks.ndim != 2 or visual_pos_masks.shape[0] != query_states.shape[0]:
++        return
++
++    if visual_pos_masks.shape[-1] != query_states.shape[-2]:
++        # Happens during decode steps (query length == 1) when using KV cache.
++        return
++
++    records = collector.setdefault("records", {})
++    layer_record = records.setdefault(
++        layer_idx,
++        {
++            "means": {name: [] for name in ("t2v", "v2t", "v2v", "t2t")},
++            "token_scores": {name: [] for name in ("t2v", "v2t", "v2v", "t2t")},
++            "visual_importance": [],
++        },
++    )
++
++    batch_size = query_states.shape[0]
++    seq_len = query_states.shape[-2]
++    for batch_idx in range(batch_size):
++        if token_mask is None:
++            valid_mask = torch.ones(seq_len, dtype=torch.bool, device=query_states.device)
++        else:
++            valid_mask = token_mask[batch_idx].to(dtype=torch.bool, device=query_states.device)
++            if valid_mask.shape[-1] != seq_len:
++                continue
++
++        visual_mask = visual_pos_masks[batch_idx].to(dtype=torch.bool, device=query_states.device) & valid_mask
++        text_mask = (~visual_pos_masks[batch_idx].to(dtype=torch.bool, device=query_states.device)) & valid_mask
++
++        if not torch.any(visual_mask) or not torch.any(text_mask):
++            continue
++
++        # Use averaged query vectors for each token type to avoid materializing full attention matrices.
++        query_batch = query_states[batch_idx].float()
++        key_batch = key_states[batch_idx].float()
++        if key_batch.shape[0] != query_batch.shape[0]:
++            if query_batch.shape[0] % key_batch.shape[0] != 0:
++                continue
++            repeat_factor = query_batch.shape[0] // key_batch.shape[0]
++            key_batch = (
++                key_batch[:, None, :, :]
++                .expand(key_batch.shape[0], repeat_factor, key_batch.shape[1], key_batch.shape[2])
++                .reshape(query_batch.shape[0], key_batch.shape[1], key_batch.shape[2])
++            )
++
++        q_text = query_batch[:, text_mask, :].mean(dim=1)
++        q_visual = query_batch[:, visual_mask, :].mean(dim=1)
++        k_text = key_batch[:, text_mask, :]
++        k_visual = key_batch[:, visual_mask, :]
++
++        t2v = (k_visual * q_text.unsqueeze(1)).sum(dim=-1).mean(dim=0) * scaling
++        v2t = (k_text * q_visual.unsqueeze(1)).sum(dim=-1).mean(dim=0) * scaling
++        v2v = (k_visual * q_visual.unsqueeze(1)).sum(dim=-1).mean(dim=0) * scaling
++        t2t = (k_text * q_text.unsqueeze(1)).sum(dim=-1).mean(dim=0) * scaling
++
++        score_map = {"t2v": t2v, "v2t": v2t, "v2v": v2v, "t2t": t2t}
++        for score_name, score_tensor in score_map.items():
++            layer_record["means"][score_name].append(float(score_tensor.mean().item()))
++            if collector.get("store_token_scores", True):
++                layer_record["token_scores"][score_name].append(score_tensor.detach().cpu())
++
++        if collector.get("collect_visual_importance", False):
++            dense_importance = torch.full((seq_len,), float("-inf"), dtype=torch.float32, device=query_states.device)
++            dense_importance[visual_mask] = t2v
++            layer_record["visual_importance"].append(dense_importance.detach().cpu())
++
++
++def _compute_vision_key_importance(
++    query_states: torch.Tensor,
++    key_states: torch.Tensor,
++    cu_seqlens: torch.Tensor,
++    scaling: float,
++    query_chunk_size: int = 64,
++) -> torch.Tensor:
++    token_scores = []
++    offset = 0
++    lengths = (cu_seqlens[1:] - cu_seqlens[:-1]).tolist()
++    for length in lengths:
++        local_length = int(length)
++        if local_length <= 0:
++            continue
++        local_q = query_states[0, :, offset : offset + local_length, :]
++        local_k = key_states[0, :, offset : offset + local_length, :]
++        local_k_t = local_k.transpose(1, 2)
++        step = max(1, min(int(query_chunk_size), local_length))
++        score_accum = torch.zeros(
++            (local_q.shape[0], local_length), dtype=torch.float32, device=query_states.device
++        )
++        seen_queries = 0
++
++        for start in range(0, local_length, step):
++            end = min(start + step, local_length)
++            q_chunk = local_q[:, start:end, :]
++            logits = torch.matmul(q_chunk, local_k_t) * scaling
++            probs = torch.softmax(logits.float(), dim=-1)
++            score_accum += probs.sum(dim=1)
++            seen_queries += end - start
++
++        # Per-key importance = average attention mass received across heads and all queries.
++        score = (score_accum / max(1, seen_queries)).mean(dim=0)
++        token_scores.append(score)
++        offset += local_length
++
++    if not token_scores:
++        return torch.empty(0, device=query_states.device, dtype=torch.float32)
++    return torch.cat(token_scores, dim=0)
++
++
+ class Qwen3VLVisionMLP(nn.Module):
+     def __init__(self, config):
+         super().__init__()
+@@ -199,7 +353,9 @@ class Qwen3VLVisionAttention(nn.Module):
+         rotary_pos_emb: torch.Tensor | None = None,
+         position_embeddings: tuple[torch.Tensor, torch.Tensor] | None = None,
+         **kwargs,
+-    ) -> torch.Tensor:
++    ) -> torch.Tensor | tuple[torch.Tensor, torch.Tensor]:
++        return_token_importance = kwargs.pop("return_token_importance", False)
++        attn_query_chunk_size = int(kwargs.pop("vision_prune_attn_query_chunk_size", 64))
+         seq_length = hidden_states.shape[0]
+         query_states, key_states, value_states = (
+             self.qkv(hidden_states).reshape(seq_length, 3, self.num_heads, -1).permute(1, 0, 2, 3).unbind(0)
+@@ -215,6 +371,16 @@ class Qwen3VLVisionAttention(nn.Module):
+         if self.config._attn_implementation != "eager":
+             attention_interface = ALL_ATTENTION_FUNCTIONS[self.config._attn_implementation]
+ 
++        token_importance = None
++        if return_token_importance:
++            token_importance = _compute_vision_key_importance(
++                query_states,
++                key_states,
++                cu_seqlens,
++                self.scaling,
++                query_chunk_size=attn_query_chunk_size,
++            )
++
+         if is_flash_attention_requested(self.config):
+             # Flash Attention: Use cu_seqlens for variable length attention
+             max_seqlen = (cu_seqlens[1:] - cu_seqlens[:-1]).max()
+@@ -258,6 +424,8 @@ class Qwen3VLVisionAttention(nn.Module):
+ 
+         attn_output = attn_output.reshape(seq_length, -1).contiguous()
+         attn_output = self.proj(attn_output)
++        if return_token_importance:
++            return attn_output, token_importance
+         return attn_output
+ 
+ 
+@@ -276,15 +444,23 @@ class Qwen3VLVisionBlock(GradientCheckpointingLayer):
+         rotary_pos_emb: torch.Tensor | None = None,
+         position_embeddings: tuple[torch.Tensor, torch.Tensor] | None = None,
+         **kwargs,
+-    ) -> torch.Tensor:
+-        hidden_states = hidden_states + self.attn(
++    ) -> torch.Tensor | tuple[torch.Tensor, torch.Tensor]:
++        return_token_importance = kwargs.pop("return_token_importance", False)
++        attn_out = self.attn(
+             self.norm1(hidden_states),
+             cu_seqlens=cu_seqlens,
+             rotary_pos_emb=rotary_pos_emb,
+             position_embeddings=position_embeddings,
++            return_token_importance=return_token_importance,
+             **kwargs,
+         )
++        token_importance = None
++        if return_token_importance:
++            attn_out, token_importance = attn_out
++        hidden_states = hidden_states + attn_out
+         hidden_states = hidden_states + self.mlp(self.norm2(hidden_states))
++        if return_token_importance:
++            return hidden_states, token_importance
+         return hidden_states
+ 
+ 
+@@ -465,6 +641,10 @@ class Qwen3VLTextAttention(nn.Module):
+         cache_position: torch.LongTensor | None = None,
+         **kwargs: Unpack[FlashAttentionKwargs],
+     ) -> tuple[torch.Tensor, torch.Tensor | None]:
++        vt_attn_collector = kwargs.pop("vt_attn_collector", None)
++        vt_visual_pos_masks = kwargs.pop("vt_visual_pos_masks", None)
++        vt_token_mask = kwargs.pop("vt_token_mask", None)
++
+         input_shape = hidden_states.shape[:-1]
+         hidden_shape = (*input_shape, -1, self.head_dim)
+ 
+@@ -475,6 +655,16 @@ class Qwen3VLTextAttention(nn.Module):
+         cos, sin = position_embeddings
+         query_states, key_states = apply_rotary_pos_emb(query_states, key_states, cos, sin)
+ 
++        _update_vt_attn_collector(
++            collector=vt_attn_collector,
++            layer_idx=self.layer_idx,
++            query_states=query_states,
++            key_states=key_states,
++            visual_pos_masks=vt_visual_pos_masks,
++            token_mask=vt_token_mask,
++            scaling=self.scaling,
++        )
++
+         if past_key_values is not None:
+             # sin and cos are specific to RoPE models; cache_position needed for the static cache
+             cache_kwargs = {"sin": sin, "cos": cos, "cache_position": cache_position}
+@@ -791,19 +981,166 @@ class Qwen3VLVisionModel(Qwen3VLPreTrainedModel):
+         )
+         cu_seqlens = F.pad(cu_seqlens, (1, 0), value=0)
+ 
++        vision_max_layers = kwargs.pop("vision_max_layers", None)
++        vision_prune_enabled = _coerce_to_bool(kwargs.pop("vision_prune_enabled", False))
++        vision_prune_ratio = kwargs.pop("vision_prune_ratio", None)
++        vision_prune_keep_tokens = kwargs.pop("vision_prune_keep_tokens", None)
++        vision_prune_min_tokens = kwargs.pop("vision_prune_min_tokens", 0)
++        vision_prune_method = str(kwargs.pop("vision_prune_method", "l2")).lower()
++        vision_prune_warmup_layers = kwargs.pop("vision_prune_warmup_layers", 0)
++        vision_prune_summary_enabled = _coerce_to_bool(kwargs.pop("vision_prune_summary_enabled", False))
++        vision_prune_summary_method = str(kwargs.pop("vision_prune_summary_method", "weighted_mean")).lower()
++
++        max_layers = (
++            len(self.blocks)
++            if vision_max_layers is None
++            else max(0, min(int(vision_max_layers), len(self.blocks)))
++        )
++
+         deepstack_feature_lists = []
+-        for layer_num, blk in enumerate(self.blocks):
+-            hidden_states = blk(
+-                hidden_states,
+-                cu_seqlens=cu_seqlens,
+-                position_embeddings=position_embeddings,
+-                **kwargs,
++        start_layer = 0
++        vision_prune_scores = None
++        if vision_prune_enabled and max_layers > 0:
++            warmup_layers = max(0, min(int(vision_prune_warmup_layers), max_layers))
++            for layer_num in range(warmup_layers):
++                blk = self.blocks[layer_num]
++                if vision_prune_method in {"attn", "attention"}:
++                    hidden_states, layer_importance = blk(
++                        hidden_states,
++                        cu_seqlens=cu_seqlens,
++                        position_embeddings=position_embeddings,
++                        return_token_importance=True,
++                        **kwargs,
++                    )
++                    if layer_importance is not None and layer_importance.numel() > 0:
++                        if vision_prune_scores is None:
++                            vision_prune_scores = layer_importance.float()
++                        else:
++                            vision_prune_scores = vision_prune_scores + layer_importance.float()
++                else:
++                    hidden_states = blk(
++                        hidden_states,
++                        cu_seqlens=cu_seqlens,
++                        position_embeddings=position_embeddings,
++                        **kwargs,
++                    )
++
++                if layer_num in self.deepstack_visual_indexes:
++                    deepstack_feature = self.deepstack_merger_list[self.deepstack_visual_indexes.index(layer_num)](
++                        hidden_states
++                    )
++                    deepstack_feature_lists.append(deepstack_feature)
++            start_layer = warmup_layers
++
++        prune_active = False
++        keep_indices = None
++        kept_lengths = None
++        if vision_prune_enabled:
++            lengths = (grid_thw[:, 0] * grid_thw[:, 1] * grid_thw[:, 2]).tolist()
++            keep_indices_list = []
++            kept_lengths = []
++            offset = 0
++            ratio = 1.0 if vision_prune_ratio is None else float(vision_prune_ratio)
++            for length in lengths:
++                if length <= 0:
++                    kept_lengths.append(0)
++                    continue
++                if vision_prune_keep_tokens is not None:
++                    k = int(vision_prune_keep_tokens)
++                else:
++                    k = int(length * ratio)
++                k = max(1, k)
++                if vision_prune_min_tokens:
++                    k = max(k, int(vision_prune_min_tokens))
++                k = min(k, length)
++                hidden_slice = hidden_states[offset : offset + length]
++                if k >= length:
++                    keep_local = torch.arange(length, device=hidden_states.device)
++                else:
++                    if (
++                        vision_prune_method in {"attn", "attention"}
++                        and vision_prune_scores is not None
++                        and vision_prune_scores.shape[0] >= offset + length
++                    ):
++                        scores = vision_prune_scores[offset : offset + length]
++                    elif vision_prune_method == "abs_mean":
++                        scores = hidden_slice.float().abs().mean(dim=-1)
++                    else:
++                        scores = hidden_slice.float().pow(2).sum(dim=-1)
++
++                    topk = torch.topk(scores, k, largest=True).indices
++                    keep_local = topk.sort().values
++
++                    if vision_prune_summary_enabled and keep_local.numel() < length:
++                        local_ids = torch.arange(length, device=hidden_states.device)
++                        dropped_mask = torch.ones(length, dtype=torch.bool, device=hidden_states.device)
++                        dropped_mask[keep_local] = False
++                        dropped_local = local_ids[dropped_mask]
++                        if dropped_local.numel() > 0:
++                            dropped_hidden = hidden_slice[dropped_local]
++                            if vision_prune_summary_method == "mean" or scores is None:
++                                summary_vec = dropped_hidden.mean(dim=0)
++                            else:
++                                dropped_scores = scores[dropped_local]
++                                weights = torch.softmax(dropped_scores.float(), dim=0).to(dropped_hidden.dtype)
++                                summary_vec = (dropped_hidden * weights.unsqueeze(-1)).sum(dim=0)
++                            summary_target = dropped_local[0]
++                            hidden_states[offset + summary_target] = summary_vec
++                            if not torch.any(keep_local == summary_target):
++                                keep_local = torch.cat([keep_local, summary_target.view(1)]).sort().values
++
++                keep = keep_local + offset
++                keep_indices_list.append(keep)
++                kept_lengths.append(int(keep_local.numel()))
++                offset += length
++            if keep_indices_list:
++                keep_indices = torch.cat(keep_indices_list, dim=0)
++                prune_active = keep_indices.numel() < hidden_states.shape[0]
++            else:
++                keep_indices = torch.arange(hidden_states.shape[0], device=hidden_states.device)
++
++        if prune_active:
++            hidden_states_full = hidden_states if not torch.is_grad_enabled() else hidden_states.clone()
++            pruned_position_embeddings = (
++                position_embeddings[0][keep_indices],
++                position_embeddings[1][keep_indices],
+             )
+-            if layer_num in self.deepstack_visual_indexes:
+-                deepstack_feature = self.deepstack_merger_list[self.deepstack_visual_indexes.index(layer_num)](
+-                    hidden_states
++            pruned_cu_seqlens = torch.tensor(
++                [0] + list(np.cumsum(kept_lengths)),
++                device=hidden_states.device,
++                dtype=grid_thw.dtype if torch.jit.is_tracing() else torch.int32,
++            )
++            pruned_hidden_states = hidden_states_full[keep_indices]
++            for layer_num in range(start_layer, max_layers):
++                blk = self.blocks[layer_num]
++                pruned_hidden_states = blk(
++                    pruned_hidden_states,
++                    cu_seqlens=pruned_cu_seqlens,
++                    position_embeddings=pruned_position_embeddings,
++                    **kwargs,
++                )
++                hidden_states_full[keep_indices] = pruned_hidden_states
++                if layer_num in self.deepstack_visual_indexes:
++                    deepstack_feature = self.deepstack_merger_list[self.deepstack_visual_indexes.index(layer_num)](
++                        hidden_states_full
++                    )
++                    deepstack_feature_lists.append(deepstack_feature)
++                pruned_hidden_states = hidden_states_full[keep_indices]
++            hidden_states = hidden_states_full
++        else:
++            for layer_num in range(start_layer, max_layers):
++                blk = self.blocks[layer_num]
++                hidden_states = blk(
++                    hidden_states,
++                    cu_seqlens=cu_seqlens,
++                    position_embeddings=position_embeddings,
++                    **kwargs,
+                 )
+-                deepstack_feature_lists.append(deepstack_feature)
++                if layer_num in self.deepstack_visual_indexes:
++                    deepstack_feature = self.deepstack_merger_list[self.deepstack_visual_indexes.index(layer_num)](
++                        hidden_states
++                    )
++                    deepstack_feature_lists.append(deepstack_feature)
+ 
+         merged_hidden_states = self.merger(hidden_states)
+ 
+@@ -892,6 +1229,12 @@ class Qwen3VLTextModel(Qwen3VLPreTrainedModel):
+         else:
+             text_position_ids = position_ids[0]
+ 
++        vt_attn_collector = kwargs.pop("vt_attn_collector", None)
++        vt_visual_pos_masks = kwargs.pop("vt_visual_pos_masks", visual_pos_masks)
++        token_attention_mask = None
++        if attention_mask is not None and attention_mask.ndim == 2:
++            token_attention_mask = attention_mask.to(dtype=torch.bool, device=inputs_embeds.device)
++
+         attention_mask = create_causal_mask(
+             config=self.config,
+             input_embeds=inputs_embeds,
+@@ -915,6 +1258,9 @@ class Qwen3VLTextModel(Qwen3VLPreTrainedModel):
+                 past_key_values=past_key_values,
+                 cache_position=cache_position,
+                 position_embeddings=position_embeddings,
++                vt_attn_collector=vt_attn_collector,
++                vt_visual_pos_masks=vt_visual_pos_masks,
++                vt_token_mask=token_attention_mask,
+                 **kwargs,
+             )
+             hidden_states = layer_outputs
+@@ -959,6 +1305,7 @@ class Qwen3VLModel(Qwen3VLPreTrainedModel):
+         self.visual = Qwen3VLVisionModel._from_config(config.vision_config)
+         self.language_model = Qwen3VLTextModel._from_config(config.text_config)
+         self.rope_deltas = None  # cache rope_deltas here
++        self._last_vt_attn_collector: dict[str, Any] | None = None
+ 
+         # Initialize weights and apply final processing
+         self.post_init()
+@@ -1199,12 +1546,37 @@ class Qwen3VLModel(Qwen3VLPreTrainedModel):
+         if inputs_embeds is None:
+             inputs_embeds = self.get_input_embeddings()(input_ids)
+ 
++        vt_attn_monitor_enabled = _coerce_to_bool(kwargs.pop("vt_attn_monitor_enabled", False))
++        vt_attn_monitor_layers = kwargs.pop("vt_attn_monitor_layers", None)
++        vt_attn_monitor_store_token_scores = _coerce_to_bool(
++            kwargs.pop("vt_attn_monitor_store_token_scores", True)
++        )
++        vt_attn_monitor_collect_visual_importance = _coerce_to_bool(
++            kwargs.pop("vt_attn_monitor_collect_visual_importance", False)
++        )
++
++        vision_kwargs = {}
++        for key in (
++            "vision_max_layers",
++            "vision_prune_enabled",
++            "vision_prune_ratio",
++            "vision_prune_keep_tokens",
++            "vision_prune_min_tokens",
++            "vision_prune_method",
++            "vision_prune_warmup_layers",
++            "vision_prune_attn_query_chunk_size",
++            "vision_prune_summary_enabled",
++            "vision_prune_summary_method",
++        ):
++            if key in kwargs:
++                vision_kwargs[key] = kwargs.pop(key)
++
+         image_mask = None
+         video_mask = None
+ 
+         if pixel_values is not None:
+             image_outputs: BaseModelOutputWithDeepstackFeatures = self.get_image_features(
+-                pixel_values, image_grid_thw, return_dict=True
++                pixel_values, image_grid_thw, return_dict=True, **vision_kwargs
+             )
+             image_embeds = image_outputs.pooler_output
+             deepstack_image_embeds = image_outputs.deepstack_features
+@@ -1216,7 +1588,7 @@ class Qwen3VLModel(Qwen3VLPreTrainedModel):
+ 
+         if pixel_values_videos is not None:
+             video_outputs: BaseModelOutputWithDeepstackFeatures = self.get_video_features(
+-                pixel_values_videos, video_grid_thw, return_dict=True
++                pixel_values_videos, video_grid_thw, return_dict=True, **vision_kwargs
+             )
+             video_embeds = video_outputs.pooler_output
+             deepstack_video_embeds = video_outputs.deepstack_features
+@@ -1250,6 +1622,20 @@ class Qwen3VLModel(Qwen3VLPreTrainedModel):
+             visual_pos_masks = video_mask
+             deepstack_visual_embeds = deepstack_video_embeds
+ 
++        vt_attn_collector = None
++        if (
++            vt_attn_monitor_enabled
++            and visual_pos_masks is not None
++            and past_key_values is None
++            and inputs_embeds.shape[1] > 1
++        ):
++            vt_attn_collector = {
++                "layers": _normalize_layer_indices(vt_attn_monitor_layers, self.config.text_config.num_hidden_layers),
++                "store_token_scores": vt_attn_monitor_store_token_scores,
++                "collect_visual_importance": vt_attn_monitor_collect_visual_importance,
++                "records": {},
++            }
++
+         if position_ids is None:
+             past_key_values_length = 0 if past_key_values is None else past_key_values.get_seq_length()
+             if self.rope_deltas is None or past_key_values_length == 0:
+@@ -1280,9 +1666,14 @@ class Qwen3VLModel(Qwen3VLPreTrainedModel):
+             cache_position=cache_position,
+             visual_pos_masks=visual_pos_masks,
+             deepstack_visual_embeds=deepstack_visual_embeds,
++            vt_attn_collector=vt_attn_collector,
++            vt_visual_pos_masks=visual_pos_masks,
+             **kwargs,
+         )
+ 
++        if vt_attn_collector is not None:
++            self._last_vt_attn_collector = vt_attn_collector
++
+         return Qwen3VLModelOutputWithPast(
+             last_hidden_state=outputs.last_hidden_state,
+             past_key_values=outputs.past_key_values,
+@@ -1481,10 +1872,43 @@ class Qwen3VLForConditionalGeneration(Qwen3VLPreTrainedModel, GenerationMixin):
+         pixel_values_videos=None,
+         image_grid_thw=None,
+         video_grid_thw=None,
++        vision_max_layers=None,
++        vision_prune_enabled=None,
++        vision_prune_ratio=None,
++        vision_prune_keep_tokens=None,
++        vision_prune_min_tokens=None,
++        vision_prune_method=None,
++        vision_prune_warmup_layers=None,
++        vision_prune_attn_query_chunk_size=None,
++        vision_prune_summary_enabled=None,
++        vision_prune_summary_method=None,
++        vt_attn_monitor_enabled=None,
++        vt_attn_monitor_layers=None,
++        vt_attn_monitor_store_token_scores=None,
++        vt_attn_monitor_collect_visual_importance=None,
+         is_first_iteration=False,
+         **kwargs,
+     ):
+         # Overwritten -- in specific circumstances we don't want to forward image inputs to the model
++        passthrough_kwargs = dict(kwargs)
++        for key, value in (
++            ("vision_max_layers", vision_max_layers),
++            ("vision_prune_enabled", vision_prune_enabled),
++            ("vision_prune_ratio", vision_prune_ratio),
++            ("vision_prune_keep_tokens", vision_prune_keep_tokens),
++            ("vision_prune_min_tokens", vision_prune_min_tokens),
++            ("vision_prune_method", vision_prune_method),
++            ("vision_prune_warmup_layers", vision_prune_warmup_layers),
++            ("vision_prune_attn_query_chunk_size", vision_prune_attn_query_chunk_size),
++            ("vision_prune_summary_enabled", vision_prune_summary_enabled),
++            ("vision_prune_summary_method", vision_prune_summary_method),
++            ("vt_attn_monitor_enabled", vt_attn_monitor_enabled),
++            ("vt_attn_monitor_layers", vt_attn_monitor_layers),
++            ("vt_attn_monitor_store_token_scores", vt_attn_monitor_store_token_scores),
++            ("vt_attn_monitor_collect_visual_importance", vt_attn_monitor_collect_visual_importance),
++        ):
++            if value is not None:
++                passthrough_kwargs[key] = value
+ 
+         model_inputs = super().prepare_inputs_for_generation(
+             input_ids,
+@@ -1499,7 +1923,7 @@ class Qwen3VLForConditionalGeneration(Qwen3VLPreTrainedModel, GenerationMixin):
+             video_grid_thw=video_grid_thw,
+             use_cache=use_cache,
+             is_first_iteration=is_first_iteration,
+-            **kwargs,
++            **passthrough_kwargs,
+         )
+ 
+         # Qwen3VL position_ids are prepared with rope_deltas
+diff --git a/src/transformers/models/qwen3_vl/modular_qwen3_vl.py b/src/transformers/models/qwen3_vl/modular_qwen3_vl.py
+index 05eeec541845bcbc75fb21a20bd098e816becf36..9dd465d4b44b38840dede44458fe0433c518109f 100644
+--- a/src/transformers/models/qwen3_vl/modular_qwen3_vl.py
++++ b/src/transformers/models/qwen3_vl/modular_qwen3_vl.py
+@@ -52,6 +52,7 @@ from ..qwen2_vl.modeling_qwen2_vl import (
+     TransformersKwargs,
+     VisionAttention,
+     VisionRotaryEmbedding,
++    apply_rotary_pos_emb_vision,
+ )
+ from ..qwen2_vl.processing_qwen2_vl import Qwen2VLProcessor
+ from ..qwen3.modeling_qwen3 import (
+@@ -77,6 +78,159 @@ class BaseModelOutputWithDeepstackFeatures(BaseModelOutputWithPooling):
+     deepstack_features: list[torch.FloatTensor] | None = None
+ 
+ 
++def _coerce_to_bool(value: Any) -> bool:
++    if isinstance(value, bool):
++        return value
++    if isinstance(value, str):
++        return value.strip().lower() in {"1", "true", "yes", "y", "on"}
++    return bool(value)
++
++
++def _normalize_layer_indices(layer_spec: Any, max_layers: int) -> set[int] | None:
++    if layer_spec is None:
++        return None
++    if isinstance(layer_spec, str):
++        normalized = layer_spec.strip().lower()
++        if normalized in {"", "all", "none"}:
++            return None
++        items = [item for item in normalized.replace(";", ",").replace(":", ",").split(",") if item]
++        parsed = [int(item) for item in items]
++    elif isinstance(layer_spec, int):
++        parsed = [layer_spec]
++    elif isinstance(layer_spec, (list, tuple, set)):
++        parsed = [int(item) for item in layer_spec]
++    else:
++        return None
++
++    filtered = {idx for idx in parsed if 0 <= idx < max_layers}
++    return filtered if filtered else None
++
++
++def _update_vt_attn_collector(
++    collector: dict[str, Any] | None,
++    layer_idx: int,
++    query_states: torch.Tensor,
++    key_states: torch.Tensor,
++    visual_pos_masks: torch.Tensor | None,
++    token_mask: torch.Tensor | None,
++    scaling: float,
++) -> None:
++    if collector is None or visual_pos_masks is None:
++        return
++
++    target_layers = collector.get("layers")
++    if target_layers is not None and layer_idx not in target_layers:
++        return
++
++    if visual_pos_masks.ndim != 2 or visual_pos_masks.shape[0] != query_states.shape[0]:
++        return
++
++    if visual_pos_masks.shape[-1] != query_states.shape[-2]:
++        # Happens during decode steps (query length == 1) when using KV cache.
++        return
++
++    records = collector.setdefault("records", {})
++    layer_record = records.setdefault(
++        layer_idx,
++        {
++            "means": {name: [] for name in ("t2v", "v2t", "v2v", "t2t")},
++            "token_scores": {name: [] for name in ("t2v", "v2t", "v2v", "t2t")},
++            "visual_importance": [],
++        },
++    )
++
++    batch_size = query_states.shape[0]
++    seq_len = query_states.shape[-2]
++    for batch_idx in range(batch_size):
++        if token_mask is None:
++            valid_mask = torch.ones(seq_len, dtype=torch.bool, device=query_states.device)
++        else:
++            valid_mask = token_mask[batch_idx].to(dtype=torch.bool, device=query_states.device)
++            if valid_mask.shape[-1] != seq_len:
++                continue
++
++        visual_mask = visual_pos_masks[batch_idx].to(dtype=torch.bool, device=query_states.device) & valid_mask
++        text_mask = (~visual_pos_masks[batch_idx].to(dtype=torch.bool, device=query_states.device)) & valid_mask
++
++        if not torch.any(visual_mask) or not torch.any(text_mask):
++            continue
++
++        # Use averaged query vectors for each token type to avoid materializing full attention matrices.
++        query_batch = query_states[batch_idx].float()
++        key_batch = key_states[batch_idx].float()
++        if key_batch.shape[0] != query_batch.shape[0]:
++            if query_batch.shape[0] % key_batch.shape[0] != 0:
++                continue
++            repeat_factor = query_batch.shape[0] // key_batch.shape[0]
++            key_batch = (
++                key_batch[:, None, :, :]
++                .expand(key_batch.shape[0], repeat_factor, key_batch.shape[1], key_batch.shape[2])
++                .reshape(query_batch.shape[0], key_batch.shape[1], key_batch.shape[2])
++            )
++
++        q_text = query_batch[:, text_mask, :].mean(dim=1)
++        q_visual = query_batch[:, visual_mask, :].mean(dim=1)
++        k_text = key_batch[:, text_mask, :]
++        k_visual = key_batch[:, visual_mask, :]
++
++        t2v = (k_visual * q_text.unsqueeze(1)).sum(dim=-1).mean(dim=0) * scaling
++        v2t = (k_text * q_visual.unsqueeze(1)).sum(dim=-1).mean(dim=0) * scaling
++        v2v = (k_visual * q_visual.unsqueeze(1)).sum(dim=-1).mean(dim=0) * scaling
++        t2t = (k_text * q_text.unsqueeze(1)).sum(dim=-1).mean(dim=0) * scaling
++
++        score_map = {"t2v": t2v, "v2t": v2t, "v2v": v2v, "t2t": t2t}
++        for score_name, score_tensor in score_map.items():
++            layer_record["means"][score_name].append(float(score_tensor.mean().item()))
++            if collector.get("store_token_scores", True):
++                layer_record["token_scores"][score_name].append(score_tensor.detach().cpu())
++
++        if collector.get("collect_visual_importance", False):
++            dense_importance = torch.full((seq_len,), float("-inf"), dtype=torch.float32, device=query_states.device)
++            dense_importance[visual_mask] = t2v
++            layer_record["visual_importance"].append(dense_importance.detach().cpu())
++
++
++def _compute_vision_key_importance(
++    query_states: torch.Tensor,
++    key_states: torch.Tensor,
++    cu_seqlens: torch.Tensor,
++    scaling: float,
++    query_chunk_size: int = 64,
++) -> torch.Tensor:
++    token_scores = []
++    offset = 0
++    lengths = (cu_seqlens[1:] - cu_seqlens[:-1]).tolist()
++    for length in lengths:
++        local_length = int(length)
++        if local_length <= 0:
++            continue
++        local_q = query_states[0, :, offset : offset + local_length, :]
++        local_k = key_states[0, :, offset : offset + local_length, :]
++        local_k_t = local_k.transpose(1, 2)
++        step = max(1, min(int(query_chunk_size), local_length))
++        score_accum = torch.zeros(
++            (local_q.shape[0], local_length), dtype=torch.float32, device=query_states.device
++        )
++        seen_queries = 0
++
++        for start in range(0, local_length, step):
++            end = min(start + step, local_length)
++            q_chunk = local_q[:, start:end, :]
++            logits = torch.matmul(q_chunk, local_k_t) * scaling
++            probs = torch.softmax(logits.float(), dim=-1)
++            score_accum += probs.sum(dim=1)
++            seen_queries += end - start
++
++        # Per-key importance = average attention mass received across heads and all queries.
++        score = (score_accum / max(1, seen_queries)).mean(dim=0)
++        token_scores.append(score)
++        offset += local_length
++
++    if not token_scores:
++        return torch.empty(0, device=query_states.device, dtype=torch.float32)
++    return torch.cat(token_scores, dim=0)
++
++
+ class Qwen3VLVisionConfig(PreTrainedConfig):
+     model_type = "qwen3_vl"
+     base_config_key = "vision_config"
+@@ -356,6 +510,47 @@ class Qwen3VLVisionAttention(VisionAttention):
+         super().__init__()
+         self.dim = config.hidden_size
+ 
++    def forward(
++        self,
++        hidden_states: torch.Tensor,
++        cu_seqlens: torch.Tensor,
++        rotary_pos_emb: torch.Tensor | None = None,
++        position_embeddings: tuple[torch.Tensor, torch.Tensor] | None = None,
++        **kwargs,
++    ) -> torch.Tensor | tuple[torch.Tensor, torch.Tensor]:
++        return_token_importance = kwargs.pop("return_token_importance", False)
++        attn_query_chunk_size = int(kwargs.pop("vision_prune_attn_query_chunk_size", 64))
++
++        token_importance = None
++        if return_token_importance:
++            seq_length = hidden_states.shape[0]
++            query_states, key_states, _ = (
++                self.qkv(hidden_states).reshape(seq_length, 3, self.num_heads, -1).permute(1, 0, 2, 3).unbind(0)
++            )
++            cos, sin = position_embeddings
++            query_states, key_states = apply_rotary_pos_emb_vision(query_states, key_states, cos, sin)
++            query_states = query_states.transpose(0, 1).unsqueeze(0)
++            key_states = key_states.transpose(0, 1).unsqueeze(0)
++            token_importance = _compute_vision_key_importance(
++                query_states,
++                key_states,
++                cu_seqlens,
++                self.scaling,
++                query_chunk_size=attn_query_chunk_size,
++            )
++
++        attn_output = super().forward(
++            hidden_states,
++            cu_seqlens=cu_seqlens,
++            rotary_pos_emb=rotary_pos_emb,
++            position_embeddings=position_embeddings,
++            **kwargs,
++        )
++
++        if return_token_importance:
++            return attn_output, token_importance
++        return attn_output
++
+ 
+ class Qwen3VLVisionBlock(Qwen2_5_VLVisionBlock):
+     def __init__(self, config, attn_implementation: str = "sdpa") -> None:
+@@ -365,6 +560,32 @@ class Qwen3VLVisionBlock(Qwen2_5_VLVisionBlock):
+         self.attn = Qwen3VLVisionAttention(config=config)
+         self.mlp = Qwen3VLVisionMLP(config=config)
+ 
++    def forward(
++        self,
++        hidden_states: torch.Tensor,
++        cu_seqlens: torch.Tensor,
++        rotary_pos_emb: torch.Tensor | None = None,
++        position_embeddings: tuple[torch.Tensor, torch.Tensor] | None = None,
++        **kwargs,
++    ) -> torch.Tensor | tuple[torch.Tensor, torch.Tensor]:
++        return_token_importance = kwargs.pop("return_token_importance", False)
++        attn_out = self.attn(
++            self.norm1(hidden_states),
++            cu_seqlens=cu_seqlens,
++            rotary_pos_emb=rotary_pos_emb,
++            position_embeddings=position_embeddings,
++            return_token_importance=return_token_importance,
++            **kwargs,
++        )
++        token_importance = None
++        if return_token_importance:
++            attn_out, token_importance = attn_out
++        hidden_states = hidden_states + attn_out
++        hidden_states = hidden_states + self.mlp(self.norm2(hidden_states))
++        if return_token_importance:
++            return hidden_states, token_importance
++        return hidden_states
++
+ 
+ class Qwen3VLTextRotaryEmbedding(LlamaRotaryEmbedding):
+     inv_freq: torch.Tensor  # fix linting for `register_buffer`
+@@ -426,6 +647,10 @@ class Qwen3VLTextAttention(Qwen3Attention):
+         cache_position: torch.LongTensor | None = None,
+         **kwargs: Unpack[FlashAttentionKwargs],
+     ) -> tuple[torch.Tensor, torch.Tensor | None]:
++        vt_attn_collector = kwargs.pop("vt_attn_collector", None)
++        vt_visual_pos_masks = kwargs.pop("vt_visual_pos_masks", None)
++        vt_token_mask = kwargs.pop("vt_token_mask", None)
++
+         input_shape = hidden_states.shape[:-1]
+         hidden_shape = (*input_shape, -1, self.head_dim)
+ 
+@@ -436,6 +661,16 @@ class Qwen3VLTextAttention(Qwen3Attention):
+         cos, sin = position_embeddings
+         query_states, key_states = apply_rotary_pos_emb(query_states, key_states, cos, sin)
+ 
++        _update_vt_attn_collector(
++            collector=vt_attn_collector,
++            layer_idx=self.layer_idx,
++            query_states=query_states,
++            key_states=key_states,
++            visual_pos_masks=vt_visual_pos_masks,
++            token_mask=vt_token_mask,
++            scaling=self.scaling,
++        )
++
+         if past_key_values is not None:
+             # sin and cos are specific to RoPE models; cache_position needed for the static cache
+             cache_kwargs = {"sin": sin, "cos": cos, "cache_position": cache_position}
+@@ -689,19 +924,165 @@ class Qwen3VLVisionModel(Qwen3VLPreTrainedModel):
+         )
+         cu_seqlens = F.pad(cu_seqlens, (1, 0), value=0)
+ 
++        vision_max_layers = kwargs.pop("vision_max_layers", None)
++        vision_prune_enabled = _coerce_to_bool(kwargs.pop("vision_prune_enabled", False))
++        vision_prune_ratio = kwargs.pop("vision_prune_ratio", None)
++        vision_prune_keep_tokens = kwargs.pop("vision_prune_keep_tokens", None)
++        vision_prune_min_tokens = kwargs.pop("vision_prune_min_tokens", 0)
++        vision_prune_method = str(kwargs.pop("vision_prune_method", "l2")).lower()
++        vision_prune_warmup_layers = kwargs.pop("vision_prune_warmup_layers", 0)
++        vision_prune_summary_enabled = _coerce_to_bool(kwargs.pop("vision_prune_summary_enabled", False))
++        vision_prune_summary_method = str(kwargs.pop("vision_prune_summary_method", "weighted_mean")).lower()
++
++        max_layers = (
++            len(self.blocks)
++            if vision_max_layers is None
++            else max(0, min(int(vision_max_layers), len(self.blocks)))
++        )
++
+         deepstack_feature_lists = []
+-        for layer_num, blk in enumerate(self.blocks):
+-            hidden_states = blk(
+-                hidden_states,
+-                cu_seqlens=cu_seqlens,
+-                position_embeddings=position_embeddings,
+-                **kwargs,
++        start_layer = 0
++        vision_prune_scores = None
++        if vision_prune_enabled and max_layers > 0:
++            warmup_layers = max(0, min(int(vision_prune_warmup_layers), max_layers))
++            for layer_num in range(warmup_layers):
++                blk = self.blocks[layer_num]
++                if vision_prune_method in {"attn", "attention"}:
++                    hidden_states, layer_importance = blk(
++                        hidden_states,
++                        cu_seqlens=cu_seqlens,
++                        position_embeddings=position_embeddings,
++                        return_token_importance=True,
++                        **kwargs,
++                    )
++                    if layer_importance is not None and layer_importance.numel() > 0:
++                        if vision_prune_scores is None:
++                            vision_prune_scores = layer_importance.float()
++                        else:
++                            vision_prune_scores = vision_prune_scores + layer_importance.float()
++                else:
++                    hidden_states = blk(
++                        hidden_states,
++                        cu_seqlens=cu_seqlens,
++                        position_embeddings=position_embeddings,
++                        **kwargs,
++                    )
++
++                if layer_num in self.deepstack_visual_indexes:
++                    deepstack_feature = self.deepstack_merger_list[self.deepstack_visual_indexes.index(layer_num)](
++                        hidden_states
++                    )
++                    deepstack_feature_lists.append(deepstack_feature)
++            start_layer = warmup_layers
++
++        prune_active = False
++        keep_indices = None
++        kept_lengths = None
++        if vision_prune_enabled:
++            lengths = (grid_thw[:, 0] * grid_thw[:, 1] * grid_thw[:, 2]).tolist()
++            keep_indices_list = []
++            kept_lengths = []
++            offset = 0
++            ratio = 1.0 if vision_prune_ratio is None else float(vision_prune_ratio)
++            for length in lengths:
++                if length <= 0:
++                    kept_lengths.append(0)
++                    continue
++                if vision_prune_keep_tokens is not None:
++                    k = int(vision_prune_keep_tokens)
++                else:
++                    k = int(length * ratio)
++                k = max(1, k)
++                if vision_prune_min_tokens:
++                    k = max(k, int(vision_prune_min_tokens))
++                k = min(k, length)
++                hidden_slice = hidden_states[offset : offset + length]
++                if k >= length:
++                    keep_local = torch.arange(length, device=hidden_states.device)
++                else:
++                    if (
++                        vision_prune_method in {"attn", "attention"}
++                        and vision_prune_scores is not None
++                        and vision_prune_scores.shape[0] >= offset + length
++                    ):
++                        scores = vision_prune_scores[offset : offset + length]
++                    elif vision_prune_method == "abs_mean":
++                        scores = hidden_slice.float().abs().mean(dim=-1)
++                    else:
++                        scores = hidden_slice.float().pow(2).sum(dim=-1)
++
++                    topk = torch.topk(scores, k, largest=True).indices
++                    keep_local = topk.sort().values
++
++                    if vision_prune_summary_enabled and keep_local.numel() < length:
++                        local_ids = torch.arange(length, device=hidden_states.device)
++                        dropped_mask = torch.ones(length, dtype=torch.bool, device=hidden_states.device)
++                        dropped_mask[keep_local] = False
++                        dropped_local = local_ids[dropped_mask]
++                        if dropped_local.numel() > 0:
++                            dropped_hidden = hidden_slice[dropped_local]
++                            if vision_prune_summary_method == "mean" or scores is None:
++                                summary_vec = dropped_hidden.mean(dim=0)
++                            else:
++                                dropped_scores = scores[dropped_local]
++                                weights = torch.softmax(dropped_scores.float(), dim=0).to(dropped_hidden.dtype)
++                                summary_vec = (dropped_hidden * weights.unsqueeze(-1)).sum(dim=0)
++                            summary_target = dropped_local[0]
++                            hidden_states[offset + summary_target] = summary_vec
++                            if not torch.any(keep_local == summary_target):
++                                keep_local = torch.cat([keep_local, summary_target.view(1)]).sort().values
++                keep = keep_local + offset
++                keep_indices_list.append(keep)
++                kept_lengths.append(int(keep_local.numel()))
++                offset += length
++            if keep_indices_list:
++                keep_indices = torch.cat(keep_indices_list, dim=0)
++                prune_active = keep_indices.numel() < hidden_states.shape[0]
++            else:
++                keep_indices = torch.arange(hidden_states.shape[0], device=hidden_states.device)
++
++        if prune_active:
++            hidden_states_full = hidden_states if not torch.is_grad_enabled() else hidden_states.clone()
++            pruned_position_embeddings = (
++                position_embeddings[0][keep_indices],
++                position_embeddings[1][keep_indices],
++            )
++            pruned_cu_seqlens = torch.tensor(
++                [0] + list(np.cumsum(kept_lengths)),
++                device=hidden_states.device,
++                dtype=grid_thw.dtype if torch.jit.is_tracing() else torch.int32,
+             )
+-            if layer_num in self.deepstack_visual_indexes:
+-                deepstack_feature = self.deepstack_merger_list[self.deepstack_visual_indexes.index(layer_num)](
+-                    hidden_states
++            pruned_hidden_states = hidden_states_full[keep_indices]
++            for layer_num in range(start_layer, max_layers):
++                blk = self.blocks[layer_num]
++                pruned_hidden_states = blk(
++                    pruned_hidden_states,
++                    cu_seqlens=pruned_cu_seqlens,
++                    position_embeddings=pruned_position_embeddings,
++                    **kwargs,
++                )
++                hidden_states_full[keep_indices] = pruned_hidden_states
++                if layer_num in self.deepstack_visual_indexes:
++                    deepstack_feature = self.deepstack_merger_list[self.deepstack_visual_indexes.index(layer_num)](
++                        hidden_states_full
++                    )
++                    deepstack_feature_lists.append(deepstack_feature)
++                pruned_hidden_states = hidden_states_full[keep_indices]
++            hidden_states = hidden_states_full
++        else:
++            for layer_num in range(start_layer, max_layers):
++                blk = self.blocks[layer_num]
++                hidden_states = blk(
++                    hidden_states,
++                    cu_seqlens=cu_seqlens,
++                    position_embeddings=position_embeddings,
++                    **kwargs,
+                 )
+-                deepstack_feature_lists.append(deepstack_feature)
++                if layer_num in self.deepstack_visual_indexes:
++                    deepstack_feature = self.deepstack_merger_list[self.deepstack_visual_indexes.index(layer_num)](
++                        hidden_states
++                    )
++                    deepstack_feature_lists.append(deepstack_feature)
+ 
+         merged_hidden_states = self.merger(hidden_states)
+ 
+@@ -788,6 +1169,12 @@ class Qwen3VLTextModel(Qwen3VLPreTrainedModel, Qwen3Model):
+         else:
+             text_position_ids = position_ids[0]
+ 
++        vt_attn_collector = kwargs.pop("vt_attn_collector", None)
++        vt_visual_pos_masks = kwargs.pop("vt_visual_pos_masks", visual_pos_masks)
++        token_attention_mask = None
++        if attention_mask is not None and attention_mask.ndim == 2:
++            token_attention_mask = attention_mask.to(dtype=torch.bool, device=inputs_embeds.device)
++
+         attention_mask = create_causal_mask(
+             config=self.config,
+             input_embeds=inputs_embeds,
+@@ -811,6 +1198,9 @@ class Qwen3VLTextModel(Qwen3VLPreTrainedModel, Qwen3Model):
+                 past_key_values=past_key_values,
+                 cache_position=cache_position,
+                 position_embeddings=position_embeddings,
++                vt_attn_collector=vt_attn_collector,
++                vt_visual_pos_masks=vt_visual_pos_masks,
++                vt_token_mask=token_attention_mask,
+                 **kwargs,
+             )
+             hidden_states = layer_outputs
+@@ -842,6 +1232,7 @@ class Qwen3VLModel(Qwen2_5_VLModel):
+         super().__init__(config)
+         self.visual = Qwen3VLVisionModel._from_config(config.vision_config)
+         self.language_model = Qwen3VLTextModel._from_config(config.text_config)
++        self._last_vt_attn_collector: dict[str, Any] | None = None
+ 
+     def get_rope_index(
+         self,
+@@ -1032,12 +1423,37 @@ class Qwen3VLModel(Qwen2_5_VLModel):
+         if inputs_embeds is None:
+             inputs_embeds = self.get_input_embeddings()(input_ids)
+ 
++        vt_attn_monitor_enabled = _coerce_to_bool(kwargs.pop("vt_attn_monitor_enabled", False))
++        vt_attn_monitor_layers = kwargs.pop("vt_attn_monitor_layers", None)
++        vt_attn_monitor_store_token_scores = _coerce_to_bool(
++            kwargs.pop("vt_attn_monitor_store_token_scores", True)
++        )
++        vt_attn_monitor_collect_visual_importance = _coerce_to_bool(
++            kwargs.pop("vt_attn_monitor_collect_visual_importance", False)
++        )
++
++        vision_kwargs = {}
++        for key in (
++            "vision_max_layers",
++            "vision_prune_enabled",
++            "vision_prune_ratio",
++            "vision_prune_keep_tokens",
++            "vision_prune_min_tokens",
++            "vision_prune_method",
++            "vision_prune_warmup_layers",
++            "vision_prune_attn_query_chunk_size",
++            "vision_prune_summary_enabled",
++            "vision_prune_summary_method",
++        ):
++            if key in kwargs:
++                vision_kwargs[key] = kwargs.pop(key)
++
+         image_mask = None
+         video_mask = None
+ 
+         if pixel_values is not None:
+             image_outputs: BaseModelOutputWithDeepstackFeatures = self.get_image_features(
+-                pixel_values, image_grid_thw, return_dict=True
++                pixel_values, image_grid_thw, return_dict=True, **vision_kwargs
+             )
+             image_embeds = image_outputs.pooler_output
+             deepstack_image_embeds = image_outputs.deepstack_features
+@@ -1049,7 +1465,7 @@ class Qwen3VLModel(Qwen2_5_VLModel):
+ 
+         if pixel_values_videos is not None:
+             video_outputs: BaseModelOutputWithDeepstackFeatures = self.get_video_features(
+-                pixel_values_videos, video_grid_thw, return_dict=True
++                pixel_values_videos, video_grid_thw, return_dict=True, **vision_kwargs
+             )
+             video_embeds = video_outputs.pooler_output
+             deepstack_video_embeds = video_outputs.deepstack_features
+@@ -1083,6 +1499,20 @@ class Qwen3VLModel(Qwen2_5_VLModel):
+             visual_pos_masks = video_mask
+             deepstack_visual_embeds = deepstack_video_embeds
+ 
++        vt_attn_collector = None
++        if (
++            vt_attn_monitor_enabled
++            and visual_pos_masks is not None
++            and past_key_values is None
++            and inputs_embeds.shape[1] > 1
++        ):
++            vt_attn_collector = {
++                "layers": _normalize_layer_indices(vt_attn_monitor_layers, self.config.text_config.num_hidden_layers),
++                "store_token_scores": vt_attn_monitor_store_token_scores,
++                "collect_visual_importance": vt_attn_monitor_collect_visual_importance,
++                "records": {},
++            }
++
+         if position_ids is None:
+             past_key_values_length = 0 if past_key_values is None else past_key_values.get_seq_length()
+             if self.rope_deltas is None or past_key_values_length == 0:
+@@ -1113,9 +1543,14 @@ class Qwen3VLModel(Qwen2_5_VLModel):
+             cache_position=cache_position,
+             visual_pos_masks=visual_pos_masks,
+             deepstack_visual_embeds=deepstack_visual_embeds,
++            vt_attn_collector=vt_attn_collector,
++            vt_visual_pos_masks=visual_pos_masks,
+             **kwargs,
+         )
+ 
++        if vt_attn_collector is not None:
++            self._last_vt_attn_collector = vt_attn_collector
++
+         return Qwen3VLModelOutputWithPast(
+             last_hidden_state=outputs.last_hidden_state,
+             past_key_values=outputs.past_key_values,
+@@ -1249,10 +1684,43 @@ class Qwen3VLForConditionalGeneration(Qwen2_5_VLForConditionalGeneration):
+         pixel_values_videos=None,
+         image_grid_thw=None,
+         video_grid_thw=None,
++        vision_max_layers=None,
++        vision_prune_enabled=None,
++        vision_prune_ratio=None,
++        vision_prune_keep_tokens=None,
++        vision_prune_min_tokens=None,
++        vision_prune_method=None,
++        vision_prune_warmup_layers=None,
++        vision_prune_attn_query_chunk_size=None,
++        vision_prune_summary_enabled=None,
++        vision_prune_summary_method=None,
++        vt_attn_monitor_enabled=None,
++        vt_attn_monitor_layers=None,
++        vt_attn_monitor_store_token_scores=None,
++        vt_attn_monitor_collect_visual_importance=None,
+         is_first_iteration=False,
+         **kwargs,
+     ):
+         # Overwritten -- in specific circumstances we don't want to forward image inputs to the model
++        passthrough_kwargs = dict(kwargs)
++        for key, value in (
++            ("vision_max_layers", vision_max_layers),
++            ("vision_prune_enabled", vision_prune_enabled),
++            ("vision_prune_ratio", vision_prune_ratio),
++            ("vision_prune_keep_tokens", vision_prune_keep_tokens),
++            ("vision_prune_min_tokens", vision_prune_min_tokens),
++            ("vision_prune_method", vision_prune_method),
++            ("vision_prune_warmup_layers", vision_prune_warmup_layers),
++            ("vision_prune_attn_query_chunk_size", vision_prune_attn_query_chunk_size),
++            ("vision_prune_summary_enabled", vision_prune_summary_enabled),
++            ("vision_prune_summary_method", vision_prune_summary_method),
++            ("vt_attn_monitor_enabled", vt_attn_monitor_enabled),
++            ("vt_attn_monitor_layers", vt_attn_monitor_layers),
++            ("vt_attn_monitor_store_token_scores", vt_attn_monitor_store_token_scores),
++            ("vt_attn_monitor_collect_visual_importance", vt_attn_monitor_collect_visual_importance),
++        ):
++            if value is not None:
++                passthrough_kwargs[key] = value
+ 
+         model_inputs = super().prepare_inputs_for_generation(
+             input_ids,
+@@ -1267,7 +1735,7 @@ class Qwen3VLForConditionalGeneration(Qwen2_5_VLForConditionalGeneration):
+             video_grid_thw=video_grid_thw,
+             use_cache=use_cache,
+             is_first_iteration=is_first_iteration,
+-            **kwargs,
++            **passthrough_kwargs,
+         )
+ 
+         # Qwen3VL position_ids are prepared with rope_deltas

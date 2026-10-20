@@ -1,0 +1,262 @@
+{
+  "schema_version": 1,
+  "experiment_id": "olmo3-7b-longitudinal-v1",
+  "objective": "Measure whether task quality and within-model knowledge-versus-reasoning representation separation change across OLMo 3 training checkpoints.",
+  "claim_limit": "This is one released training trajectory. Variation across three disjoint evaluation blocks is not variation across training seeds, and checkpoint associations are descriptive until an intervention is run.",
+  "model": {
+    "lmms_model": "hf_causal",
+    "batch_size": 32,
+    "model_args": {
+      "use_cache": true
+    }
+  },
+  "dataset": {
+    "path": "hails/mmlu_no_train",
+    "revision": "b2e1ec9aa795adafe68e8e983248dbd4b52a1c60"
+  },
+  "tasks": {
+    "knowledge": [
+      "repdyn_mmlu_anatomy",
+      "repdyn_mmlu_clinical_knowledge",
+      "repdyn_mmlu_high_school_world_history",
+      "repdyn_mmlu_professional_law",
+      "repdyn_mmlu_astronomy"
+    ],
+    "reasoning": [
+      "repdyn_mmlu_abstract_algebra",
+      "repdyn_mmlu_formal_logic",
+      "repdyn_mmlu_high_school_mathematics",
+      "repdyn_mmlu_college_mathematics",
+      "repdyn_mmlu_logical_fallacies"
+    ]
+  },
+  "replicates": [
+    {
+      "id": "block-0",
+      "offset": 0,
+      "sample_count_per_task": 32
+    },
+    {
+      "id": "block-1",
+      "offset": 32,
+      "sample_count_per_task": 32
+    },
+    {
+      "id": "block-2",
+      "offset": 64,
+      "sample_count_per_task": 32
+    }
+  ],
+  "repeat_interpretation": "The three blocks contain disjoint examples and are paired across checkpoints. Their sample standard deviation describes sensitivity to example sampling. It is not training-run uncertainty. Greedy generation uses one fixed seed because changing that seed does not change prefill states.",
+  "extraction": {
+    "seed": 0,
+    "pooling": "last_valid",
+    "phases": "prefill",
+    "storage_dtype": "float32"
+  },
+  "analysis": {
+    "cv_folds": 5,
+    "linear_task_label_permutations": 251,
+    "nonlinear_task_label_permutations": 0,
+    "pca_retained_variance": 0.95,
+    "silhouette_max_samples": 5000,
+    "seed": 0
+  },
+  "default_tiers": [
+    "primary"
+  ],
+  "checkpoints": [
+    {
+      "id": "base-stage1-step10000",
+      "tier": "primary",
+      "repository": "allenai/Olmo-3-1025-7B",
+      "source_ref": "stage1-step10000",
+      "revision": "7717822de388435b332d8c4a7ab7d88412fff939",
+      "training_path": "base",
+      "trajectory": "base-stage1",
+      "stage": "stage1",
+      "position": 10000,
+      "position_unit": "optimizer_step"
+    },
+    {
+      "id": "base-stage1-step705000",
+      "tier": "primary",
+      "repository": "allenai/Olmo-3-1025-7B",
+      "source_ref": "stage1-step705000",
+      "revision": "bc2d50ba1585bafb1f4bdb58df8c5636c9248ea5",
+      "training_path": "base",
+      "trajectory": "base-stage1",
+      "stage": "stage1",
+      "position": 705000,
+      "position_unit": "optimizer_step"
+    },
+    {
+      "id": "base-stage1-step1413814",
+      "tier": "primary",
+      "repository": "allenai/Olmo-3-1025-7B",
+      "source_ref": "stage1-step1413814",
+      "revision": "373bad25002f1624757a73235c5ca844c6375c25",
+      "training_path": "base",
+      "trajectory": "base-stage1",
+      "stage": "stage1",
+      "position": 1413814,
+      "position_unit": "optimizer_step"
+    },
+    {
+      "id": "base-stage2-step1000",
+      "tier": "primary",
+      "repository": "allenai/Olmo-3-1025-7B",
+      "source_ref": "stage2-step1000",
+      "revision": "2079c9080d94a23d90601169ab4d44c44797fe8f",
+      "training_path": "base",
+      "trajectory": "base-stage2",
+      "stage": "stage2",
+      "position": 1000,
+      "position_unit": "optimizer_step"
+    },
+    {
+      "id": "base-stage2-step47684",
+      "tier": "primary",
+      "repository": "allenai/Olmo-3-1025-7B",
+      "source_ref": "stage2-step47684",
+      "revision": "c3c800dc900f3fecc112e8cd6b2a13edabc096e1",
+      "training_path": "base",
+      "trajectory": "base-stage2",
+      "stage": "stage2",
+      "position": 47684,
+      "position_unit": "optimizer_step"
+    },
+    {
+      "id": "base-stage3-step1000",
+      "tier": "primary",
+      "repository": "allenai/Olmo-3-1025-7B",
+      "source_ref": "stage3-step1000",
+      "revision": "446ae231fa094d6e0c04aefc9893d2a4799183ff",
+      "training_path": "base",
+      "trajectory": "base-stage3",
+      "stage": "stage3",
+      "position": 1000,
+      "position_unit": "optimizer_step"
+    },
+    {
+      "id": "base-stage3-step11921",
+      "tier": "primary",
+      "repository": "allenai/Olmo-3-1025-7B",
+      "source_ref": "stage3-step11921",
+      "revision": "4b32e100e6d94c5903b9680b6662c45089c534e4",
+      "training_path": "base",
+      "trajectory": "base-stage3",
+      "stage": "stage3",
+      "position": 11921,
+      "position_unit": "optimizer_step"
+    },
+    {
+      "id": "mix-2t-gen-mc",
+      "tier": "mixture_control",
+      "repository": "allenai/Olmo-3-1025-7B",
+      "source_ref": "stage2-step47684-mix-gen-mc-only-from-2T-ckpt",
+      "revision": "45786899c6c427d17f9291f3d97c7e4fcbd4962b",
+      "training_path": "stage2-from-2t",
+      "trajectory": "stage2-mixture-endpoint-control",
+      "stage": "stage2",
+      "position": 47684,
+      "position_unit": "optimizer_step"
+    },
+    {
+      "id": "mix-2t-math-code-reasoning-web",
+      "tier": "mixture_control",
+      "repository": "allenai/Olmo-3-1025-7B",
+      "source_ref": "stage2-step47684-mix-math-code-reasoning-web-from-2T-ckpt",
+      "revision": "ab9f4b070e9125de257bfbe31bf8cc777daadfb4",
+      "training_path": "stage2-from-2t",
+      "trajectory": "stage2-mixture-endpoint-control",
+      "stage": "stage2",
+      "position": 47684,
+      "position_unit": "optimizer_step"
+    },
+    {
+      "id": "mix-2t-round5",
+      "tier": "mixture_control",
+      "repository": "allenai/Olmo-3-1025-7B",
+      "source_ref": "stage2-step47684-mix-round5-from-2T-ckpt",
+      "revision": "34e13d5fae4d1aacf4aa019c377a332ed09ff136",
+      "training_path": "stage2-from-2t",
+      "trajectory": "stage2-mixture-endpoint-control",
+      "stage": "stage2",
+      "position": 47684,
+      "position_unit": "optimizer_step"
+    },
+    {
+      "id": "think-sft-step1000",
+      "tier": "posttraining",
+      "repository": "allenai/Olmo-3-7B-Think-SFT",
+      "source_ref": "step1000",
+      "revision": "9a45447cd55efd41e6eada0da28407277e818c63",
+      "training_path": "think-sft",
+      "trajectory": "think-sft",
+      "stage": "sft",
+      "position": 1000,
+      "position_unit": "optimizer_step"
+    },
+    {
+      "id": "think-sft-step43000",
+      "tier": "posttraining",
+      "repository": "allenai/Olmo-3-7B-Think-SFT",
+      "source_ref": "step43000",
+      "revision": "aaf125a44bae8813952d53617c96a980f2b8323e",
+      "training_path": "think-sft",
+      "trajectory": "think-sft",
+      "stage": "sft",
+      "position": 43000,
+      "position_unit": "optimizer_step"
+    },
+    {
+      "id": "rl-math-step100",
+      "tier": "posttraining",
+      "repository": "allenai/Olmo-3-7B-RL-Zero-Math",
+      "source_ref": "step_100",
+      "revision": "3315e80ceb281ae2e6a20bd09e8594ba52d4f312",
+      "training_path": "rl-math",
+      "trajectory": "rl-math",
+      "stage": "rl",
+      "position": 100,
+      "position_unit": "update"
+    },
+    {
+      "id": "rl-math-step1900",
+      "tier": "posttraining",
+      "repository": "allenai/Olmo-3-7B-RL-Zero-Math",
+      "source_ref": "step_1900",
+      "revision": "8182367150cef52ddf00dd5259ea94eaa330918e",
+      "training_path": "rl-math",
+      "trajectory": "rl-math",
+      "stage": "rl",
+      "position": 1900,
+      "position_unit": "update"
+    },
+    {
+      "id": "rl-code-step100",
+      "tier": "posttraining",
+      "repository": "allenai/Olmo-3-7B-RL-Zero-Code",
+      "source_ref": "step_100",
+      "revision": "3c29f35610c9a0aef588736542c88911cc4094e8",
+      "training_path": "rl-code",
+      "trajectory": "rl-code",
+      "stage": "rl",
+      "position": 100,
+      "position_unit": "update"
+    },
+    {
+      "id": "rl-code-step2900",
+      "tier": "posttraining",
+      "repository": "allenai/Olmo-3-7B-RL-Zero-Code",
+      "source_ref": "step_2900",
+      "revision": "ea18fc74cee487438aa052ea5bf8aada8a04f4af",
+      "training_path": "rl-code",
+      "trajectory": "rl-code",
+      "stage": "rl",
+      "position": 2900,
+      "position_unit": "update"
+    }
+  ]
+}

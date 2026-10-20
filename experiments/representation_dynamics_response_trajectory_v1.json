@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "experiment_id": "representation-dynamics-response-trajectory-v1",
+  "status": "frozen_protocol; corrected two-task smoke passed; full 16-task OLMo extraction running",
+  "scientific_role": "Separate process-sensitivity study. It does not replace or modify the direct-answer prefill experiment.",
+  "question": "Does the named knowledge-reasoning task partition become more separable while the model generates a matched explanatory response than it was at prefill?",
+  "initial_model": {
+    "pretrained": "allenai/Olmo-3-7B-Instruct",
+    "revision": "6e5971d9eba42665f5bd5a0fcf047f299ce1dccc",
+    "role": "Protocol anchor only. Extend to other models only after parity, coverage, and completeness pass."
+  },
+  "tasks": {
+    "source": "The same frozen 8+8 MMLU subjects and document IDs as representation_dynamics_main_track_v1.",
+    "sample_count_per_task": 16,
+    "prompt_template": "Begin with exactly `Final answer: X`, replacing X with one of A, B, C, or D; then give exactly two short explanatory sentences totaling at most 60 words, without lists or displayed equations.",
+    "parser": "Extract the last A/B/C/D label following the explicit `Final answer` marker, with an optional colon; missing or malformed markers are incorrect.",
+    "reason_for_matched_format": "Both task categories receive the same response request. Category-specific chain-of-thought or token-level versus step-level processing is prohibited. The answer-first order makes the measured continuation post-answer response dynamics, not computation leading to the choice."
+  },
+  "generation": {
+    "do_sample": false,
+    "max_new_tokens": 256,
+    "min_new_tokens": 0,
+    "stop": "model EOS only; the task config explicitly sets an empty `until` list to override the harness paragraph-stop default",
+    "reasoning_visibility": "The requested concise explanation is part of the observable answer protocol; it is not claimed to reveal a faithful hidden reasoning process."
+  },
+  "extraction": {
+    "phases": ["prefill", "decode"],
+    "pooling": "last_valid",
+    "decode_aggregation": "all_updates",
+    "decode_max_updates": 32,
+    "storage_dtype": "float32",
+    "streams": ["attention_delta", "mlp_delta", "residual_state"]
+  },
+  "coverage_gate": {
+    "definition": "For each task and zero-based decode step, report the fraction of frozen examples with a captured update.",
+    "common_prefix": "Use the longest prefix beginning at decode_step=0 for which every task has at least 0.95 coverage.",
+    "minimum_usable_prefix": 8,
+    "failure_rule": "If fewer than eight decode updates meet the common-prefix rule, stop after the smoke and do not report a response-trajectory separation test.",
+    "later_steps": "May be shown only as descriptive coverage-conditioned values, never substituted into the primary prefix."
+  },
+  "primary_statistic": {
+    "definition": "The maximum, over common-prefix decode step, layer, and stream, of the decode Fisher trace ratio minus the prefill Fisher trace ratio at the same layer and stream.",
+    "selection_correction": "For each of all 12,870 balanced 8+8 task assignments, recompute prefill and decode Fisher values, the common statistic rows, and the maximum.",
+    "decision_threshold": 0.01,
+    "secondary": [
+      "The absolute maximum decode Fisher ratio with the same selection correction.",
+      "A selection-aware grouped linear probe at the assignment-selected primary site.",
+      "Between-group and within-group Fisher terms and effective rank at every reported position."
+    ]
+  },
+  "required_controls": [
+    "Observer-off/on document IDs, generated responses, parsed answers, correctness, token counts, and task aggregates match exactly.",
+    "Same-process logits are bit-identical with observers attached and after removal on a calibration batch.",
+    "All expected layer-stream-position records are finite and semantically exact; skipped or truncated captures are zero within the common prefix.",
+    "Report response-token survival by task and category and the complete output-length distribution.",
+    "Report correct/incorrect counts by task; correctness-conditioned rows are descriptive unless a separate valid estimator is frozen.",
+    "Repeat the maximum selection across layer, stream, and response position for every task assignment."
+  ],
+  "interpretation_limit": "The answer marker precedes the explanation, so the generated-token trajectory is post-answer response dynamics. Absolute response positions are not semantic reasoning steps. A positive result shows that this operational task partition becomes more distinguishable during this matched response protocol; it does not identify computation leading to the answer, a reasoning circuit, faithful chain of thought, or a causal mechanism."
+}

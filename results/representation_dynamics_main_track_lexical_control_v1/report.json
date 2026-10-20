@@ -1,0 +1,36 @@
+{
+  "claim_limit": "Post-hoc sensitivity to a low-rank character-TF-IDF nuisance representation fit within training-task folds. No condition meets the declared p<0.01 rule, but nominal predictability remains. The analysis neither exhausts lexical content nor establishes causal mediation.",
+  "component_counts": [
+    32,
+    64
+  ],
+  "experiment_id": "representation-dynamics-main-track-lexical-control-v1",
+  "implementation_revision": "0b69f69e455a00b748d799a517939a033338bdd8",
+  "models": [
+    "olmo3-7b-instruct",
+    "apertus15-8b",
+    "qwen3_5-9b",
+    "qwen3_5-27b",
+    "gemma4-31b"
+  ],
+  "output_sha256": {
+    "gpu_telemetry_summary.csv": "645956bab4f35a17f024536bfeff671b6044455cacca07903b3e201a8949cc2b",
+    "lexical_adjusted_probe_summary.csv": "dd91d337c0d6b40fe37f0264e6ae7c91e5cd8d3f620bdf879a622bedb920928e"
+  },
+  "persistent_source": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-lexical-control-v1",
+  "schema_version": 1,
+  "source_sha256": {
+    "char_tfidf_svd32/apertus15-8b/report.json": "02a1dd71f7a99a83fac9bfb9b472ec49ac2bba80bf3b398d1c511362bbe149b5",
+    "char_tfidf_svd32/gemma4-31b/report.json": "88748a86838b33574d623ece1cc5ec2789d5729ddeace6041ce900da4ca1cfe8",
+    "char_tfidf_svd32/olmo3-7b-instruct/report.json": "e4bb287b7bebd542559964ee31ef3bf9ae5b97bc91a9fb8b9402e5d8e5c2a3d1",
+    "char_tfidf_svd32/qwen3_5-27b/report.json": "14bd400c356e4ce6d866c1013f468cdc567703dba668a52a529c5cdfce601ed3",
+    "char_tfidf_svd32/qwen3_5-9b/report.json": "48fb4f206f815986e75dff4af31d5565ce3b0e7c95fe4c47e0b00d078bbd92fa",
+    "char_tfidf_svd64/apertus15-8b/report.json": "5e7b968525587d3d4c6596197a81b1a09ad19e3b55c7c1ad1fe5eae3b4719d7c",
+    "char_tfidf_svd64/gemma4-31b/report.json": "17b8ff12ab4df1aa0d36229df2740178f7cdad592a1374100752d96353692035",
+    "char_tfidf_svd64/olmo3-7b-instruct/report.json": "bfd07d37f0cc848aec0843dc4537e10a5cb37d75199c63044758f146ba50e996",
+    "char_tfidf_svd64/qwen3_5-27b/report.json": "04df05e8ae73d49c096408273f779716fc87e63937f2dc5ac47ec5adb43d6527",
+    "char_tfidf_svd64/qwen3_5-9b/report.json": "792f5e3c18742178cda5085c8715e56f2f11407b717d2b23b1e6dd0065788f7a",
+    "gpu_telemetry.csv": "7d99d5b032f198341f43d6c3f32e2fb7da3f03dd5b67b827cac79b0dbc7173ca"
+  },
+  "status": "PASS"
+}

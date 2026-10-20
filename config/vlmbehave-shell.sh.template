@@ -1,0 +1,36 @@
+# Managed by vlmbehave/scripts/setup_machine.sh.
+# Edit the tracked template, then rerun setup_machine.sh; do not edit the installed copy.
+
+if [ -x /opt/homebrew/bin/brew ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [ -x /usr/local/bin/brew ]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+elif [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+elif command -v brew >/dev/null 2>&1; then
+    eval "$(brew shellenv)"
+fi
+
+export VLM_WORKSPACE="__VLM_WORKSPACE__"
+export GIT_SSH_COMMAND='ssh -i "__GITHUB_SSH_KEY__" -o IdentitiesOnly=yes'
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
+
+if command -v fzf >/dev/null 2>&1 && [[ $- == *i* ]]; then
+    if [ -n "${ZSH_VERSION:-}" ]; then
+        source <(fzf --zsh)
+    elif [ -n "${BASH_VERSION:-}" ]; then
+        eval "$(fzf --bash)"
+    fi
+fi
+
+vlm_activate() {
+    cd "$VLM_WORKSPACE" || return
+    if [ -f "$VLM_WORKSPACE/.venv/bin/activate" ]; then
+        source "$VLM_WORKSPACE/.venv/bin/activate"
+    else
+        printf 'Missing %s/.venv; run ./install.sh first.\n' "$VLM_WORKSPACE" >&2
+        return 1
+    fi
+}

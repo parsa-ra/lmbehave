@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "experiment_id": "response-trajectory-smoke-v1",
+  "status": "PASS_DIRECT_ANSWER_TWO_TIMEPOINT_ONLY",
+  "model": {
+    "repository": "allenai/Olmo-3-7B-Instruct",
+    "revision": "6e5971d9eba42665f5bd5a0fcf047f299ce1dccc"
+  },
+  "protocol": {
+    "tasks": [
+      "repdyn_mmlu_pro_biology",
+      "repdyn_mmlu_pro_math"
+    ],
+    "samples_per_task": 8,
+    "batch_size": 16,
+    "pooling": "last_valid",
+    "phases": [
+      "prefill",
+      "decode"
+    ],
+    "decode_aggregation": "all_updates",
+    "decode_max_updates": 8
+  },
+  "observer_parity": {
+    "pass": true,
+    "compared_fields": [
+      "doc_id",
+      "target",
+      "filtered_resps",
+      "exact_match",
+      "doc_hash"
+    ],
+    "samples_per_task_on": 8,
+    "samples_per_task_off": 8
+  },
+  "artifact": {
+    "records": 3072,
+    "layers": 32,
+    "hooks": 96,
+    "all_branch_records_exact": true,
+    "skipped": {},
+    "truncated": {}
+  },
+  "coverage": {
+    "prefill": {
+      "unique_task_samples": 16,
+      "fraction": 1.0
+    },
+    "decode_step_0": {
+      "unique_task_samples": 16,
+      "fraction": 1.0
+    },
+    "decode_step_1": {
+      "unique_task_samples": 0,
+      "fraction": 0.0
+    }
+  },
+  "estimand": {
+    "prefill": "Last valid prompt-token state used to predict the first answer token.",
+    "decode_step_0": "First cached one-token forward after the first answer token has been generated; it predicts the second token.",
+    "longer_steps": "Unavailable under the frozen direct-answer stop rules."
+  },
+  "decision": "The technical gate passes for prefill and decode_step_0. An eight-step response trajectory is not estimable under this protocol and must not be inferred from selected longer responses or created by changing the primary prompt.",
+  "claim_limit": "This is an observer-parity and coverage smoke, not task-separation evidence. Absolute decode positions are not semantic reasoning steps.",
+  "persistent_artifact": {
+    "root": "/home/ubuntu/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/response-trajectory-smoke-v1",
+    "representations_sha256": "fd42efad01430265da57e0d9c9c5302680a49d6dc7b1baef6ece5b0c80df865d",
+    "records_csv_sha256": "90d1e718798724fc1fa5ff67d5c77f8526c7977ebdd0c6c4249dccff26984535",
+    "metadata_sha256": "55023dc114d48f1da137492d710aed3e5ae644764c0089def4db435aea3325f3",
+    "artifact_validation_sha256": "06e6c26e8746aaa23d3b099fed99e64b69fdcd098961f33735795b85d48a52c9"
+  },
+  "contains_activations_prompts_responses_or_per_sample_rows": false
+}

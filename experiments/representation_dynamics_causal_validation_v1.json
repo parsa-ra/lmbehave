@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "experiment_id": "representation-dynamics-causal-validation-v1",
+  "status": "frozen design; intervention implementation, parity checks, and execution pending",
+  "scientific_role": "Held-out-subject behavioral intervention. Passive separation remains observational until this protocol is executed.",
+  "question": "Does attenuating the independently selected exact branch produce a larger knowledge-versus-reasoning accuracy interaction than equally budgeted same-stream control layers on unseen MMLU subjects?",
+  "discovery_source": {
+    "experiment_id": "representation-dynamics-main-track-v1",
+    "independence_rule": "No discovery subject appears in the intervention panel. Layer, stream, strength, controls, prompts, sample counts, and analysis are frozen before intervention outputs are inspected."
+  },
+  "models": {
+    "olmo3-7b-instruct": {"selected_layer": 3, "selected_stream": "mlp_delta", "discovery_maximum_p": 0.0721056721056721, "role": "non-rejecting specificity control"},
+    "apertus15-8b": {"selected_layer": 0, "selected_stream": "mlp_delta", "discovery_maximum_p": 0.004351204351204351, "role": "primary positive condition"},
+    "qwen3_5-9b": {"selected_layer": 2, "selected_stream": "mlp_delta", "discovery_maximum_p": 0.0010878010878010878, "role": "primary positive condition"},
+    "qwen3_5-27b": {"selected_layer": 1, "selected_stream": "attention_delta", "discovery_maximum_p": 0.000777000777000777, "role": "primary positive condition"},
+    "gemma4-31b": {"selected_layer": 23, "selected_stream": "mlp_delta", "discovery_maximum_p": 0.014452214452214453, "role": "non-rejecting specificity control"}
+  },
+  "held_out_panel": {
+    "dataset": "hails/mmlu_no_train",
+    "revision": "b2e1ec9aa795adafe68e8e983248dbd4b52a1c60",
+    "split": "test",
+    "examples_per_task": 100,
+    "knowledge_tasks": ["global_facts", "high_school_european_history", "high_school_geography", "high_school_us_history", "human_aging", "nutrition", "virology", "world_religions"],
+    "reasoning_tasks": ["college_chemistry", "college_computer_science", "econometrics", "electrical_engineering", "elementary_mathematics", "high_school_chemistry", "high_school_physics", "machine_learning"],
+    "support_check": "Every selected test split has at least 100 examples; global_facts, college_chemistry, and college_computer_science have exactly 100.",
+    "construct_limit": "These remain comparative subject proxies. Chemistry, computing, and geography require both learned facts and inference."
+  },
+  "intervention": {
+    "target": "The exact residual branch contribution at the frozen layer and stream.",
+    "operator": "Multiply the branch contribution by alpha before residual addition; do not modify weights, other layers, generation settings, or the residual stream directly.",
+    "primary_alpha": 0.5,
+    "secondary_alpha": 0.0,
+    "no_intervention_alpha": 1.0,
+    "control_budget": "One branch at one layer with the same stream and alpha.",
+    "same_stream_random_controls": 5,
+    "random_control_rule": "For each model, draw five distinct non-selected layers without replacement from a NumPy Generator seeded by the immutable model revision SHA interpreted modulo 2^32. Store the realized layers before model execution.",
+    "neighbor_control": "The valid adjacent layer nearest the selected layer; if both are valid, choose selected_layer+1.",
+    "observer_rule": "The passive tracker may record the intervention run, but intervention and observation hooks must be separate, ordered, and covered by observer-off/on parity at alpha=1.0."
+  },
+  "behavior_protocol": {
+    "prompt_parser_generation": "Identical to representation-dynamics-main-track-v1 direct-answer MMLU protocol.",
+    "decoding": "greedy",
+    "primary_quality": "exact-match accuracy per task",
+    "systems_metrics": ["wall-clock latency", "examples per second", "generated tokens per second", "peak GPU memory"],
+    "repetitions": "Greedy output is deterministic. Run three timed repetitions after one warm-up for systems metrics; do not call them model seeds."
+  },
+  "primary_estimand": {
+    "task_effect": "For each held-out task, accuracy(alpha=0.5, selected site) minus accuracy(alpha=1.0).",
+    "control_adjustment": "Subtract the median task effect over the five same-stream random-layer controls.",
+    "statistic": "Absolute difference between the mean control-adjusted task effect in the eight knowledge tasks and the eight reasoning tasks.",
+    "inference": "Enumerate all 12,870 balanced 8+8 task-label assignments. The selected site and control layers remain fixed because they were chosen without intervention outcomes from this panel.",
+    "multiplicity": "Benjamini-Hochberg correction across the five prespecified model-level p-values.",
+    "decision_threshold": 0.01
+  },
+  "required_gates": [
+    "At alpha=1.0, the intervention path is bit-identical to the unmodified model for logits and greedy outputs, and all hooks are removed.",
+    "At alpha<1.0, only the declared exact branch tensor is changed and shape/dtype/device are preserved.",
+    "No discovery task appears in the held-out panel and all frozen document IDs match across intervention conditions.",
+    "Every condition reports accuracy, latency, throughput, peak memory, failures, and exact model/code revisions.",
+    "Random-control layers and their seed are persisted before any intervention output is read."
+  ],
+  "interpretation_limit": "A positive result would show that attenuating a discovery-selected branch has a category-differential behavioral effect on held-out subjects beyond matched random-layer attenuation. It would not prove that the branch exclusively implements knowledge or reasoning, that its natural activity mediates the full behavior, or that pruning it is safe."
+}

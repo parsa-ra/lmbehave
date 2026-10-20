@@ -1,0 +1,26 @@
+task: repdyn_nq_open_direct
+dataset_path: google-research-datasets/nq_open
+dataset_kwargs:
+  revision: 5dd9790a83002ad084ddeb7c420dc716852c6f28
+validation_split: validation
+output_type: generate_until
+doc_to_visual: null
+doc_to_text: !function utils.nq_open_doc_to_text
+doc_to_target: answer
+process_results: !function utils.nq_open_process_results
+generation_kwargs:
+  max_new_tokens: 16
+  temperature: 0.0
+  do_sample: false
+  until:
+    - "\n"
+    - "</s>"
+    - "<|im_end|>"
+metric_list:
+  - metric: accuracy
+    aggregation: mean
+    higher_is_better: true
+metadata:
+  version: 1.0
+  protocol: concise_closed_book_non_leaderboard
+

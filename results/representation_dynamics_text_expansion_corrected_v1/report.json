@@ -1,0 +1,162 @@
+{
+  "schema_version": 1,
+  "conditions": 10,
+  "models": [
+    "olmo3-7b-instruct",
+    "apertus15-8b",
+    "qwen3_5-9b",
+    "qwen3_5-27b",
+    "gemma4-31b"
+  ],
+  "model_scope": "explicit_selection",
+  "included_panels": [
+    "matched_text_mmlu_pro_control",
+    "text_cross_benchmark_stress_test"
+  ],
+  "excluded_invalid_panels": [],
+  "analysis_rows": 1320,
+  "failures": [],
+  "summary_environment_versions": {
+    "cupy": "14.1.1",
+    "cuml": "26.06.00",
+    "numpy": "2.4.6",
+    "scikit_learn": "1.9.0",
+    "torch": "2.9.1+cpu"
+  },
+  "manifest": {
+    "path": "experiments/representation_dynamics_text_expansion_apertus15_v1.json",
+    "sha256": "2d5d5b700d62074f5f8b8888d3aec435bc4336a146ca491e6acfd4400155c390"
+  },
+  "nuisance_table": {
+    "path": "/home/ubuntu/vlmbehave/logs/current-corrected-v1-input/nuisance_features.csv",
+    "sha256": "b4f1ff1683f2828eb5b4b7bb47ba1d04d6045d28fec07b0b24c1d48963d373bd"
+  },
+  "inputs": [
+    {
+      "path": "/home/ubuntu/vlmbehave/logs/current-corrected-nuisance-v1/matched_text_mmlu_pro_control/olmo3-7b-instruct/layer_separability.csv",
+      "sha256": "25f929e91c62124ea71c0e1f37932f3eebf19ebfc0df3687026202b71b17432d"
+    },
+    {
+      "path": "/home/ubuntu/vlmbehave/logs/current-corrected-nuisance-v1/matched_text_mmlu_pro_control/olmo3-7b-instruct/report.json",
+      "sha256": "4bae1da5ee72ee985977fbbcefe73d4fdabfcc3a712e83f9ee78e681e7e742e6"
+    },
+    {
+      "path": "/home/ubuntu/vlmbehave/logs/current-corrected-nuisance-v1/matched_text_mmlu_pro_control/olmo3-7b-instruct/analysis_manifest.json",
+      "sha256": "a648a5b3228a531500dadfa04e9489978b932064857e2f6fa2c50690c017ee66"
+    },
+    {
+      "path": "/home/ubuntu/vlmbehave/logs/current-corrected-nuisance-v1/matched_text_mmlu_pro_control/apertus15-8b/layer_separability.csv",
+      "sha256": "34d7565ea10de748506d768ffb4899e16d274985b04c4227e3d3b155d40758d5"
+    },
+    {
+      "path": "/home/ubuntu/vlmbehave/logs/current-corrected-nuisance-v1/matched_text_mmlu_pro_control/apertus15-8b/report.json",
+      "sha256": "e3b5eef419af764ef5371d03b5c4acc82ad29b64988f3c41d819fd6a1eea467a"
+    },
+    {
+      "path": "/home/ubuntu/vlmbehave/logs/current-corrected-nuisance-v1/matched_text_mmlu_pro_control/apertus15-8b/analysis_manifest.json",
+      "sha256": "67481a88e3f971c555fe18485b5f918c62eb653d9cdd5d8cc7bbfa46fc9a1204"
+    },
+    {
+      "path": "/home/ubuntu/vlmbehave/logs/current-corrected-nuisance-v1/matched_text_mmlu_pro_control/qwen3_5-9b/layer_separability.csv",
+      "sha256": "d59dcb3eac1c8e210deb7c70a0b43e1c1e8cfe6174c8910f9fd6d76804c92bcc"
+    },
+    {
+      "path": "/home/ubuntu/vlmbehave/logs/current-corrected-nuisance-v1/matched_text_mmlu_pro_control/qwen3_5-9b/report.json",
+      "sha256": "2dfe4331e0149f629d37454820a448850798aa71369d4f1bc230e0d99a6a7dda"
+    },
+    {
+      "path": "/home/ubuntu/vlmbehave/logs/current-corrected-nuisance-v1/matched_text_mmlu_pro_control/qwen3_5-9b/analysis_manifest.json",
+      "sha256": "af521dbc9fa844a92b0c75e5890b788c39d107c0787ea647d0d1bd1e30b5872d"
+    },
+    {
+      "path": "/home/ubuntu/vlmbehave/logs/current-corrected-nuisance-v1/matched_text_mmlu_pro_control/qwen3_5-27b/layer_separability.csv",
+      "sha256": "c566515130d37b467205e8c8d47dc8a036f05f0a135f59a874f9e9d9938a736c"
+    },
+    {
+      "path": "/home/ubuntu/vlmbehave/logs/current-corrected-nuisance-v1/matched_text_mmlu_pro_control/qwen3_5-27b/report.json",
+      "sha256": "4b5c26af20d02c2646d5b1b563d814e9664ea6efd51aade9e1847f83e04c5ff9"
+    },
+    {
+      "path": "/home/ubuntu/vlmbehave/logs/current-corrected-nuisance-v1/matched_text_mmlu_pro_control/qwen3_5-27b/analysis_manifest.json",
+      "sha256": "640aa105cd8f22cb1c9ba6f9f9c12d1f3df5afcb2160f5d136ef912bc6a0393f"
+    },
+    {
+      "path": "/home/ubuntu/vlmbehave/logs/current-corrected-nuisance-v1/matched_text_mmlu_pro_control/gemma4-31b/layer_separability.csv",
+      "sha256": "657fc3551b2aed9dc4bb216f954706398a3c928f69764cfa857b92d2b4e0873a"
+    },
+    {
+      "path": "/home/ubuntu/vlmbehave/logs/current-corrected-nuisance-v1/matched_text_mmlu_pro_control/gemma4-31b/report.json",
+      "sha256": "c034da1325670841dd5ba2eb1b764c08787a647c3aa17330a48923b4576a27a7"
+    },
+    {
+      "path": "/home/ubuntu/vlmbehave/logs/current-corrected-nuisance-v1/matched_text_mmlu_pro_control/gemma4-31b/analysis_manifest.json",
+      "sha256": "ee5e7125731e351c82f29e372b75b6ead90bade001ff068bb83557eeb508f551"
+    },
+    {
+      "path": "/home/ubuntu/vlmbehave/logs/current-corrected-nuisance-v1/text_cross_benchmark_stress_test/olmo3-7b-instruct/layer_separability.csv",
+      "sha256": "ba2474970ec6e13ca7761bd3361e336bf274e468e5724dbb369f9991e7998c5a"
+    },
+    {
+      "path": "/home/ubuntu/vlmbehave/logs/current-corrected-nuisance-v1/text_cross_benchmark_stress_test/olmo3-7b-instruct/report.json",
+      "sha256": "b0df83d7c1d89a45ef596b23ca8bc346dbc36552e82f77c5c4b78468b532dcd9"
+    },
+    {
+      "path": "/home/ubuntu/vlmbehave/logs/current-corrected-nuisance-v1/text_cross_benchmark_stress_test/olmo3-7b-instruct/analysis_manifest.json",
+      "sha256": "5e761525250c72fb53b4d4d289ea027ad52d2b8bd085f378d93c88ccc35203be"
+    },
+    {
+      "path": "/home/ubuntu/vlmbehave/logs/current-corrected-nuisance-v1/text_cross_benchmark_stress_test/apertus15-8b/layer_separability.csv",
+      "sha256": "8496d092dfce967ea8782894ca6fb3d781181c81b99f1ca7551013bf4e2baa19"
+    },
+    {
+      "path": "/home/ubuntu/vlmbehave/logs/current-corrected-nuisance-v1/text_cross_benchmark_stress_test/apertus15-8b/report.json",
+      "sha256": "584f55e448ed5af759c30fd5e2a8bf813983c76445780354576440dcfe5d490d"
+    },
+    {
+      "path": "/home/ubuntu/vlmbehave/logs/current-corrected-nuisance-v1/text_cross_benchmark_stress_test/apertus15-8b/analysis_manifest.json",
+      "sha256": "b0c154e9268351764d06ebdc3645e6737b7cfb63e7b1d414d3d2912642f83c38"
+    },
+    {
+      "path": "/home/ubuntu/vlmbehave/logs/current-corrected-nuisance-v1/text_cross_benchmark_stress_test/qwen3_5-9b/layer_separability.csv",
+      "sha256": "21dbe9a6a0aaea65efe5f81be965cbee7f4b806a0d5a35d71f76b8cec607137e"
+    },
+    {
+      "path": "/home/ubuntu/vlmbehave/logs/current-corrected-nuisance-v1/text_cross_benchmark_stress_test/qwen3_5-9b/report.json",
+      "sha256": "0fa5880370d8602d481b5711c1d4b4f378f7445105c29708a6001341a349b770"
+    },
+    {
+      "path": "/home/ubuntu/vlmbehave/logs/current-corrected-nuisance-v1/text_cross_benchmark_stress_test/qwen3_5-9b/analysis_manifest.json",
+      "sha256": "037fd52561ff3226aa91e9e1f3cf6d04759a11e0cebc719f98e66fcf6f38e884"
+    },
+    {
+      "path": "/home/ubuntu/vlmbehave/logs/current-corrected-nuisance-v1/text_cross_benchmark_stress_test/qwen3_5-27b/layer_separability.csv",
+      "sha256": "30b424185481568ea5aaa9b5aafc9c664ea2e17207adea6075fe2660e3a592c5"
+    },
+    {
+      "path": "/home/ubuntu/vlmbehave/logs/current-corrected-nuisance-v1/text_cross_benchmark_stress_test/qwen3_5-27b/report.json",
+      "sha256": "c7969c7d7230a619adfac2b529c6e4f4ade3be52a46df185b8cde61c2b4d7486"
+    },
+    {
+      "path": "/home/ubuntu/vlmbehave/logs/current-corrected-nuisance-v1/text_cross_benchmark_stress_test/qwen3_5-27b/analysis_manifest.json",
+      "sha256": "1ca450477a10a02b31c31dc2daee11d7878fc1049c2e5d3e4c8b99101f067c4a"
+    },
+    {
+      "path": "/home/ubuntu/vlmbehave/logs/current-corrected-nuisance-v1/text_cross_benchmark_stress_test/gemma4-31b/layer_separability.csv",
+      "sha256": "a3fec7d5db4f4443cc8108786d8bb54271c4173e5e9e29d188b3b2a8c105de59"
+    },
+    {
+      "path": "/home/ubuntu/vlmbehave/logs/current-corrected-nuisance-v1/text_cross_benchmark_stress_test/gemma4-31b/report.json",
+      "sha256": "2da1be067585d3ad043a4de5a264098f628b9f2f7952a0001f08a178226d2b13"
+    },
+    {
+      "path": "/home/ubuntu/vlmbehave/logs/current-corrected-nuisance-v1/text_cross_benchmark_stress_test/gemma4-31b/analysis_manifest.json",
+      "sha256": "b30ab733ab6bee05c16e442e173750daf1b08c94855aade9f633d7923e8b596c"
+    }
+  ],
+  "outputs": {
+    "probe_persistence_summary.csv": "733814345d2e7907a270c5244a79b0fc3db3f3108dfe6b99a60a0202f5c3c9c4",
+    "nuisance_feature_summary.csv": "8c97ac4b52c1f262e3ca25460e314ac768407f3079efc2a14a475e866c3a093a",
+    "fdr_profile_replication.csv": "d53f9ce9e8b2ca786218c03a2efa04b5c086a1e13ba6f3abc776ac085a21f106"
+  },
+  "claim_limit": "Adjusted predictability is robustness to six measured prompt-surface variables, not evidence that the residual representation is specific to reasoning or knowledge."
+}

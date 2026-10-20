@@ -1,0 +1,11 @@
+include: _choice_template_yaml
+task: repdyn_hellaswag_direct
+dataset_path: Rowan/hellaswag
+dataset_kwargs:
+  revision: 218ec52e09a7e7462a5400043bb9a69a41d06b76
+validation_split: validation
+process_docs: !function utils.process_hellaswag_docs
+doc_to_text: !function utils.hellaswag_doc_to_text
+doc_to_target: !function utils.hellaswag_doc_to_target
+process_results: !function utils.hellaswag_process_results
+

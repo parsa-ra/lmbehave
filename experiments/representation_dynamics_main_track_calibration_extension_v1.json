@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "experiment_id": "representation-dynamics-main-track-calibration-extension-v1",
+  "frozen_at_utc": "2026-08-16T18:42:00Z",
+  "status": "terminated_without_completed_reports",
+  "amended_at_utc": "2026-08-16T20:13:41Z",
+  "parent_experiment": "representation-dynamics-main-track-instrument-validation-v1",
+  "reason": "The prespecified grid ended at an injected standardized mean displacement of 4 and detected five of ten directions. Extend the calibration at displacements 5, 6, and 8 to bracket the transition without changing any model-data conclusion. All extension levels were fixed before any extension report completed.",
+  "model": "olmo3-7b-instruct",
+  "site_policy": "same fixed observed mean-shift-selected site as the parent calibration",
+  "calibration_partition": "alphabetically first eight tasks versus remaining eight",
+  "standardized_half_shifts": [2.5, 3.0, 4.0],
+  "standardized_mean_displacements": [5.0, 6.0, 8.0],
+  "direction_seeds": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+  "unchanged_pipeline": "inject before fold-local lexical-64 Ridge adjustment, 95%-variance PCA, and the exact task-held-out probe",
+  "decision_summary": "report the number of directions with exact macro-F1 p<0.01; do not select a favorable direction",
+  "shared_lexical_cache": {
+    "path": "/home/ubuntu/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-instrument-validation-v1/cache/olmo3-7b-instruct-char64.npz",
+    "sha256": "00038a7ad61137a0e712a2b174b42c1d896f4dc388b1ea05abaf9e05c83e0293",
+    "folds": 229
+  },
+  "termination": {
+    "terminated_at_utc": "2026-08-16T21:19:51Z",
+    "completed_reports": 0,
+    "reason": "Near-separable injected conditions drove the fixed cuML logistic solver into prohibitively long fits. Each displacement-5 direction accumulated about 47 CPU-minutes, displacement-6 about 46, and displacement-8 about 73 before termination. No score distribution or scientific result was emitted.",
+    "preserved_evidence": "GPU telemetry, zero-byte condition logs, the shared lexical-cache hash, and this manifest",
+    "paper_use": "none"
+  },
+  "claim_limit": "Adaptive instrument calibration only. It is not evidence about knowledge versus reasoning, a model mechanism, or layer selection."
+}

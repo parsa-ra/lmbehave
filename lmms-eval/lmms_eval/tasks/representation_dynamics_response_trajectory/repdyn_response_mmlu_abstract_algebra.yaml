@@ -1,0 +1,3 @@
+include: _default_template_yaml
+task: repdyn_response_mmlu_abstract_algebra
+dataset_name: abstract_algebra

@@ -1,0 +1,479 @@
+{
+  "analyses": {
+    "across_model_multiplicity": {
+      "claim_limit": "This post-hoc family-level sensitivity does not combine distinct scientific conditions into one omnibus claim.",
+      "conditions": [
+        "raw_selected_site_probe",
+        "matched_representation_minus_prompt",
+        "lexical64_adjusted_probe"
+      ],
+      "method": "Holm correction across five model-level hypotheses within condition",
+      "status": "PASS"
+    },
+    "inference_unit_contrast": {
+      "balanced_task_assignments": 12870,
+      "claim_limit": "The example-level arm is deliberately invalid for task-category inference; the result demonstrates task-identity leakage rather than reproducing another study.",
+      "sample_permutations": 9999,
+      "status": "PASS"
+    },
+    "matched_delta_null_description": {
+      "claim_limit": "The reference distribution is conditional on these 16 tasks and does not estimate a population distribution over benchmark suites.",
+      "effective_null_pairs": 6434,
+      "status": "PASS"
+    },
+    "matched_delta_reselection_calibration": {
+      "claim_limit": "Ten injected directions per scale provide a coarse simulation sensitivity estimate in one model, not a model or training-seed result.",
+      "conditions_expected": 40,
+      "status": "PASS"
+    },
+    "pca95_representation_vs_prompt64": {
+      "assignments": 12870,
+      "claim_limit": "The unequal-width comparison tests sensitivity to fixed activation width 64; it is not a capacity-matched comparison.",
+      "effective_null_pairs": 6434,
+      "selection_recomputed_for_every_assignment": true,
+      "status": "PASS"
+    },
+    "representation_width_sensitivity": {
+      "claim_limit": "Activation and prompt widths are unequal; these analyses test compression sensitivity rather than matched capacity or equivalence.",
+      "conditions_expected": 15,
+      "status": "PENDING_COMPLETE_REPORTS"
+    }
+  },
+  "experiment_id": "representation-dynamics-main-track-review-response-v1",
+  "models": 5,
+  "outputs": {
+    "across_model_multiplicity.csv": "2ff0a63b93a2a5d00e588f210a799a715e1dbf3d30a40a8152348e695a31f165",
+    "inference_unit_contrast.csv": "716f4332b6697ea461315cb379e8fbca02063c405b3e4bb920f69d505ff40ac9",
+    "matched_delta_effective_null_summary.csv": "3652c6baa5f9e0a59f8d49a6d76e51392018a975fa36a09fe75b1f2969d57fde",
+    "matched_delta_reselection_calibration.csv": "3e9fe17241e400e92ab3336d31ca874d972f02476ea7cc0a0efc979cdaa3084f",
+    "pca95_representation_vs_prompt64.csv": "d8bce68afa7379d15c983d0cf9bf83bf5fbce2ea17c62fe2a587d6c50c57fc86"
+  },
+  "schema_version": 1,
+  "sources": [
+    {
+      "path": "/home/ubuntu/vlmbehave/experiments/representation_dynamics_main_track_review_response_v1.json",
+      "sha256": "645cedfbae7c66f4f0161bbc1c15f08492c58bfab226a0628d5965a7ab509ffd"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-15/selected-site-probe-main-track-v1/olmo3-7b-instruct/report.json",
+      "sha256": "3eee924839700e4813d82cf2bbf53a40fd67f149bd515282006eb5b193d339a8"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-15/selected-site-probe-main-track-v1/olmo3-7b-instruct/selected_site_probe_distribution.json.gz",
+      "sha256": "ebbaaa6dfd1c335037e6c57e6271ecccb9cdf88d4fb2f7a5ce00b5e3eef627b4"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-instrument-validation-v1/matched-excess/olmo3-7b-instruct/report.json",
+      "sha256": "9860e1927d18330bfb229941297add44faf9367961bb849474b816971d0ff082"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-instrument-validation-v1/matched-excess/olmo3-7b-instruct/matched_excess_distribution.json.gz",
+      "sha256": "d737ba423fccabe13656e0dab84f3e31972c9f949ce6c609190fd948efc4cd8e"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-15/selected-site-probe-main-track-v1/apertus15-8b/report.json",
+      "sha256": "37fe6e381be2207aea2b2ba2843d2e1dfb7ba393cd8a5edf68e4912e2b1da591"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-15/selected-site-probe-main-track-v1/apertus15-8b/selected_site_probe_distribution.json.gz",
+      "sha256": "465775194ee59fab37ab468e8d5ff89fc40931317c586bccb9aa3aae2c3479c8"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-instrument-validation-v1/matched-excess/apertus15-8b/report.json",
+      "sha256": "fd87c2dc22dccc269bace468bd5b18c2885413401ad3e9110601e4ce178afe64"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-instrument-validation-v1/matched-excess/apertus15-8b/matched_excess_distribution.json.gz",
+      "sha256": "950bfdebcee11fa0f8e37438fe4c1f8687bbe02b868429d97f52eb025dfaaf04"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-15/selected-site-probe-main-track-v1/qwen3_5-9b/report.json",
+      "sha256": "5570c312a7c6e6eeb5853d238efa2de0d784ec4fcd952e65c9a90f3d4b744c2b"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-15/selected-site-probe-main-track-v1/qwen3_5-9b/selected_site_probe_distribution.json.gz",
+      "sha256": "d512fcf19a6647156970a6a109221221263af78f39252c7b06a3f73fbd284305"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-instrument-validation-v1/matched-excess/qwen3_5-9b/report.json",
+      "sha256": "f0c282aa70e60e7a659572416a50b9c05a141fbf12fc7359b9289dbf9da247aa"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-instrument-validation-v1/matched-excess/qwen3_5-9b/matched_excess_distribution.json.gz",
+      "sha256": "1b044f9033eed7f0983a09908a861b7c3b473a7483d9a1b2785223cae510f312"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-15/selected-site-probe-main-track-v1/qwen3_5-27b/report.json",
+      "sha256": "2f9d8c7f47ce4dadf4eac01af93332a39d1dda84caf23555e4e6d3f03fbc090b"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-15/selected-site-probe-main-track-v1/qwen3_5-27b/selected_site_probe_distribution.json.gz",
+      "sha256": "99b9901a8cc60aaf06ffe012fda407392d87cad3fe5cc88dd0471cc1f054906f"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-instrument-validation-v1/matched-excess/qwen3_5-27b/report.json",
+      "sha256": "12429b4671d2f312db7cc551f105d93acc500f29833cad905b98e0efb8ddcba8"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-instrument-validation-v1/matched-excess/qwen3_5-27b/matched_excess_distribution.json.gz",
+      "sha256": "62da3207726786cef977895b17b07f38a0bae5218508b796d0cbbd74020f05d6"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-15/selected-site-probe-main-track-v1/gemma4-31b/report.json",
+      "sha256": "cf22ccda25daa3bd73a714fe18b765d33962ccbb0ea590f0fb71445117ee4121"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-15/selected-site-probe-main-track-v1/gemma4-31b/selected_site_probe_distribution.json.gz",
+      "sha256": "b07ca6faf8c46d6791b1c6573ff32731a3fe4d91c5ba8a0cf8e196d387203e86"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-instrument-validation-v1/matched-excess/gemma4-31b/report.json",
+      "sha256": "f75abf04486f7caff9c273f722945e53335061c22cfac467ac0ce3965a4442dc"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-instrument-validation-v1/matched-excess/gemma4-31b/matched_excess_distribution.json.gz",
+      "sha256": "3a98980539c37735a9e41d45d36311155ce85b280224f535f7d0ad18853a1c78"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/inference-unit-contrast/olmo3-7b-instruct/report.json",
+      "sha256": "872bf096679783bf87785aa57db7f877a59854b54c559d36d15c5e8ad0dcec82"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/inference-unit-contrast/olmo3-7b-instruct/split_unit_distribution.json.gz",
+      "sha256": "e949c066968c4e881e2f00b5d995456be18d469c5f219069e214384fc008f1b3"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-0.5/seed-0/report.json",
+      "sha256": "4a63ca0ad430c17b6882abecf156443397ce4cfcb315b4120f7996975ed3bcaf"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-0.5/seed-0/matched_excess_calibration_distribution.json.gz",
+      "sha256": "eb77274027fa24089b8ccfcb2200470cde9262cdf65e2f5f1a0f01952e13b86f"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-0.5/seed-1/report.json",
+      "sha256": "02db55d753531f3574bd83da821afc51cacb9255b0f419d3962829f13953658e"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-0.5/seed-1/matched_excess_calibration_distribution.json.gz",
+      "sha256": "d976254411f0b193979da2077ea8a9f510cb0a25f770516b150d9cee7d074eb7"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-0.5/seed-2/report.json",
+      "sha256": "f53170c0d75c59e9b1b31a05de0b4512bde8b3a3c7d636e0d87b7a862138fdd8"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-0.5/seed-2/matched_excess_calibration_distribution.json.gz",
+      "sha256": "c6a2e105aa192234ba815a4d3a4ee0e4dbc26288c8eedfb532d7eaef7441bfec"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-0.5/seed-3/report.json",
+      "sha256": "ff02f3a04d16787c03246a762044ecb53d4360867d8d12d482c2bb72de513a8f"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-0.5/seed-3/matched_excess_calibration_distribution.json.gz",
+      "sha256": "2267f19e2eb4efe15ea1666ec6249333e940a84d96aa4dec6071355d03ee9477"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-0.5/seed-4/report.json",
+      "sha256": "7c6258f3de4d6beae9802164fe6e34d88dcad7a0152c51f1c45f4e235c2f9d46"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-0.5/seed-4/matched_excess_calibration_distribution.json.gz",
+      "sha256": "dd37f3d4bd3ed84d2384f139910bb0830d4d35b806aae8aa8e25717bd855ba56"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-0.5/seed-5/report.json",
+      "sha256": "eb965ef8a183390aedd2f73c2ca14d2022610efd37f3cc5b33f89294a5699e00"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-0.5/seed-5/matched_excess_calibration_distribution.json.gz",
+      "sha256": "15ec9b96c634b5c4b1eccb19480542fe54846a4673bb95ff8622194f1f92e1b5"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-0.5/seed-6/report.json",
+      "sha256": "1bae7ee6acdde043c195a561cd036193fd1f41ed00b024f3c08245e5a74c0f28"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-0.5/seed-6/matched_excess_calibration_distribution.json.gz",
+      "sha256": "2dc9a2b88ca538691537e4566b143d3e70abe21045743375e35b2e6ab8ebbbf3"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-0.5/seed-7/report.json",
+      "sha256": "c5e59c2a14f82040b4bbde565cedaa0376f1d74acbde612f8e9a9e60ad5be1e5"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-0.5/seed-7/matched_excess_calibration_distribution.json.gz",
+      "sha256": "386bbcf6f35b791fc5265c729e432302f033130c5d07d053b750a74155f84f5e"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-0.5/seed-8/report.json",
+      "sha256": "cc0e07030338b3a35ab671bc66b2b8be7dfa1b2c68dbd4bd2985db4bf8787f31"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-0.5/seed-8/matched_excess_calibration_distribution.json.gz",
+      "sha256": "1fe2e4f7fd340862ef432499980855ac276726a4bfd16db59e898221659b8b1b"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-0.5/seed-9/report.json",
+      "sha256": "e545e08457b81c8ec1939f676022959e1a457415cb89d401c7ed3efe29dcbe26"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-0.5/seed-9/matched_excess_calibration_distribution.json.gz",
+      "sha256": "037e84260e1afa79a072338436578c0f58025999be25945f75f31c6d6318c372"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-1/seed-0/report.json",
+      "sha256": "133f727d620feb148c024eda1f8380a12f0452c7f7491cabf25518c8da95f692"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-1/seed-0/matched_excess_calibration_distribution.json.gz",
+      "sha256": "34e7cc83412d47dc5925ebe0bdcfce79bd427063a4544cb66097a846ca5b72f1"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-1/seed-1/report.json",
+      "sha256": "6f71457a9da73d0bc03cfd791d0af346b6db31995e38cd2bfc8bdafbda3a510e"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-1/seed-1/matched_excess_calibration_distribution.json.gz",
+      "sha256": "cbbb6fd9fad5b1a1b914308e6a48e39c925baa4104be0cf216e2f50bc2277aad"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-1/seed-2/report.json",
+      "sha256": "b0e46354efc6dcfd6a0c92f760ffb66a6bb7d25ccd17f6670dc4b641aaa7b9cb"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-1/seed-2/matched_excess_calibration_distribution.json.gz",
+      "sha256": "b03ad0879bb1ee7ffbc37972dd529ea07db2c6fadd75b09fddd18533c5248099"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-1/seed-3/report.json",
+      "sha256": "fa8efc65fdef5b879a4e27ab3f3fd63b67b93f20e5a61b0e9cf486b5bf365bff"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-1/seed-3/matched_excess_calibration_distribution.json.gz",
+      "sha256": "264d15372e33415f90b87d50fc03b0c7db730413dd4b277eb11e2438b3a11fe0"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-1/seed-4/report.json",
+      "sha256": "5f0c696cf0bec4d15bdb9809d5b4d5f79737aea6de9ab93a4a33d5dcc6c11a7d"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-1/seed-4/matched_excess_calibration_distribution.json.gz",
+      "sha256": "e2ad4345fc9d88c7d89a033861e258f307e02018dc4926878d10cf5ba0d8e00b"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-1/seed-5/report.json",
+      "sha256": "a44a617b7a50c67f5e8eb29b38486d6fb4009371bf52ae27c8a746f8784f65ab"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-1/seed-5/matched_excess_calibration_distribution.json.gz",
+      "sha256": "99427e57ba9f785fd100f34133f008fe74aa6b2b26204a4075fd2937dee666ee"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-1/seed-6/report.json",
+      "sha256": "33bb58291fe21897f53b60feeb36176ba87370000f86ccfbdd1d743592d3715c"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-1/seed-6/matched_excess_calibration_distribution.json.gz",
+      "sha256": "d4ed3205808c41e2d26eddbd9724e624f48b78454723f2f122fec69641529087"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-1/seed-7/report.json",
+      "sha256": "9b1f11c25ae9cfd04a4004943bafd8e787954ac94e32a773923ccf25d346a52f"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-1/seed-7/matched_excess_calibration_distribution.json.gz",
+      "sha256": "e27c2a1b700ae1f2a62b5017bf96f0c40ca1afca55ec3555aacec8df7b2137bc"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-1/seed-8/report.json",
+      "sha256": "2355a17d492909dc40ca25260dda42bec02c2f7a2f6b6bacb9820eda18b4c628"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-1/seed-8/matched_excess_calibration_distribution.json.gz",
+      "sha256": "7b32a773eb7fea48473e04678844335f554a3cb0dfaf59997bcb81267743bf6f"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-1/seed-9/report.json",
+      "sha256": "16649ec9f852c9a75c54609cbdab78d5794019692ddbe49d56d2dfc62471de82"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-1/seed-9/matched_excess_calibration_distribution.json.gz",
+      "sha256": "84cdc49ce31acd26d450ead07a84174d06a99c1ad16cfdfba322ffb554fffeff"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-2/seed-0/report.json",
+      "sha256": "bb65360137b13835e55d344d5cd5c589e7fc2e46bb256e9995dff4b598bef855"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-2/seed-0/matched_excess_calibration_distribution.json.gz",
+      "sha256": "4d4c80f5545acd699740315abefa6a21ea91d90f9824b53cc49e17cdee5618d9"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-2/seed-1/report.json",
+      "sha256": "b14d36234b9a169f533b764d3a1772250176350533f1e4a462f88fa0ac101626"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-2/seed-1/matched_excess_calibration_distribution.json.gz",
+      "sha256": "70f3842d679e2eb1ad3f09475a9a38b569286ee30112ecd444191d5548dde6a5"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-2/seed-2/report.json",
+      "sha256": "c3db86406f5f034640e754aa3be57f7dee0fc22f02c5091e405442a558a3cf96"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-2/seed-2/matched_excess_calibration_distribution.json.gz",
+      "sha256": "4449ad157fda78df63395f79e96a4487ac444a5c93256132a22fc3136ef2e13f"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-2/seed-3/report.json",
+      "sha256": "e7a91f1c8a22af894125d98110b53dae6d7cc78424e06302796b8d05b8624cfc"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-2/seed-3/matched_excess_calibration_distribution.json.gz",
+      "sha256": "13ae479bb923fd58a759458e684be02973211fc9c209872e671cad7c5350a9af"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-2/seed-4/report.json",
+      "sha256": "98db7d2174b8156bc84040f332425e77050feca13a7feb863c3f9c6a260857ca"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-2/seed-4/matched_excess_calibration_distribution.json.gz",
+      "sha256": "df0a51fb804eb0755cea548d3ebd6410660938cff2a30c4582dc4d3fbf84e063"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-2/seed-5/report.json",
+      "sha256": "fbdab4a0eba9efb52147e04c4d87be34dc05bba9ff94bd83c71ebc885a428cbc"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-2/seed-5/matched_excess_calibration_distribution.json.gz",
+      "sha256": "9e2ca3f8d2f1503685f83813b6cb7ba5254ec8fddab0b782ba2447c75f2e98ec"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-2/seed-6/report.json",
+      "sha256": "832b47ae672b293268af17079704adce9c13975fce0e8d94b812e840ff20673d"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-2/seed-6/matched_excess_calibration_distribution.json.gz",
+      "sha256": "96feccdfb1c7d76e4645dc9daee6c4381f347f1536a9f0c3a525f0b60aeb15e7"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-2/seed-7/report.json",
+      "sha256": "333674c83a78ce56b18c6aae66f73f426f2e19326fb7abf0b7a6628274fd3e43"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-2/seed-7/matched_excess_calibration_distribution.json.gz",
+      "sha256": "c44532e17726d9576473adcbca321a06781a5ca139233d35d4d9e152849e59b7"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-2/seed-8/report.json",
+      "sha256": "9603c9f9a263745336419b0f339a549d1959e39b5b33c77cddbb25f2a741ef49"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-2/seed-8/matched_excess_calibration_distribution.json.gz",
+      "sha256": "f4c00cd748a7b95742c01c138ca5d52712fc7435c59c38f0ce562db1fbcf931f"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-2/seed-9/report.json",
+      "sha256": "51443cf0f1dec0cf65806cab034d77ad7a03f11d383331bb46671c1dc3ca86b0"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-2/seed-9/matched_excess_calibration_distribution.json.gz",
+      "sha256": "14f8f60a01617d629a33d1b133f2aa6de0ad65543b58b1d0c4bdfc68f0ed0d13"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-4/seed-0/report.json",
+      "sha256": "02c9ec670b10932c2285123566a6c8d3a49bb5f0d580560741b7fefbe01d5a5d"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-4/seed-0/matched_excess_calibration_distribution.json.gz",
+      "sha256": "fdd6f043a68ed6cbf338b12121d06587869c182f9dd51deb0a3ab36a5a319ae8"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-4/seed-1/report.json",
+      "sha256": "e3733c22d6e70a3c7a5828ae676ca4e6950fda654f710aac9a48fff67173776c"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-4/seed-1/matched_excess_calibration_distribution.json.gz",
+      "sha256": "2957c19fba7434ee92d1f8d96461d80e0c97af21197be96bc56e53fd5527748e"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-4/seed-2/report.json",
+      "sha256": "028e1cc4f665c0d272375b5174ad02ea728aeaac97a41d602c5b63b103575d39"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-4/seed-2/matched_excess_calibration_distribution.json.gz",
+      "sha256": "813030b724281d5948d80f220115cff15c7b3eb7f6189ed08ed881945f1bfbf9"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-4/seed-3/report.json",
+      "sha256": "80d2d35cbc42291f594e52765036d4ac53d0cbfb9c96c66abab55134060a51a2"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-4/seed-3/matched_excess_calibration_distribution.json.gz",
+      "sha256": "b825cc67abf2b522e0d186ed9d45fc6fb22a640a89a33e7c92431d1649a49872"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-4/seed-4/report.json",
+      "sha256": "274a7e21d4a7d3119e35bc47a34a80ada50c05728d35781b8d814ffffb4679e7"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-4/seed-4/matched_excess_calibration_distribution.json.gz",
+      "sha256": "9014a1b0fe6feab62a1e67b63a6f417d996e36adda6ae979302da7fc8f26b0cc"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-4/seed-5/report.json",
+      "sha256": "9fc67ede5226e275a4eba6590f1f21fda673b2c9d37c9553dff41e4b8245b946"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-4/seed-5/matched_excess_calibration_distribution.json.gz",
+      "sha256": "516a9f2adb856ad5bf49427644918f6635fd1d9935db840a7f1dae679d0abb88"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-4/seed-6/report.json",
+      "sha256": "814be1a1bc54eb61d875101f4c7c571bc6c99159970de14f43b2747deae323e7"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-4/seed-6/matched_excess_calibration_distribution.json.gz",
+      "sha256": "fd191b2d64acb74a700c69023b8e7edfa69f2ff56e1ad61813b8484ad55a29f8"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-4/seed-7/report.json",
+      "sha256": "e388c64ccf134ba07bbd26c7f9266bb6be9d138a5eff487345ffeb53e190fe58"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-4/seed-7/matched_excess_calibration_distribution.json.gz",
+      "sha256": "986c0d5dd06f4492ca137ce2d73694f1e1ee0b735a4cd2173da0f9d6d6cecb4f"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-4/seed-8/report.json",
+      "sha256": "13eac8000a1f9cc0a36dd162fce33fa10aff72521a98e5f658a61bac7215f4e3"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-4/seed-8/matched_excess_calibration_distribution.json.gz",
+      "sha256": "7902c09ff08ab07e25ba7e38003119e0853d3d30a9c77cbec8adae07d088f929"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-4/seed-9/report.json",
+      "sha256": "c9c546ea101bb74b7051ac37b6d1b4e21ac3a5de13aadf46a3d18a91dd735d24"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-main-track-review-response-v1/matched-delta-calibration/olmo3-7b-instruct/difference-4/seed-9/matched_excess_calibration_distribution.json.gz",
+      "sha256": "db4bfbef5838d8356813f1f55389a1e091cf628b2f257588d4f2953d493646b1"
+    },
+    {
+      "path": "/home/ubuntu/vlmbehave/results/representation_dynamics_main_track_lexical_control_v1/report.json",
+      "sha256": "684eeefeafbdc1904444760627df4560d13f6d286c828f645b8b6b8e6bf73b98"
+    },
+    {
+      "path": "/home/ubuntu/vlmbehave/results/representation_dynamics_main_track_lexical_control_v1/lexical_adjusted_probe_summary.csv",
+      "sha256": "dd91d337c0d6b40fe37f0264e6ae7c91e5cd8d3f620bdf879a622bedb920928e"
+    },
+    {
+      "path": "/home/ubuntu/vlmbehave/scripts/summarize_main_track_review_response.py",
+      "sha256": "5413f1cbccb8c79bdd4cfd4f4c7353356f6dc2f4aec7a48f9fba13e8bafb84b0"
+    }
+  ],
+  "status": "PASS"
+}

@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "experiment_id": "representation-dynamics-text-expansion-v1",
+  "status": "predeclared_not_yet_analyzed",
+  "require_frozen_sample_ids": true,
+  "objective": "Test whether task-set predictability survives a larger text-only task set and additional decoder families without treating benchmark labels as ground-truth cognitive constructs.",
+  "sampling_rule": "Use 100 examples per task after verifying every pinned split and category has at least 100 usable examples. Freeze document IDs before the first model run.",
+  "decision_rule": "Interpret a task-set effect as more robust only if its direction is stable under whole-task leave-out, task resampling, the within-family MMLU-Pro panel, and the cross-benchmark panel. Do not infer a knowledge-reasoning mechanism from either panel alone.",
+  "datasets": {
+    "ai2_arc": {"path": "allenai/ai2_arc", "revision": "210d026faf9955653af8916fad021475a3f00453"},
+    "gsm8k": {"path": "openai/gsm8k", "revision": "740312add88f781978c0658806c59bc2815b9866"},
+    "hellaswag": {"path": "Rowan/hellaswag", "revision": "218ec52e09a7e7462a5400043bb9a69a41d06b76"},
+    "mmlu_pro": {"path": "TIGER-Lab/MMLU-Pro", "revision": "b189ec765aa7ed75c8acfea42df31fdae71f97be"},
+    "musr": {"path": "TAUR-Lab/MuSR", "revision": "7c365b439a222150f317764d4f16ae6c96d7d94a"},
+    "nq_open": {"path": "google-research-datasets/nq_open", "revision": "5dd9790a83002ad084ddeb7c420dc716852c6f28"},
+    "super_gpqa": {"path": "lmms-lab/SuperGPQA", "revision": "36ec80e791b34bb7116e2255c0fb448ef2472756"},
+    "trivia_qa": {"path": "mandarjoshi/trivia_qa", "revision": "0f7faf33a3908546c6fd5b73a660e0f8ff173c2f"}
+  },
+  "models": {
+    "olmo3-7b-instruct": {
+      "lmms_model": "hf_causal",
+      "pretrained": "allenai/Olmo-3-7B-Instruct",
+      "revision": "6e5971d9eba42665f5bd5a0fcf047f299ce1dccc",
+      "model_args": {"apply_chat_template": true},
+      "batch_size": 32,
+      "support_status": "two_example_both_panel_artifacts_and_gsm8k_output_parity_passed_full_100_example_panels_required"
+    },
+    "apertus-8b-instruct": {
+      "lmms_model": "hf_causal",
+      "pretrained": "swiss-ai/Apertus-8B-Instruct-2509",
+      "revision": "b946d40447b2b597999b9c86d44bee0b452c919f",
+      "model_args": {"apply_chat_template": true},
+      "batch_size": 24,
+      "support_status": "two_example_both_panel_artifacts_and_gsm8k_output_parity_passed_full_100_example_panels_required",
+      "runtime_condition": "Engineering smokes used the Transformers Python xIELU fallback because the optional CUDA kernel was absent. Freeze this condition or validate numerical and output parity before changing it."
+    },
+    "qwen3_5-9b": {
+      "lmms_model": "qwen3_5",
+      "pretrained": "Qwen/Qwen3.5-9B",
+      "revision": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
+      "model_args": {"enable_thinking": false},
+      "batch_size": 20,
+      "support_status": "validated_in_v1"
+    },
+    "qwen3_5-27b": {
+      "lmms_model": "qwen3_5",
+      "pretrained": "Qwen/Qwen3.5-27B",
+      "revision": "fc05daec18b0a78c049392ed2e771dde82bdf654",
+      "model_args": {"enable_thinking": false},
+      "batch_size": 8,
+      "support_status": "validated_in_v1"
+    },
+    "gemma4-31b": {
+      "lmms_model": "gemma4",
+      "pretrained": "google/gemma-4-31B-it",
+      "revision": "842da3794eaa0b77d5f08bae87a17459d91ff475",
+      "model_args": {},
+      "batch_size": 2,
+      "support_status": "validated_in_v1"
+    }
+  },
+  "protocol_development_models": {
+    "phi4-reasoning-plus-14b": {
+      "lmms_model": "hf_causal",
+      "pretrained": "microsoft/Phi-4-reasoning-plus",
+      "revision": "69baf8528e1bcf05f475034d9e5dd32875ed125f",
+      "model_args": {"apply_chat_template": true},
+      "batch_size": 12,
+      "support_status": "exact_gsm8k_artifact_and_output_parity_passed_not_runnable_until_reasoning_trace_protocol_is_frozen",
+      "exclusion_reason": "The current concise tasks stop at a newline or short token ceiling, whereas this checkpoint emits a reasoning trace before its final answer. Correctness and output-length covariates would not be comparable."
+    },
+    "gpt-oss-20b": {
+      "lmms_model": "hf_causal",
+      "pretrained": "openai/gpt-oss-20b",
+      "revision": "6cee5e81ee83917806bbde320786a8fb61efebee",
+      "model_args": {"apply_chat_template": true},
+      "batch_size": 12,
+      "support_status": "exact_gsm8k_artifact_and_output_parity_passed_bf16_dequantized_not_runnable_until_reasoning_trace_protocol_is_frozen",
+      "exclusion_reason": "The checkpoint uses a rendered reasoning channel and the current short direct-answer stop rules can truncate before the final answer; the optional MXFP4 execution backend is also not frozen."
+    }
+  },
+  "extraction": {
+    "sample_count_per_task": 100,
+    "seed": 0,
+    "pooling": "last_valid",
+    "phases": "prefill",
+    "storage_dtype": "float32"
+  },
+  "analysis": {
+    "cv_folds": 5,
+    "linear_task_label_permutations": 251,
+    "nonlinear_task_label_permutations": 0,
+    "pca_retained_variance": 0.95,
+    "silhouette_max_samples": 5000,
+    "seed": 0
+  },
+  "panels": {
+    "matched_text_mmlu_pro_control": {
+      "role": "Within-family text control using one dataset, prompt, answer format, and generation path.",
+      "claim_limit": "MMLU-Pro categories mix factual knowledge and reasoning. These subject assignments are predeclared proxies, not pure constructs.",
+      "use_task_generation_kwargs": true,
+      "max_new_tokens": 8,
+      "knowledge_tasks": [
+        {"task": "repdyn_mmlu_pro_biology", "modality": "text", "domain": "biology", "response_format": "concise_multiple_choice", "rationale": "Domain questions are expected to place comparatively high demand on acquired biological knowledge."},
+        {"task": "repdyn_mmlu_pro_health", "modality": "text", "domain": "health", "response_format": "concise_multiple_choice", "rationale": "Domain questions are expected to place comparatively high demand on acquired health knowledge."},
+        {"task": "repdyn_mmlu_pro_history", "modality": "text", "domain": "history", "response_format": "concise_multiple_choice", "rationale": "Historical questions are expected to place comparatively high demand on acquired factual knowledge."},
+        {"task": "repdyn_mmlu_pro_law", "modality": "text", "domain": "law", "response_format": "concise_multiple_choice", "rationale": "Legal questions require specialized knowledge, with case reasoning retained as a known confound."},
+        {"task": "repdyn_mmlu_pro_economics", "modality": "text", "domain": "economics", "response_format": "concise_multiple_choice", "rationale": "Economics requires domain knowledge and some calculation; the label is comparative only."}
+      ],
+      "reasoning_tasks": [
+        {"task": "repdyn_mmlu_pro_math", "modality": "text", "domain": "mathematics", "response_format": "concise_multiple_choice", "rationale": "Items emphasize multi-step mathematical derivation."},
+        {"task": "repdyn_mmlu_pro_physics", "modality": "text", "domain": "physics", "response_format": "concise_multiple_choice", "rationale": "Items often combine equations and multi-step physical inference; factual knowledge remains a confound."},
+        {"task": "repdyn_mmlu_pro_computer_science", "modality": "text", "domain": "computer_science", "response_format": "concise_multiple_choice", "rationale": "Items often require algorithmic or formal inference; terminology knowledge remains a confound."},
+        {"task": "repdyn_mmlu_pro_engineering", "modality": "text", "domain": "engineering", "response_format": "concise_multiple_choice", "rationale": "Items often require quantitative application of technical principles; domain knowledge remains a confound."},
+        {"task": "repdyn_mmlu_pro_philosophy", "modality": "text", "domain": "philosophy", "response_format": "concise_multiple_choice", "rationale": "Items often require argument discrimination; historical and terminological knowledge remain confounds."}
+      ]
+    },
+    "text_cross_benchmark_stress_test": {
+      "role": "Exploratory text-only test of whole-task transfer across independent benchmark families.",
+      "claim_limit": "Task family, domain, input length, number of choices, and answer type remain confounded. This panel tests robustness of task-set prediction, not a general knowledge-reasoning mechanism.",
+      "use_task_generation_kwargs": true,
+      "max_new_tokens": 32,
+      "knowledge_tasks": [
+        {"task": "repdyn_nq_open_direct", "modality": "text", "domain": "open_domain_facts", "response_format": "short_answer", "rationale": "Closed-book Natural Questions primarily tests information recoverable from model parameters."},
+        {"task": "repdyn_triviaqa_direct", "modality": "text", "domain": "trivia_facts", "response_format": "short_answer", "rationale": "The no-context protocol emphasizes closed-book factual retrieval."},
+        {"task": "repdyn_medqa", "modality": "text", "domain": "medicine", "response_format": "concise_multiple_choice", "rationale": "Specialized medical knowledge is necessary, while clinical reasoning remains a known confound."},
+        {"task": "repdyn_super_gpqa_direct", "modality": "text", "domain": "graduate_multidiscipline", "response_format": "concise_multiple_choice", "rationale": "Broad graduate knowledge is necessary, while the source benchmark explicitly also measures reasoning."},
+        {"task": "repdyn_mmlu_pro_history", "modality": "text", "domain": "history", "response_format": "concise_multiple_choice", "rationale": "Provides a knowledge-oriented MMLU-Pro anchor in the heterogeneous panel."}
+      ],
+      "reasoning_tasks": [
+        {"task": "repdyn_gsm8k_direct", "modality": "text", "domain": "arithmetic_word_problems", "response_format": "short_numeric", "rationale": "GSM8K was constructed to test multi-step mathematical reasoning."},
+        {"task": "repdyn_musr_murder_mysteries", "modality": "text", "domain": "narrative_soft_reasoning", "response_format": "concise_multiple_choice", "rationale": "MuSR was constructed for multi-step reasoning over natural-language narratives."},
+        {"task": "repdyn_arc_challenge_direct", "modality": "text", "domain": "grade_school_science", "response_format": "concise_multiple_choice", "rationale": "ARC-Challenge requires science knowledge and reasoning and is therefore deliberately marked as a mixed proxy."},
+        {"task": "repdyn_hellaswag_direct", "modality": "text", "domain": "commonsense_inference", "response_format": "concise_multiple_choice", "rationale": "HellaSwag tests commonsense continuation inference, not formal multi-step reasoning."},
+        {"task": "repdyn_mmlu_pro_math", "modality": "text", "domain": "mathematics", "response_format": "concise_multiple_choice", "rationale": "Provides a reasoning-oriented MMLU-Pro anchor in the heterogeneous panel."}
+      ]
+    }
+  }
+}

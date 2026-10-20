@@ -1,0 +1,54 @@
+# Raw experiment artifacts and service metadata (large and/or sensitive)
+/logs/
+/wandb/
+
+# Independent upstream repositories. Their exact revisions and local overlays
+# are recorded in repos.lock.json and overlays/.
+/transformers/
+/transformers_qwenvl/
+/vllm/
+/vLLM-Hook/
+/IVC-Prune/
+
+# Generated workspace files
+/tasks.txt
+
+# Environments and caches
+.venv/
+.venv-*/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+*.egg-info/
+
+# Credentials and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Model weights, checkpoints, and binary tracker payloads
+*.ckpt
+*.pt
+*.pth
+*.safetensors
+
+# Scheduler/editor/OS noise
+slurm-*.out
+.DS_Store
+.idea/
+.vscode/
+
+# LaTeX build products
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz

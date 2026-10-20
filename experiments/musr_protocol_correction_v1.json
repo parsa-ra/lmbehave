@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "experiment_id": "representation-dynamics-text-expansion-v1-musr-correction",
+  "status": "predeclared_pending_extraction",
+  "purpose": "Replace only the malformed MuSR task artifacts while preserving the original frozen samples and all unaffected task artifacts.",
+  "parent_experiment": "experiments/representation_dynamics_text_expansion_v1.json",
+  "parent_run_manifest_sha256": "4a00ed6d28fbed3f52b05ecde389953650fb55c8a2aaa896e52e2b4df3e75f56",
+  "parent_sample_selection_sha256": "a2ebda3739939a5e2b518020f94df2f7c84f840db16c1d6d3da02259bc4514ae",
+  "affected_panel": "text_cross_benchmark_stress_test",
+  "affected_task": "repdyn_musr_murder_mysteries",
+  "dataset": {
+    "path": "TAUR-Lab/MuSR",
+    "revision": "7c365b439a222150f317764d4f16ae6c96d7d94a",
+    "split": "murder_mysteries"
+  },
+  "sample_contract": {
+    "count": 100,
+    "selection": "The same first 100 frozen document IDs, indices 0--99.",
+    "ordered_sample_ids_sha256": "fb513e9bab99b18e151aa3060c8167b3679654481f109da284c38f71e9ce817d",
+    "sample_id_set_sha256": "2ccbc244fcfc4f94926dd8aa150e90edc4c603bf7abae3708c31227035234527",
+    "canonical_raw_rows_sha256": "4cf528b8897f9178b6d7f661ce62374c504328862269454517fad28557e2fc9e",
+    "identity_check": "For all 100 rows, the old logged narrative/question prefix and target match the pinned raw dataset row."
+  },
+  "corrected_prompt_contract": {
+    "choice_parser": "Safely decode the string-valued choices field as a literal list or tuple.",
+    "choice_count": 2,
+    "labels": ["A", "B"],
+    "target_check": "answer_index must be 0 or 1 and map to the corresponding label.",
+    "malformed_input_policy": "Raise; never emit a partial artifact."
+  },
+  "models": [
+    "olmo3-7b-instruct",
+    "apertus-8b-instruct",
+    "qwen3_5-9b",
+    "qwen3_5-27b",
+    "gemma4-31b"
+  ],
+  "extraction": {
+    "pooling": "last_valid",
+    "phase": "prefill",
+    "storage_dtype": "float32",
+    "seed": 0,
+    "generation_protocol": "Use the unchanged parent manifest and task generation arguments."
+  },
+  "required_gates": [
+    "clean committed source tree",
+    "exact model and dataset revisions",
+    "sample ID equality with the parent freeze",
+    "two choices in every logged prompt",
+    "target within A/B for every sample",
+    "representation count, finiteness, exact hook semantics, and source checks",
+    "tracker-off/on deterministic output parity on a prespecified smoke subset",
+    "full cross-panel unadjusted and nuisance-adjusted reanalysis with no failed rows"
+  ],
+  "assembly_rule": "Build a new hash manifest over nine unchanged parent task artifacts and one corrected MuSR artifact per model. Never overwrite the parent archive.",
+  "claim_gate": "No cross-benchmark transfer, localization, profile-correlation, or nuisance-control value may be reported until all required gates pass for all five models."
+}

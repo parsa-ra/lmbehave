@@ -1,0 +1,10 @@
+include: _choice_template_yaml
+task: repdyn_musr_murder_mysteries
+dataset_path: TAUR-Lab/MuSR
+dataset_kwargs:
+  revision: 7c365b439a222150f317764d4f16ae6c96d7d94a
+test_split: murder_mysteries
+doc_to_text: !function utils.musr_doc_to_text
+doc_to_target: !function utils.musr_doc_to_target
+process_results: !function utils.musr_process_results
+

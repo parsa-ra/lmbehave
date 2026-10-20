@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "experiment_id": "representation-dynamics-pooling-sensitivity-v1",
+  "status": "direct_answer_two_timepoint_smoke_pass_longer_trajectory_not_estimable",
+  "parent_experiment": "experiments/representation_dynamics_text_expansion_v1.json",
+  "objective": "Determine whether matched-panel task-set separation depends on final-token prompt pooling and whether its depth profile persists or changes over the first eight generated-token updates.",
+  "panel": "matched_text_mmlu_pro_control",
+  "models": [
+    "olmo3-7b-instruct",
+    "qwen3_5-9b"
+  ],
+  "model_selection_reason": "Two current 7--9B checkpoints with exact branch hooks and different token-mixing implementations; this is a prespecified sensitivity subset, not a cross-model population sample.",
+  "sample_identity": {
+    "source": "Use the exact 100 frozen document IDs per task from the parent experiment.",
+    "seed": 0,
+    "decoding": "Deterministic and unchanged from the parent experiment."
+  },
+  "conditions": [
+    {
+      "name": "reference_final_prompt_prefill",
+      "source": "Reuse the immutable parent artifacts.",
+      "pooling": "last_valid",
+      "phases": "prefill",
+      "decode_aggregation": "mean_updates"
+    },
+    {
+      "name": "mean_prompt_prefill",
+      "source": "New extraction with observer parity checked.",
+      "pooling": "mean_valid",
+      "phases": "prefill",
+      "decode_aggregation": "mean_updates"
+    },
+    {
+      "name": "first_cached_decode_update",
+      "source": "New extraction with observer parity and per-task decode coverage checked.",
+      "pooling": "last_valid",
+      "phases": "both",
+      "decode_aggregation": "first_update",
+      "estimand": "The cached one-token forward conditioned on the first generated answer token; this state predicts the second token. It is not the state that produced the first answer token."
+    },
+    {
+      "name": "generated_response_trajectory",
+      "source": "New position-resolved extraction with observer parity and per-step coverage checked.",
+      "pooling": "last_valid",
+      "phases": "both",
+      "decode_aggregation": "all_updates",
+      "decode_max_updates": 8,
+      "trajectory_estimand": "One vector per example, layer, stream, and generated-token update for absolute decode steps 0 through 7. Each step is analyzed separately; no class-dependent token or step pooling is allowed."
+    }
+  ],
+  "real_model_smoke": {
+    "model": "allenai/Olmo-3-7B-Instruct",
+    "revision": "6e5971d9eba42665f5bd5a0fcf047f299ce1dccc",
+    "tasks": ["repdyn_mmlu_pro_biology", "repdyn_mmlu_pro_math"],
+    "samples_per_task": 8,
+    "status": "PASS_DIRECT_ANSWER_TWO_TIMEPOINT_ONLY",
+    "records": 3072,
+    "observer_parity": true,
+    "coverage": {"prefill": 16, "decode_step_0": 16, "decode_step_1": 0},
+    "report": "results/response_trajectory_smoke_v1/report.json",
+    "persistent_root": "/home/ubuntu/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/response-trajectory-smoke-v1",
+    "interpretation": "The engineering gate passes for the last prompt state and the first cached decode update. The frozen direct-answer stop rules produce no later common response step, so the planned eight-step contrast is not estimable in this protocol."
+  },
+  "analysis": {
+    "cv_folds": 5,
+    "task_label_permutations": 251,
+    "pca_retained_variance": 0.95,
+    "seed": 0,
+    "comparison": "Compare complete layer--stream profiles and selection-aware Fisher/probe randomization within model across prefill, first decode, and each absolute decode step; do not pool models or response positions.",
+    "trajectory_summary": "Report the layer-stream-step maximum only with a randomization null that repeats selection over every included layer, stream, and step. Also report a prespecified area under the per-step depth-mean curve over steps with complete coverage.",
+    "missingness": "Report response-length coverage by task and class at every step. The primary trajectory comparison uses only a prespecified common step prefix with at least 95% coverage in every task; later steps are descriptive and may not use a class-dependent subset."
+  },
+  "promotion_gates": [
+    "A two-task real-model smoke must show exact layer/stream semantics and tracker-off/on response parity.",
+    "Every included example must have one first_update decode record at every selected layer and stream; this is the first cached update after one answer token, not the state that generated that first token. Otherwise report coverage and do not compare a selected subset as if it were complete.",
+    "Every emitted all_updates record must have an explicit zero-based decode_step, one update, and exact task/sample identity. The per-step record count must equal the number of responses reaching that step times the selected layer and stream count.",
+    "Response length is an outcome of the model and can differ by task set. Report its distribution and do not interpret later-step separation unless coverage is balanced under the frozen rule.",
+    "Prefill records captured in the both-phase run must reproduce the reference condition under identical pooling and batch settings.",
+    "All conditions must preserve prompts, sample IDs, batch size, generation settings, storage dtype, and model revision."
+  ],
+  "claim_limit": "A pooling- or response-position-dependent result concerns the estimator and generated trajectory under this direct-answer protocol. It does not identify a distinct reasoning mechanism; absolute token steps are not aligned semantic reasoning steps. Any multi-step explanation study must use a separate frozen prompt and may not be presented as an extension of the direct-answer result."
+}

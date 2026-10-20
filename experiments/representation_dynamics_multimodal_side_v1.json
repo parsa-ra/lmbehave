@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "experiment_id": "representation-dynamics-multimodal-side-v1",
+  "status": "frozen_appendix_reanalysis",
+  "role": "Appendix-only side analysis; do not alter or pool with the primary text-only results.",
+  "source_experiment": "experiments/representation_dynamics_v1.json#cross_benchmark_discovery",
+  "source_archive": {
+    "path": "/home/ubuntu/data-imu-us-east3/vlmbehave-artifacts/2026-07-27/representation-dynamics-v1-six-model.tar.gz",
+    "sha256": "589401e880348a103d0cc985ca57b43f34b720fe4818df3693717fb6384d40e4"
+  },
+  "models": [
+    "qwen3_5-9b",
+    "qwen3_5-27b",
+    "gemma4-31b"
+  ],
+  "model_scope": "Only current-generation multimodal checkpoints in the historical archive; Gemma 3 conditions are excluded.",
+  "data_scope": {
+    "examples_per_task": 100,
+    "knowledge_tasks": 5,
+    "reasoning_tasks": 5,
+    "position": "final valid prefill token",
+    "streams": [
+      "attention_delta",
+      "mlp_delta",
+      "residual_state"
+    ],
+    "storage_dtype": "float32"
+  },
+  "inference": {
+    "exchangeable_unit": "benchmark task",
+    "task_holdout_folds": 5,
+    "balanced_oriented_assignments": 252,
+    "complement_equivalence_classes": 126,
+    "minimum_attainable_class_symmetric_p": 0.007936507936507936,
+    "fisher_site_selection": "Recompute the full PCA-space Fisher profile and reselect the maximum under every task-label assignment.",
+    "probe_site_selection": "Use the assignment-specific unadjusted Fisher maximum, then refit the held-out-task probe.",
+    "pca_retained_variance": 0.95,
+    "seed": 0,
+    "backend": "cuml_float64"
+  },
+  "conditions": {
+    "raw": "Unadjusted selected-site representation probe.",
+    "surface_modality": "Fold-local Ridge adjustment for six text-surface variables, task-level visual-input presence, and three response-format indicators.",
+    "lexical_64": "Fold-local character-within-word TF-IDF, 64-component truncated SVD, and activation Ridge adjustment.",
+    "combined_64": "The surface/modality and 64-component lexical nuisance columns concatenated inside each training-task fold."
+  },
+  "prompt_baselines": [
+    "word_tfidf",
+    "char_tfidf"
+  ],
+  "claim_limit": "This panel deliberately mixes modality, domain, response format, and benchmark family. Text-channel and task-level modality controls do not represent image content. Results describe separability of these ten named tasks only and cannot validate a general knowledge-reasoning construct.",
+  "main_text_policy": "Do not change the primary tables, abstract, or main-text conclusions from this appendix-only analysis."
+}

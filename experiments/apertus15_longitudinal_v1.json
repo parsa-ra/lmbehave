@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "experiment_id": "apertus15-8b-longitudinal-v1",
+  "status": "blocked_pending_released_intermediate_checkpoints",
+  "objective": "Measure whether task quality and within-model knowledge-versus-reasoning representation separation change along one Apertus 1.5 8B training trajectory.",
+  "claim_limit": "The released final endpoint alone cannot identify change during training. Apertus 1.0 and 1.5 bundle continued pretraining, multimodal training, and post-training changes and therefore are not treated as adjacent checkpoints on one controlled trajectory.",
+  "release_checked_at_utc": "2026-08-10T20:05:11Z",
+  "released_endpoint": {
+    "repository": "swiss-ai/Apertus-v1.5-8B",
+    "revision": "a411d838600baf0e3635a3daf66fb7c55fc97bb6",
+    "source_ref": "main",
+    "released_at": "2026-07-24",
+    "layers": 32,
+    "hidden_width": 4096,
+    "lmms_model": "apertus1p5",
+    "batch_size": 24,
+    "model_args": {
+      "enable_thinking": false,
+      "use_cache": true
+    }
+  },
+  "runtime": {
+    "transformers_repository": "https://github.com/swiss-ai/transformers.git",
+    "transformers_revision": "3797303dda74844e3d1f8977ff5518bb91f818b4",
+    "reason": "Apertus 1.5 support is not yet part of a released upstream Transformers version."
+  },
+  "release_gate": {
+    "minimum_intermediate_checkpoint_refs": 2,
+    "require_immutable_revisions": true,
+    "require_training_position_or_order": true,
+    "require_same_architecture_and_model_code": true,
+    "require_documented_training_branch": true,
+    "discovery_script": "scripts/check_apertus15_release.py",
+    "current_huggingface_refs": {
+      "branches": [
+        "main"
+      ],
+      "tags": []
+    },
+    "model_card_statement": "The technical report, training pipelines, and intermediate checkpoints will be published in the coming weeks."
+  },
+  "planned_protocol": {
+    "dataset": {
+      "path": "hails/mmlu_no_train",
+      "revision": "b2e1ec9aa795adafe68e8e983248dbd4b52a1c60"
+    },
+    "tasks": {
+      "knowledge": [
+        "repdyn_mmlu_anatomy",
+        "repdyn_mmlu_clinical_knowledge",
+        "repdyn_mmlu_high_school_world_history",
+        "repdyn_mmlu_professional_law",
+        "repdyn_mmlu_astronomy"
+      ],
+      "reasoning": [
+        "repdyn_mmlu_abstract_algebra",
+        "repdyn_mmlu_formal_logic",
+        "repdyn_mmlu_high_school_mathematics",
+        "repdyn_mmlu_college_mathematics",
+        "repdyn_mmlu_logical_fallacies"
+      ]
+    },
+    "replicates": [
+      {
+        "id": "block-0",
+        "offset": 0,
+        "sample_count_per_task": 32
+      },
+      {
+        "id": "block-1",
+        "offset": 32,
+        "sample_count_per_task": 32
+      },
+      {
+        "id": "block-2",
+        "offset": 64,
+        "sample_count_per_task": 32
+      }
+    ],
+    "repeat_interpretation": "The disjoint blocks are paired across checkpoints. Their sample standard deviation measures sensitivity to evaluation-example sampling, not variation across training seeds.",
+    "extraction": {
+      "seed": 0,
+      "pooling": "last_valid",
+      "phases": "prefill",
+      "storage_dtype": "float32"
+    },
+    "analysis": {
+      "cv_folds": 5,
+      "linear_task_label_permutations": 251,
+      "nonlinear_task_label_permutations": 0,
+      "pca_retained_variance": 0.95,
+      "silhouette_max_samples": 5000,
+      "seed": 0,
+      "report_accuracy_with_fdr_terms_rank_probes_geometry": true,
+      "velocity_within_documented_training_stage_only": true
+    }
+  },
+  "promotion_requirements": [
+    "Discover at least two immutable checkpoints on the same documented training branch.",
+    "Inspect every checkpoint with the same pinned model implementation and verify 32 exact text-decoder layers.",
+    "Pass tracker-off/on logit and greedy-output parity before extraction.",
+    "Use identical task IDs, prompts, pooling, storage precision, and example blocks at every checkpoint.",
+    "Do not compare velocity across training stages unless cumulative training tokens or another common position unit is available."
+  ]
+}

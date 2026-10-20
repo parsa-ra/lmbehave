@@ -1,0 +1,387 @@
+{
+  "claim_limit": "This audit measures available outcome strata. Thresholds 5/10/20 are planning diagnostics, not inferential cutoffs. Subsetting on correctness is post-outcome selection and is not a causal adjustment.",
+  "created_at_utc": "2026-08-14T00:18:38.727595+00:00",
+  "expected_examples_per_task": 100,
+  "expected_tasks": 16,
+  "models": [
+    {
+      "all_tasks_have_at_least_10_per_outcome": true,
+      "all_tasks_have_at_least_20_per_outcome": false,
+      "all_tasks_have_at_least_5_per_outcome": true,
+      "balanced_examples_total": 416,
+      "balanced_per_outcome_cap": 13,
+      "minimum_correct_per_task": 13,
+      "minimum_incorrect_per_task": 41,
+      "model": "apertus15-8b"
+    },
+    {
+      "all_tasks_have_at_least_10_per_outcome": false,
+      "all_tasks_have_at_least_20_per_outcome": false,
+      "all_tasks_have_at_least_5_per_outcome": true,
+      "balanced_examples_total": 224,
+      "balanced_per_outcome_cap": 7,
+      "minimum_correct_per_task": 15,
+      "minimum_incorrect_per_task": 7,
+      "model": "gemma4-31b"
+    },
+    {
+      "all_tasks_have_at_least_10_per_outcome": true,
+      "all_tasks_have_at_least_20_per_outcome": true,
+      "all_tasks_have_at_least_5_per_outcome": true,
+      "balanced_examples_total": 832,
+      "balanced_per_outcome_cap": 26,
+      "minimum_correct_per_task": 33,
+      "minimum_incorrect_per_task": 26,
+      "model": "olmo3-7b-instruct"
+    },
+    {
+      "all_tasks_have_at_least_10_per_outcome": false,
+      "all_tasks_have_at_least_20_per_outcome": false,
+      "all_tasks_have_at_least_5_per_outcome": false,
+      "balanced_examples_total": 96,
+      "balanced_per_outcome_cap": 3,
+      "minimum_correct_per_task": 68,
+      "minimum_incorrect_per_task": 3,
+      "model": "qwen3_5-27b"
+    },
+    {
+      "all_tasks_have_at_least_10_per_outcome": false,
+      "all_tasks_have_at_least_20_per_outcome": false,
+      "all_tasks_have_at_least_5_per_outcome": true,
+      "balanced_examples_total": 256,
+      "balanced_per_outcome_cap": 8,
+      "minimum_correct_per_task": 53,
+      "minimum_incorrect_per_task": 8,
+      "model": "qwen3_5-9b"
+    }
+  ],
+  "provenance": {
+    "correctness_support_csv_sha256": "d1b1028ce9e8ce5770c4078331832ac5cf06170662d0daa46c3fd15d46356c99",
+    "source_set_sha256": "653a7d7efd9c7506101bf4db81be89988d075db2187df662123d66b7caa52040",
+    "sources": [
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/olmo3-7b-instruct/tasks/knowledge-repdyn_mmlu_anatomy/evaluation/allenai__Olmo-3-7B-Instruct/20260814_063208_samples_repdyn_mmlu_anatomy.jsonl",
+        "sha256": "bf182221f2ec12fdb124a2fc31845eaaa1bc8cee1f22472910b0e9919450a5c6"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/olmo3-7b-instruct/tasks/knowledge-repdyn_mmlu_astronomy/evaluation/allenai__Olmo-3-7B-Instruct/20260814_063227_samples_repdyn_mmlu_astronomy.jsonl",
+        "sha256": "7f16f3f6c2f8b711585f189321a2183c3eb55bdf11440856fa2a88b505aa7887"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/olmo3-7b-instruct/tasks/knowledge-repdyn_mmlu_clinical_knowledge/evaluation/allenai__Olmo-3-7B-Instruct/20260814_063242_samples_repdyn_mmlu_clinical_knowledge.jsonl",
+        "sha256": "5a07a71b01757ced1b38d73929e861dc260f81e71ed7847dee9c9c0da0558feb"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/olmo3-7b-instruct/tasks/knowledge-repdyn_mmlu_high_school_biology/evaluation/allenai__Olmo-3-7B-Instruct/20260814_063331_samples_repdyn_mmlu_high_school_biology.jsonl",
+        "sha256": "4594bd588f779b85261daf6b6a54f8f468e7926a7c508154d4fef357be17fe5a"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/olmo3-7b-instruct/tasks/knowledge-repdyn_mmlu_high_school_world_history/evaluation/allenai__Olmo-3-7B-Instruct/20260814_063257_samples_repdyn_mmlu_high_school_world_history.jsonl",
+        "sha256": "a908df16da0e78baee196aa09838f967125e054ea01de6f3f577229ab662916c"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/olmo3-7b-instruct/tasks/knowledge-repdyn_mmlu_medical_genetics/evaluation/allenai__Olmo-3-7B-Instruct/20260814_063346_samples_repdyn_mmlu_medical_genetics.jsonl",
+        "sha256": "48c0dedb39980f76a9b5a2563dc81cd483e33fef4699ce01a4b31098f3733732"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/olmo3-7b-instruct/tasks/knowledge-repdyn_mmlu_prehistory/evaluation/allenai__Olmo-3-7B-Instruct/20260814_063400_samples_repdyn_mmlu_prehistory.jsonl",
+        "sha256": "5a3c1f8b8bf41f189fe303a7a904078d48d1aec0941d0c5c45c50a5fb7efc293"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/olmo3-7b-instruct/tasks/knowledge-repdyn_mmlu_professional_law/evaluation/allenai__Olmo-3-7B-Instruct/20260814_063314_samples_repdyn_mmlu_professional_law.jsonl",
+        "sha256": "f0206aec5ef399418969ac374f974a5eeac650fd64d71bb80c2f38ba96d97eb7"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/olmo3-7b-instruct/tasks/reasoning-repdyn_mmlu_abstract_algebra/evaluation/allenai__Olmo-3-7B-Instruct/20260814_063416_samples_repdyn_mmlu_abstract_algebra.jsonl",
+        "sha256": "f6f731a1ff947a700bf0d8aa1d796fcc58e104d82c2c0cdcc6ad0022be7bb150"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/olmo3-7b-instruct/tasks/reasoning-repdyn_mmlu_college_mathematics/evaluation/allenai__Olmo-3-7B-Instruct/20260814_063430_samples_repdyn_mmlu_college_mathematics.jsonl",
+        "sha256": "b2e5e56403c0bc777d53c8353d59552c1a154e8a9786075994af1cdcdb0930a2"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/olmo3-7b-instruct/tasks/reasoning-repdyn_mmlu_college_physics/evaluation/allenai__Olmo-3-7B-Instruct/20260814_063531_samples_repdyn_mmlu_college_physics.jsonl",
+        "sha256": "be3a08adc9db2451dbf1d04341b59574873f080c299e6457aa86d05a71ff47de"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/olmo3-7b-instruct/tasks/reasoning-repdyn_mmlu_conceptual_physics/evaluation/allenai__Olmo-3-7B-Instruct/20260814_063546_samples_repdyn_mmlu_conceptual_physics.jsonl",
+        "sha256": "4f58aed11b97b3bfb620fca96ad87a2c52bf273058f14972cde5598d681a437b"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/olmo3-7b-instruct/tasks/reasoning-repdyn_mmlu_formal_logic/evaluation/allenai__Olmo-3-7B-Instruct/20260814_063445_samples_repdyn_mmlu_formal_logic.jsonl",
+        "sha256": "8a2989292cf7d48c19194f97f2586caa645b109c7d12642ccbe8d2be545ac9a8"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/olmo3-7b-instruct/tasks/reasoning-repdyn_mmlu_high_school_mathematics/evaluation/allenai__Olmo-3-7B-Instruct/20260814_063501_samples_repdyn_mmlu_high_school_mathematics.jsonl",
+        "sha256": "31761cfc68b42f9fa1a69cf0a6d90df390f909d65f93ef308bda6b687854bdb2"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/olmo3-7b-instruct/tasks/reasoning-repdyn_mmlu_high_school_statistics/evaluation/allenai__Olmo-3-7B-Instruct/20260814_063600_samples_repdyn_mmlu_high_school_statistics.jsonl",
+        "sha256": "eeab594ecb6fcfac20a1adbb98ca8327f0b0e0c0ed8f20070dc90aaca60cf5d3"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/olmo3-7b-instruct/tasks/reasoning-repdyn_mmlu_logical_fallacies/evaluation/allenai__Olmo-3-7B-Instruct/20260814_063517_samples_repdyn_mmlu_logical_fallacies.jsonl",
+        "sha256": "b0f842b5766eac2a64f64c50c61c0d23da5ec56d16c8374c84430439fdeab085"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-apertus15-runtime-v1/matched_mmlu_8x8_confirmatory/apertus15-8b/tasks/knowledge-repdyn_mmlu_anatomy/evaluation/swiss-ai__Apertus-v1.5-8B/20260814_063826_samples_repdyn_mmlu_anatomy.jsonl",
+        "sha256": "e8c501c4d8162617a0fd714f666e5185dc313e5f28f470888e01e7a20d47a6ff"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-apertus15-runtime-v1/matched_mmlu_8x8_confirmatory/apertus15-8b/tasks/knowledge-repdyn_mmlu_astronomy/evaluation/swiss-ai__Apertus-v1.5-8B/20260814_063914_samples_repdyn_mmlu_astronomy.jsonl",
+        "sha256": "da1dc87dd4daf991b54aca257c8440ce28329e163456b2e01a14eb00280ca5a8"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-apertus15-runtime-v1/matched_mmlu_8x8_confirmatory/apertus15-8b/tasks/knowledge-repdyn_mmlu_clinical_knowledge/evaluation/swiss-ai__Apertus-v1.5-8B/20260814_063935_samples_repdyn_mmlu_clinical_knowledge.jsonl",
+        "sha256": "aff85858973f8b22770bfcbfa45ee25b41161aaaac1b6abb506a062b55f873f5"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-apertus15-runtime-v1/matched_mmlu_8x8_confirmatory/apertus15-8b/tasks/knowledge-repdyn_mmlu_high_school_biology/evaluation/swiss-ai__Apertus-v1.5-8B/20260814_064040_samples_repdyn_mmlu_high_school_biology.jsonl",
+        "sha256": "e381a846cbf6d2ba873113efb40865e2063e3d460139c8d1e36d261aa1c4f3d5"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-apertus15-runtime-v1/matched_mmlu_8x8_confirmatory/apertus15-8b/tasks/knowledge-repdyn_mmlu_high_school_world_history/evaluation/swiss-ai__Apertus-v1.5-8B/20260814_063955_samples_repdyn_mmlu_high_school_world_history.jsonl",
+        "sha256": "d66e45df7f6a20d72e45a736e317c4adcbd13436161ec9d14a9acd239fdb7d64"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-apertus15-runtime-v1/matched_mmlu_8x8_confirmatory/apertus15-8b/tasks/knowledge-repdyn_mmlu_medical_genetics/evaluation/swiss-ai__Apertus-v1.5-8B/20260814_064101_samples_repdyn_mmlu_medical_genetics.jsonl",
+        "sha256": "05d625e21c9119b94a24467ac30b879fda1c220b8ad684f969dfd34e73315488"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-apertus15-runtime-v1/matched_mmlu_8x8_confirmatory/apertus15-8b/tasks/knowledge-repdyn_mmlu_prehistory/evaluation/swiss-ai__Apertus-v1.5-8B/20260814_064122_samples_repdyn_mmlu_prehistory.jsonl",
+        "sha256": "87cfce9c8f0abaa1f31de69fe62edb6492d2abd6a3247c1b55bc74be18748022"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-apertus15-runtime-v1/matched_mmlu_8x8_confirmatory/apertus15-8b/tasks/knowledge-repdyn_mmlu_professional_law/evaluation/swiss-ai__Apertus-v1.5-8B/20260814_064018_samples_repdyn_mmlu_professional_law.jsonl",
+        "sha256": "86a35e4d91a1586f036222db2f454cdae7d50b12b9da26f16b5187c2cad5ad33"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-apertus15-runtime-v1/matched_mmlu_8x8_confirmatory/apertus15-8b/tasks/reasoning-repdyn_mmlu_abstract_algebra/evaluation/swiss-ai__Apertus-v1.5-8B/20260814_064142_samples_repdyn_mmlu_abstract_algebra.jsonl",
+        "sha256": "a289f1168dd729c251a28b05a42d15a8422ee561bbf1caf811fb5b965fced327"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-apertus15-runtime-v1/matched_mmlu_8x8_confirmatory/apertus15-8b/tasks/reasoning-repdyn_mmlu_college_mathematics/evaluation/swiss-ai__Apertus-v1.5-8B/20260814_064202_samples_repdyn_mmlu_college_mathematics.jsonl",
+        "sha256": "204e1c396e2f46abe64d99f96abc6ce229f348ffb4b3b0f4e381042e339fdc34"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-apertus15-runtime-v1/matched_mmlu_8x8_confirmatory/apertus15-8b/tasks/reasoning-repdyn_mmlu_college_physics/evaluation/swiss-ai__Apertus-v1.5-8B/20260814_064327_samples_repdyn_mmlu_college_physics.jsonl",
+        "sha256": "416f2b03b5f95b369b7ed8303f1e5591e86f6233542b7d9275a9f54d8752e9c8"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-apertus15-runtime-v1/matched_mmlu_8x8_confirmatory/apertus15-8b/tasks/reasoning-repdyn_mmlu_conceptual_physics/evaluation/swiss-ai__Apertus-v1.5-8B/20260814_064348_samples_repdyn_mmlu_conceptual_physics.jsonl",
+        "sha256": "e5c6b864a7148abe34b14bfd1b47d3af512140cb41ebce815aea9aa010a6998c"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-apertus15-runtime-v1/matched_mmlu_8x8_confirmatory/apertus15-8b/tasks/reasoning-repdyn_mmlu_formal_logic/evaluation/swiss-ai__Apertus-v1.5-8B/20260814_064223_samples_repdyn_mmlu_formal_logic.jsonl",
+        "sha256": "14596fed403b646885fe7122ad93c686b8303eb84a1bcdaab630eb3019992626"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-apertus15-runtime-v1/matched_mmlu_8x8_confirmatory/apertus15-8b/tasks/reasoning-repdyn_mmlu_high_school_mathematics/evaluation/swiss-ai__Apertus-v1.5-8B/20260814_064245_samples_repdyn_mmlu_high_school_mathematics.jsonl",
+        "sha256": "2f40eb5bb05904b0b15081927700c105f04bd548e7d500a7226fd718f096c757"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-apertus15-runtime-v1/matched_mmlu_8x8_confirmatory/apertus15-8b/tasks/reasoning-repdyn_mmlu_high_school_statistics/evaluation/swiss-ai__Apertus-v1.5-8B/20260814_064408_samples_repdyn_mmlu_high_school_statistics.jsonl",
+        "sha256": "991fec05286953eb3133c7f76b276b48d351c3e0ed70e119456e02b9e4a63c30"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-apertus15-runtime-v1/matched_mmlu_8x8_confirmatory/apertus15-8b/tasks/reasoning-repdyn_mmlu_logical_fallacies/evaluation/swiss-ai__Apertus-v1.5-8B/20260814_064306_samples_repdyn_mmlu_logical_fallacies.jsonl",
+        "sha256": "218e36eb87ed9f9b14e3a946160cf2a564bb70d0081045bf6a4d85a1dd4865b0"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-9b/tasks/knowledge-repdyn_mmlu_anatomy/evaluation/Qwen__Qwen3.5-9B/20260814_063209_samples_repdyn_mmlu_anatomy.jsonl",
+        "sha256": "27a302fb9ade35328d6eab6ea0cee37dc809eb1a9dbf458311bd59ae436fbfca"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-9b/tasks/knowledge-repdyn_mmlu_astronomy/evaluation/Qwen__Qwen3.5-9B/20260814_063250_samples_repdyn_mmlu_astronomy.jsonl",
+        "sha256": "11e97173189dbb2baa9d80f4d27dc253885547892923fea97136b83157c72fd5"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-9b/tasks/knowledge-repdyn_mmlu_clinical_knowledge/evaluation/Qwen__Qwen3.5-9B/20260814_063310_samples_repdyn_mmlu_clinical_knowledge.jsonl",
+        "sha256": "96c1ad727b40aa03e1c031d5e79ceac4e1b8e777a33657414106a85912522521"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-9b/tasks/knowledge-repdyn_mmlu_high_school_biology/evaluation/Qwen__Qwen3.5-9B/20260814_063418_samples_repdyn_mmlu_high_school_biology.jsonl",
+        "sha256": "e6fddbc3cf7ea41c1b35a1a9de9f8e7e76eb262fb2d381d00c036bf59298aa61"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-9b/tasks/knowledge-repdyn_mmlu_high_school_world_history/evaluation/Qwen__Qwen3.5-9B/20260814_063331_samples_repdyn_mmlu_high_school_world_history.jsonl",
+        "sha256": "1353cc597424a011e58828311ebebb8d406814c77081ef3b43a359144781d501"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-9b/tasks/knowledge-repdyn_mmlu_medical_genetics/evaluation/Qwen__Qwen3.5-9B/20260814_063438_samples_repdyn_mmlu_medical_genetics.jsonl",
+        "sha256": "075d05fe2395c560ec0d170b5af9f7e1462fad56323303cf6691a639b056d9eb"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-9b/tasks/knowledge-repdyn_mmlu_prehistory/evaluation/Qwen__Qwen3.5-9B/20260814_063457_samples_repdyn_mmlu_prehistory.jsonl",
+        "sha256": "246670a981f79aedd81ef0cf256c7f4b20e28b53a92349ccf82665f3cfec3657"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-9b/tasks/knowledge-repdyn_mmlu_professional_law/evaluation/Qwen__Qwen3.5-9B/20260814_063355_samples_repdyn_mmlu_professional_law.jsonl",
+        "sha256": "0599732e467c666b8fc8363a281176fa15aa6d37f21a6ed68e39008b1f352ced"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-9b/tasks/reasoning-repdyn_mmlu_abstract_algebra/evaluation/Qwen__Qwen3.5-9B/20260814_063518_samples_repdyn_mmlu_abstract_algebra.jsonl",
+        "sha256": "43a0ae8a01b958cd48cecca31469470e22b906f5ee9992291d2ce7b92f9e392a"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-9b/tasks/reasoning-repdyn_mmlu_college_mathematics/evaluation/Qwen__Qwen3.5-9B/20260814_063538_samples_repdyn_mmlu_college_mathematics.jsonl",
+        "sha256": "69895f1d842ea26582c8e74c3edc4122cb64c1aec4f787a7076edcf6dc08be58"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-9b/tasks/reasoning-repdyn_mmlu_college_physics/evaluation/Qwen__Qwen3.5-9B/20260814_063656_samples_repdyn_mmlu_college_physics.jsonl",
+        "sha256": "bd66401a534c9b06717e8a9044c4e82abc67d23b7022a05c1104922204fd0fe1"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-9b/tasks/reasoning-repdyn_mmlu_conceptual_physics/evaluation/Qwen__Qwen3.5-9B/20260814_063715_samples_repdyn_mmlu_conceptual_physics.jsonl",
+        "sha256": "c269fe2237db95c494a0a740bf099f30886d1701008ad46e45dd23fb8f1e6747"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-9b/tasks/reasoning-repdyn_mmlu_formal_logic/evaluation/Qwen__Qwen3.5-9B/20260814_063557_samples_repdyn_mmlu_formal_logic.jsonl",
+        "sha256": "5d2f790ea1e9d2855d2f6d406e246534ca54951b8d53378b5f7caae8ade176f6"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-9b/tasks/reasoning-repdyn_mmlu_high_school_mathematics/evaluation/Qwen__Qwen3.5-9B/20260814_063618_samples_repdyn_mmlu_high_school_mathematics.jsonl",
+        "sha256": "eaa8883517487f9e53369f612f43f3f0bcd4691563a1b226d66851c43b5eeb3a"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-9b/tasks/reasoning-repdyn_mmlu_high_school_statistics/evaluation/Qwen__Qwen3.5-9B/20260814_063735_samples_repdyn_mmlu_high_school_statistics.jsonl",
+        "sha256": "f64a5426be7f2ec0659447d35a7fdd623d5ca0aff4c3d6a5a1bd2a87606e8851"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-9b/tasks/reasoning-repdyn_mmlu_logical_fallacies/evaluation/Qwen__Qwen3.5-9B/20260814_063637_samples_repdyn_mmlu_logical_fallacies.jsonl",
+        "sha256": "9af35f0660099af294faf1d830c61a6eb7a9a31b4060c6d5495af37b0444f5a1"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-27b/tasks/knowledge-repdyn_mmlu_anatomy/evaluation/Qwen__Qwen3.5-27B/20260814_064511_samples_repdyn_mmlu_anatomy.jsonl",
+        "sha256": "b5bbbbce3cc7ec7f4b4d4c7f44c4ca18c920c0de23154a63388b91c2224a885b"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-27b/tasks/knowledge-repdyn_mmlu_astronomy/evaluation/Qwen__Qwen3.5-27B/20260814_064630_samples_repdyn_mmlu_astronomy.jsonl",
+        "sha256": "46b76732aa9b62af17a715bb6b76202c397ed3b974988934079e3f20fb0c49ec"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-27b/tasks/knowledge-repdyn_mmlu_clinical_knowledge/evaluation/Qwen__Qwen3.5-27B/20260814_064704_samples_repdyn_mmlu_clinical_knowledge.jsonl",
+        "sha256": "dc5f80852cc6699072d3529587fe53756c96af785db5561da43adb3329856957"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-27b/tasks/knowledge-repdyn_mmlu_high_school_biology/evaluation/Qwen__Qwen3.5-27B/20260814_064917_samples_repdyn_mmlu_high_school_biology.jsonl",
+        "sha256": "a0cf2c12fb126b5f43aa2a83666b230c9cf977000d682b049dab32cbc6b13a22"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-27b/tasks/knowledge-repdyn_mmlu_high_school_world_history/evaluation/Qwen__Qwen3.5-27B/20260814_064740_samples_repdyn_mmlu_high_school_world_history.jsonl",
+        "sha256": "e16a82516f95eaa7b6e22e6bdbe199bc6b8ad7e021a5e500f53db41f8a18dcc6"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-27b/tasks/knowledge-repdyn_mmlu_medical_genetics/evaluation/Qwen__Qwen3.5-27B/20260814_064954_samples_repdyn_mmlu_medical_genetics.jsonl",
+        "sha256": "b3b9bab866baa09297ea4717d85425bb9d234786a0d750652b934e6b7e382e23"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-27b/tasks/knowledge-repdyn_mmlu_prehistory/evaluation/Qwen__Qwen3.5-27B/20260814_065031_samples_repdyn_mmlu_prehistory.jsonl",
+        "sha256": "f23e4dae1d7d1ad077af7322162b003f364632357c2d31d6232ddfa8b3046b76"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-27b/tasks/knowledge-repdyn_mmlu_professional_law/evaluation/Qwen__Qwen3.5-27B/20260814_064827_samples_repdyn_mmlu_professional_law.jsonl",
+        "sha256": "c1cd737d40b782a7b831a4e8962fd2c43d24555602cb245b75321daf6b664969"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-27b/tasks/reasoning-repdyn_mmlu_abstract_algebra/evaluation/Qwen__Qwen3.5-27B/20260814_065107_samples_repdyn_mmlu_abstract_algebra.jsonl",
+        "sha256": "835ceb2ecc4feda9b7ae44ed3fbc08e310943d90191f45ec8dcca75650ddbc60"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-27b/tasks/reasoning-repdyn_mmlu_college_mathematics/evaluation/Qwen__Qwen3.5-27B/20260814_065143_samples_repdyn_mmlu_college_mathematics.jsonl",
+        "sha256": "f3819e30cc840315b1cc68cc3339e3cebd58b15e9c15dc4ee31f98cbe9d11fad"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-27b/tasks/reasoning-repdyn_mmlu_college_physics/evaluation/Qwen__Qwen3.5-27B/20260814_065409_samples_repdyn_mmlu_college_physics.jsonl",
+        "sha256": "85f1b2dd2442c0c49d362ea27b65e2343847e04de1bd55786106fa11eecbf683"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-27b/tasks/reasoning-repdyn_mmlu_conceptual_physics/evaluation/Qwen__Qwen3.5-27B/20260814_065445_samples_repdyn_mmlu_conceptual_physics.jsonl",
+        "sha256": "adf78b881f8624525a8e8ed69a0324bc97c48d08db02b9d22844dc8800c09a65"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-27b/tasks/reasoning-repdyn_mmlu_formal_logic/evaluation/Qwen__Qwen3.5-27B/20260814_065220_samples_repdyn_mmlu_formal_logic.jsonl",
+        "sha256": "fa353fddf22edaccad88da4b07f8780a64cc16abdfc600f19dc6eb4c27b70d6a"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-27b/tasks/reasoning-repdyn_mmlu_high_school_mathematics/evaluation/Qwen__Qwen3.5-27B/20260814_065255_samples_repdyn_mmlu_high_school_mathematics.jsonl",
+        "sha256": "395000f06b3ad23ca0234452e5bde65ec59e3471c83223fe3f5d960d37aa51fc"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-27b/tasks/reasoning-repdyn_mmlu_high_school_statistics/evaluation/Qwen__Qwen3.5-27B/20260814_065520_samples_repdyn_mmlu_high_school_statistics.jsonl",
+        "sha256": "412079b69ce820acecbbd393a54ecd375f906c151f5223bea5bb474bd96119de"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/qwen3_5-27b/tasks/reasoning-repdyn_mmlu_logical_fallacies/evaluation/Qwen__Qwen3.5-27B/20260814_065334_samples_repdyn_mmlu_logical_fallacies.jsonl",
+        "sha256": "c2249136bd1ab9223f9a988eed76dc17b24f4986f0b4ee99af88b7b1a25d6747"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/gemma4-31b/tasks/knowledge-repdyn_mmlu_anatomy/evaluation/google__gemma-4-31B-it/20260814_070015_samples_repdyn_mmlu_anatomy.jsonl",
+        "sha256": "362f26b724f56afaccecce6e1dd5d22866f3aaad7f989bbd4fbadf6cd367f790"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/gemma4-31b/tasks/knowledge-repdyn_mmlu_astronomy/evaluation/google__gemma-4-31B-it/20260814_070220_samples_repdyn_mmlu_astronomy.jsonl",
+        "sha256": "f50a292fcb3730bb99946cca84fd1a5efad9673fed8570ed2625601ffad24d56"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/gemma4-31b/tasks/knowledge-repdyn_mmlu_clinical_knowledge/evaluation/google__gemma-4-31B-it/20260814_070341_samples_repdyn_mmlu_clinical_knowledge.jsonl",
+        "sha256": "55e57d530d000b2dcbfd687267aed35a0607d722eaf4a0a6f2aa5aa0bb86e436"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/gemma4-31b/tasks/knowledge-repdyn_mmlu_high_school_biology/evaluation/google__gemma-4-31B-it/20260814_070748_samples_repdyn_mmlu_high_school_biology.jsonl",
+        "sha256": "3c04a180a5a53638565fccb7cccaa84c4d85dd739c655ca471f7e66976789810"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/gemma4-31b/tasks/knowledge-repdyn_mmlu_high_school_world_history/evaluation/google__gemma-4-31B-it/20260814_070501_samples_repdyn_mmlu_high_school_world_history.jsonl",
+        "sha256": "8a60784b664f425831e50afc80eac21c9c82e35960172eeefffa1dae49c8034b"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/gemma4-31b/tasks/knowledge-repdyn_mmlu_medical_genetics/evaluation/google__gemma-4-31B-it/20260814_070909_samples_repdyn_mmlu_medical_genetics.jsonl",
+        "sha256": "2f036c80612fec4cd22d3d73133d544271164cba96f2871e4a8756b46d77c961"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/gemma4-31b/tasks/knowledge-repdyn_mmlu_prehistory/evaluation/google__gemma-4-31B-it/20260814_071029_samples_repdyn_mmlu_prehistory.jsonl",
+        "sha256": "3cc6eed8fa2ebf02a122d488464e67cb252b4c04fd7067dbda8cd9037c34a8f0"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/gemma4-31b/tasks/knowledge-repdyn_mmlu_professional_law/evaluation/google__gemma-4-31B-it/20260814_070622_samples_repdyn_mmlu_professional_law.jsonl",
+        "sha256": "f295152d3ed09c67d9c9010edbf81330f53d41bb03431d3e6659e82c96c57326"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/gemma4-31b/tasks/reasoning-repdyn_mmlu_abstract_algebra/evaluation/google__gemma-4-31B-it/20260814_071150_samples_repdyn_mmlu_abstract_algebra.jsonl",
+        "sha256": "eaf57f1ff0bfea170d5d59ba162defc6bd44fb50542e6a4872f834861604feb9"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/gemma4-31b/tasks/reasoning-repdyn_mmlu_college_mathematics/evaluation/google__gemma-4-31B-it/20260814_071319_samples_repdyn_mmlu_college_mathematics.jsonl",
+        "sha256": "cabb2a8f8b463676d16c87c9c86a61c54fccd00dbc776125758d57ee33859618"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/gemma4-31b/tasks/reasoning-repdyn_mmlu_college_physics/evaluation/google__gemma-4-31B-it/20260814_071912_samples_repdyn_mmlu_college_physics.jsonl",
+        "sha256": "8a250bbe225246899911c56bfc7b83f17188bf4081f6e52168ecda6f7a343bd8"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/gemma4-31b/tasks/reasoning-repdyn_mmlu_conceptual_physics/evaluation/google__gemma-4-31B-it/20260814_072041_samples_repdyn_mmlu_conceptual_physics.jsonl",
+        "sha256": "df26a043b19e46d927b9400fc0b30457dabe42ab8111ba101a4f0da8206eb0c7"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/gemma4-31b/tasks/reasoning-repdyn_mmlu_formal_logic/evaluation/google__gemma-4-31B-it/20260814_071451_samples_repdyn_mmlu_formal_logic.jsonl",
+        "sha256": "047eaddf6d197f0c2db908bcd1f2e7f4e3bace2f2640b4345b13c6d97ca5bd16"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/gemma4-31b/tasks/reasoning-repdyn_mmlu_high_school_mathematics/evaluation/google__gemma-4-31B-it/20260814_071619_samples_repdyn_mmlu_high_school_mathematics.jsonl",
+        "sha256": "bb9961081458ced917d41cf405396d4d5721200d069a875ea9e1f6551c9c0cf8"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/gemma4-31b/tasks/reasoning-repdyn_mmlu_high_school_statistics/evaluation/google__gemma-4-31B-it/20260814_072201_samples_repdyn_mmlu_high_school_statistics.jsonl",
+        "sha256": "22476f4422edbc39b5bdffe8b09d2ff3f204671961ebb72f1bdf2ed549ed6359"
+      },
+      {
+        "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-13/representation-dynamics-main-track-v1/matched_mmlu_8x8_confirmatory/gemma4-31b/tasks/reasoning-repdyn_mmlu_logical_fallacies/evaluation/google__gemma-4-31B-it/20260814_071751_samples_repdyn_mmlu_logical_fallacies.jsonl",
+        "sha256": "5d1111f037f2751612eb357777c8fbfebd211618b5d1dd5d22ccb87f63458864"
+      }
+    ]
+  },
+  "recommended_use": "Keep the all-example 8+8 test primary. Any correctness analysis must preserve all tasks, report cell counts, and avoid interpreting conditioning on a downstream outcome as removal of a nuisance variable.",
+  "schema_version": 1,
+  "status": "PASS_SUPPORT_AUDIT_ONLY"
+}

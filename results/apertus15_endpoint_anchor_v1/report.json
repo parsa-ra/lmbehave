@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "experiment_id": "apertus15-8b-endpoint-anchor-v1",
+  "status": "complete_endpoint_only",
+  "claim_limit": "This is one released final endpoint, not a longitudinal comparison. It cannot identify a training-time trend until immutable intermediate checkpoints from one documented Apertus 1.5 trajectory are released.",
+  "model": {
+    "repository": "swiss-ai/Apertus-v1.5-8B",
+    "revision": "a411d838600baf0e3635a3daf66fb7c55fc97bb6",
+    "layers": 32,
+    "hidden_width": 4096,
+    "transformers_repository": "https://github.com/swiss-ai/transformers.git",
+    "transformers_revision": "3797303dda74844e3d1f8977ff5518bb91f818b4",
+    "runtime_condition": "Text only, thinking disabled, Python xIELU fallback."
+  },
+  "protocol": {
+    "tasks_per_group": 5,
+    "examples_per_task_per_block": 32,
+    "disjoint_example_blocks": 3,
+    "examples_total": 960,
+    "representation_records": 92160,
+    "analysis_rows": 288,
+    "analysis_failures": 0,
+    "linear_task_label_permutations_per_row": 251,
+    "minimum_attainable_p": 0.007936507936507936,
+    "effective_class_symmetric_assignments": 126,
+    "repeat_interpretation": "Mean and sample standard deviation across blocks measure sensitivity to evaluation-example sampling, not variation across training seeds."
+  },
+  "aggregate_results": {
+    "knowledge_accuracy_mean": 0.35833333333333334,
+    "knowledge_accuracy_std": 0.03553900439423331,
+    "reasoning_accuracy_mean": 0.30624999999999997,
+    "reasoning_accuracy_std": 0.021650635094610952,
+    "depth_mean_fdr": {
+      "attention_delta": {"mean": 0.20428116440602706, "std": 0.016178482058039928},
+      "mlp_delta": {"mean": 0.24078124858642985, "std": 0.01805345122826414},
+      "residual_state": {"mean": 0.23955932551286005, "std": 0.017803799946423192}
+    },
+    "depth_mean_effective_rank_within_fraction": {
+      "attention_delta": {"mean": 0.6101642386178616, "std": 0.001089367781017769},
+      "mlp_delta": {"mean": 0.6503943730176862, "std": 0.0017937236807407633},
+      "residual_state": {"mean": 0.6632620879618055, "std": 0.0010052434151370025}
+    },
+    "linear_probe_f1_q_below_0_05_rows_by_block": [89, 95, 94],
+    "linear_probe_f1_q_below_0_05_rows_in_all_blocks": 87
+  },
+  "provenance": {
+    "experiment_manifest_sha256": "90bf1bbcb34d63bcb286a56b4f554f8a361d9f25bdc1d32e36cbc833b1c07cb6",
+    "run_manifest_sha256": "d498af8a2d7af1e09a8931f3330f60174a0d60760150d9ee9dd98ee8aa0ea3ac",
+    "validation_report_sha256": "bc779b7ff7666de1bb802af028538591dc0a1f207af19dc01e2a2dd6813b190b",
+    "source_summary_report_sha256": "c304c5d29ebe2db2bbeb0870f301990e1c09557cc6fdbb3b1b7ddce120a130bd",
+    "root_git_head": "5ab2f10d1d27cf08e6008600062124651fd030e0",
+    "root_git_dirty": false,
+    "lmms_eval_git_head": "8df6be6808e2176f45f75219323d0779314f50d7",
+    "lmms_eval_git_dirty": false,
+    "persistent_archive": "apertus15-endpoint-anchor-v1.tar.gz",
+    "persistent_archive_sha256": "781232fbce3ba3e57ef8431753e331dc59be73ea4513ee9b04e1dc5a3ce1f823"
+  },
+  "outputs": {
+    "longitudinal_checkpoint_summary.csv": "f1e44b6999f4b35aa04870ee2c7c6698d15534a592ee1c6c7df824e6d0f7308e",
+    "longitudinal_layer_summary.csv": "d64eedd156a8d7e11f617f1704104a67927927cc3eee2982f27172c8078da635",
+    "probe_repeatability_summary.csv": "c1f105017f545fe058bf519933b46a260b6adf56633b03bf9a3a9247bdd4fb82"
+  },
+  "raw_activations_prompts_responses_or_per_sample_rows_in_output": false
+}

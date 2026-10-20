@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "experiment_id": "response-trajectory-long-response-smoke-v1",
+  "status": "PASS_TWO_TASK_PROTOCOL_SMOKE",
+  "model": {
+    "repository": "allenai/Olmo-3-7B-Instruct",
+    "revision": "6e5971d9eba42665f5bd5a0fcf047f299ce1dccc"
+  },
+  "protocol": {
+    "tasks": [
+      "repdyn_response_mmlu_abstract_algebra",
+      "repdyn_response_mmlu_anatomy"
+    ],
+    "samples_per_task": 4,
+    "batch_size": 4,
+    "max_new_tokens": 256,
+    "response_order": "Final answer marker followed by two short explanatory sentences",
+    "stop": "model EOS only",
+    "pooling": "last_valid",
+    "phases": [
+      "prefill",
+      "decode"
+    ],
+    "decode_aggregation": "all_updates",
+    "decode_max_updates": 32,
+    "storage_dtype": "float32"
+  },
+  "parser_gate": {
+    "pass": true,
+    "valid_responses": 8,
+    "invalid_responses": 0,
+    "raw_responses_logged": 8
+  },
+  "observer_parity": {
+    "pass": true,
+    "compared_fields": [
+      "doc_id",
+      "doc_hash",
+      "target",
+      "resps",
+      "filtered_resps",
+      "exact_match",
+      "input"
+    ]
+  },
+  "artifact": {
+    "records": 25344,
+    "layers": 32,
+    "streams": 3,
+    "all_branch_records_exact": true,
+    "representations_bytes": 424507255,
+    "representations_sha256": "955eb2b2c1e12913f205951d9ac852962b79327ada99012f254dbf05b38761bd"
+  },
+  "coverage": {
+    "threshold_per_task": 0.95,
+    "minimum_required_prefix": 8,
+    "common_decode_prefix": 32
+  },
+  "audit": {
+    "lmms_eval_commit": "6a20aba3505968ecdf30844daf5eef49d022d2d7",
+    "task_template_sha256": "1793b848ea26be000520a9ca883defdc4fd4f4856279332ad71748f5a741d754",
+    "persistent_report_sha256": "d02959434638cef4bd7126c7378167e00cfda524c0b5e07664aac5aeeee92c37",
+    "persistent_parser_gate_sha256": "165cde8531a8c9c1cc3724effe013202e4fdb5835c2b330cffec5d154daed893"
+  },
+  "superseded_attempts": "The first smoke inherited a paragraph stop and invalidated all eight parsed answers. Explicit EOS-only stopping fixed that error, but later answer markers remained vulnerable to verbose or nonconforming responses. The passing protocol places the answer marker before the explanation; failed artifacts remain on persistent storage.",
+  "claim_limit": "This validates a two-task sampling and observer-parity protocol. Because the answer precedes the explanation, it measures post-answer response dynamics. It is not evidence of knowledge-versus-reasoning separation, does not validate all 16 tasks, and does not make absolute token positions semantic reasoning steps.",
+  "contains_activations_prompts_responses_or_per_sample_rows": false
+}

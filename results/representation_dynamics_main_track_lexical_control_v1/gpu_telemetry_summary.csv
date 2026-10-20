@@ -1,0 +1,2 @@
+samples,mean_gpu_utilization_percent,peak_gpu_utilization_percent,mean_memory_mib,peak_memory_mib,mean_power_w,peak_power_w,power_limit_w
+397,92.8942065491184,100.0,13566.64483627204,22279.0,485.2460453400504,543.88,900.0

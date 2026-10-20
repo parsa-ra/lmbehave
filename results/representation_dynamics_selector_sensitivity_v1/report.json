@@ -1,0 +1,107 @@
+{
+  "all_grid_maxima_reject_after_holm_at_0.01": true,
+  "all_whitened_sites_differ_from_trace_site": true,
+  "claim_limit": "This post-hoc selector grid uses the primary panel only. Site changes show selector dependence, not causal localization or cross-panel replication.",
+  "experiment_id": "representation-dynamics-selector-sensitivity-v1",
+  "models": 5,
+  "outputs": {
+    "selector_summary.csv": "4ba1085ac4dbeab3ecc94a97acc59ae2a9cb1f7144510650e58b5820b373e1d0"
+  },
+  "ridge_alphas": [
+    0.01,
+    0.1,
+    1.0
+  ],
+  "schema_version": 1,
+  "sources": [
+    {
+      "path": "/home/ubuntu/vlmbehave/experiments/representation_dynamics_selector_sensitivity_v1.json",
+      "sha256": "c7bb571fba596f90037d6f25b91c5d9ff23d6c8ab978e57e4164bef98e41487c"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-selector-sensitivity-v1/olmo3-7b-instruct/whitened_alpha_0.01.json.gz",
+      "sha256": "dfd54cfe5b03a00f52654b3507bf1d88e63bcaf4a1f1634943cd14ebde912bd4"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-selector-sensitivity-v1/olmo3-7b-instruct/whitened_alpha_0.1.json.gz",
+      "sha256": "ffc98d7a29a356a27bf681639d93977ab7ec0f2c278189cecf05ad502c8c6751"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-selector-sensitivity-v1/olmo3-7b-instruct/whitened_alpha_1.json.gz",
+      "sha256": "e54c531fb0043f22ab62bde445795e64bf42a469f12d34d8108d57c7922e348d"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-selector-sensitivity-v1/olmo3-7b-instruct/report.json",
+      "sha256": "b6a822ba9d96ed3a6ad4da21a94188a655c826785ea6421f90c255f9c16b68bc"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-selector-sensitivity-v1/apertus15-8b/whitened_alpha_0.01.json.gz",
+      "sha256": "649a903d6c539af84066ffbdf04f4fcc82ae4a5f3fc8ab08a8f21a419b98c37e"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-selector-sensitivity-v1/apertus15-8b/whitened_alpha_0.1.json.gz",
+      "sha256": "859e9c06d36ca4168ceaab02f9372272a463932b894f8d83ef2c46ac60d615ca"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-selector-sensitivity-v1/apertus15-8b/whitened_alpha_1.json.gz",
+      "sha256": "ca87369a0906b2895c37c119fe7dfc0589ec67601b5dcae42590a7efa86119e9"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-selector-sensitivity-v1/apertus15-8b/report.json",
+      "sha256": "05441494f215d9cf27c10c5c1333f8fed07d9642ab2953cab68e44915cbf8dba"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-selector-sensitivity-v1/qwen3_5-9b/whitened_alpha_0.01.json.gz",
+      "sha256": "eeb481a830de347ac7a0ca5dbfbee8c7b0a2ae884d2d31ca66cc118f9c19aaf7"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-selector-sensitivity-v1/qwen3_5-9b/whitened_alpha_0.1.json.gz",
+      "sha256": "06845b679ebc7f73eea191b71d6633be7a4cadb03b9d2b8a0fa3210b0794b1eb"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-selector-sensitivity-v1/qwen3_5-9b/whitened_alpha_1.json.gz",
+      "sha256": "48d91735bd7e38706bfa214f1ca811bc2c4489b77457e42a1751f9b6ef19d9ce"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-selector-sensitivity-v1/qwen3_5-9b/report.json",
+      "sha256": "4cfba71dfb40c2147deded7ed6be2bca914ac2fda213e5539fb228adc08a6ca8"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-selector-sensitivity-v1/qwen3_5-27b/whitened_alpha_0.01.json.gz",
+      "sha256": "84fea9cfc5450a41f00f344837da6e6a528f004f4b50815ec84def738239a75b"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-selector-sensitivity-v1/qwen3_5-27b/whitened_alpha_0.1.json.gz",
+      "sha256": "d83fd68c424df1865fc09753232ca9c084cf6cf820eee92b76c44631e03e2120"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-selector-sensitivity-v1/qwen3_5-27b/whitened_alpha_1.json.gz",
+      "sha256": "115938735bc2747b3aaa1fd2062fcc0ee20ebaa619be96b9aa21c63b1a2e93be"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-selector-sensitivity-v1/qwen3_5-27b/report.json",
+      "sha256": "dd3115d10d0adc05128e2b28c0b4439434b3784011e46c38d07c11ea4f5a2878"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-selector-sensitivity-v1/gemma4-31b/whitened_alpha_0.01.json.gz",
+      "sha256": "86921f53cca5eaf0dddbec9a50e89cc0bebd564f2bbd1bd84d1f371ab4677309"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-selector-sensitivity-v1/gemma4-31b/whitened_alpha_0.1.json.gz",
+      "sha256": "f6cbe51fd7bf453f10fde043511b1cf38abc9dc3f284f29d8e1d0484d02794a5"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-selector-sensitivity-v1/gemma4-31b/whitened_alpha_1.json.gz",
+      "sha256": "65f1415043647a2a2d0f4788730302e2c3f24f0e1000c48405f6440506d802ce"
+    },
+    {
+      "path": "/lambda/nfs/data-imu-us-east3/vlmbehave-artifacts/2026-08-16/representation-dynamics-selector-sensitivity-v1/gemma4-31b/report.json",
+      "sha256": "76c159b2b90465e2c45f328bbda28f447b7e56dbc65909dd09fca478eda99914"
+    },
+    {
+      "path": "/home/ubuntu/vlmbehave/scripts/summarize_whitened_selector_sensitivity.py",
+      "sha256": "cb375e2083fceb63e89334c2d9f6a797132077dc1b7295ddd790983826de787a"
+    }
+  ],
+  "status": "PASS"
+}

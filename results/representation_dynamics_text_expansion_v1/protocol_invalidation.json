@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "status": "cross_benchmark_panel_invalid_pending_correction",
+  "discovered_at_utc": "2026-08-10",
+  "affected_panel": "text_cross_benchmark_stress_test",
+  "affected_task": "repdyn_musr_murder_mysteries",
+  "dataset": {
+    "path": "TAUR-Lab/MuSR",
+    "revision": "7c365b439a222150f317764d4f16ae6c96d7d94a",
+    "split": "murder_mysteries",
+    "observed_choices_schema": "string-encoded two-element Python list"
+  },
+  "root_cause": "The task adapter passed the string-valued choices field directly to an iterable prompt formatter, which rendered individual characters as answer choices.",
+  "audit": {
+    "logged_sample_files": 100,
+    "affected_model_task_files": 5,
+    "affected_musr_samples": 500,
+    "musr_failures": 500,
+    "other_audited_choice_prompt_failures": 0
+  },
+  "affected_models": [
+    "olmo3-7b-instruct",
+    "apertus-8b-instruct",
+    "qwen3_5-9b",
+    "qwen3_5-27b",
+    "gemma4-31b"
+  ],
+  "invalid_outputs": [
+    "all five combined cross-benchmark layer-separability tables",
+    "cross-panel maximum-site comparisons",
+    "cross-panel profile correlations",
+    "cross-benchmark linear and nonlinear probe inference",
+    "cross-benchmark prompt-nuisance summaries"
+  ],
+  "unaffected_scope": "All 50 matched MMLU-Pro model-task artifacts and their five within-panel analyses remain valid.",
+  "provenance": {
+    "original_run_manifest_sha256": "4a00ed6d28fbed3f52b05ecde389953650fb55c8a2aaa896e52e2b4df3e75f56",
+    "original_sample_selection_sha256": "a2ebda3739939a5e2b518020f94df2f7c84f840db16c1d6d3da02259bc4514ae",
+    "musr_ordered_sample_ids_sha256": "fb513e9bab99b18e151aa3060c8167b3679654481f109da284c38f71e9ce817d",
+    "musr_sample_id_set_sha256": "2ccbc244fcfc4f94926dd8aa150e90edc4c603bf7abae3708c31227035234527",
+    "musr_raw_rows_sha256": "4cf528b8897f9178b6d7f661ce62374c504328862269454517fad28557e2fc9e"
+  },
+  "correction_gate": "Re-extract the same 100 frozen MuSR document IDs for every model with exactly two decoded choices, pass the task-aware sample audit and representation validator, rebuild prompt nuisance features, and rerun every cross-benchmark analysis before reporting transfer."
+}

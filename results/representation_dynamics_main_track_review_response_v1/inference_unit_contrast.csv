@@ -1,0 +1,2 @@
+model,partition,layer,stream,example_level_macro_f1,example_level_sample_permutation_p,task_heldout_macro_f1,task_label_exact_p,sample_permutations,balanced_task_assignments
+olmo3-7b-instruct,alphabetical 8+8,0,mlp_delta,0.8022401311723686,0.0001,0.5737440057750812,0.22766122766122765,9999,12870
